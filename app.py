@@ -1,31 +1,28 @@
-from flask import Flask, jsonify, request, redirect, url_for
-from flask_cors import CORS
-from flask import render_template
+from flask import Flask, request, redirect, url_for, render_template, jsonify
 import sqlite3 as sq
 
-db = sq.connect("hi.db")
+app = Flask(__name__)
+db = sq.connect("hi.db", check_same_thread=False)
 c = db.cursor()
 
-app = Flask(__name__)
-CORS(app)  # allows frontend to call this API
-
-c.execute("CREATE TABLE IF NOT EXISTS hi(id int primary key, name varchar(30))")
+# Create table
+c.execute("CREATE TABLE IF NOT EXISTS hi(id INT, name VARCHAR(30))")
 
 @app.route("/")
 def get_message():
     mylist = []
-    events__ = c.execute("SELECT * FROM hi")
-    for x, y in events__:
-        mylist.append(f"ID: {x} Name: {y}")
+    for row in c.execute("SELECT * FROM hi"):
+        mylist.append(f"ID: {row[0]} Name: {row[1]}")
     return render_template("index.html", mylist=mylist)
 
-@app.route("/addevent", methods=["POST"])
+@app.route("/addevent", methods=["GET", "POST"])
 def addevent():
-        id = request.form.get("eventid")
-        name = request.form.get("eventname")
-        if id and name:
-            c.execute(f"INSERT INTO hi(id, name) VALUES ({id}, '{name}')")
+    if request.method == "POST":
+        event_id = request.form.get("eventid")
+        event_name = request.form.get("eventname")
+        if event_id and event_name:
+            c.execute("INSERT INTO hi(id, name) VALUES (?, ?)", (event_id, event_name))
             db.commit()
-            return "Event added... Redirect to home page", redirect(url_for("get_message"))
-        else:
-            return "Cant add.."
+            return redirect(url_for("get_message"))
+        return "Missing data", 400
+    return render_template("addevent.html")
