@@ -1,7 +1,26 @@
 <!DOCTYPE html>
-<html>
-<head><title></title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Pages + Railway Flask</title>
+</head>
 <body>
-<h1></h1>
+  <h1>Message from Flask API:</h1>
+  <p id="apiMessage">Loading...</p>
+
+  <script>
+    // Replace with your real Railway app URL
+    const apiURL = "https://web-production-11ff7.up.railway.app/api/message";
+
+    fetch(apiURL)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("apiMessage").innerText = data.message;
+      })
+      .catch(error => {
+        document.getElementById("apiMessage").innerText = "Error loading message.";
+        console.error(error);
+      });
+  </script>
 </body>
 </html>
