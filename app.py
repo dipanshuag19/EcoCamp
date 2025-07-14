@@ -6,7 +6,7 @@ db = sq.connect("hi.db", check_same_thread=False)
 c = db.cursor()
 
 # Create table
-c.execute("CREATE TABLE IF NOT EXISTS hi(id INT, name VARCHAR(30))")
+c.execute("CREATE TABLE IF NOT EXISTS hi(id INT primary key, name VARCHAR(30))")
 
 @app.route("/")
 def get_message():
