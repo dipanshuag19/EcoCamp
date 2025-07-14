@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Event</title>
+</head>
+<body>
+
+<h1>Add Event</h1>
+
+<form method="POST" action="/addevent">
+    Event id: <input type="number" name="eventid"><br><br>
+    Event name: <input type="text" name="eventname"><br><br>
+    <input type="submit" value="Add Event">
+</form>
+
+</body>
+</html>
