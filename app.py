@@ -10,4 +10,4 @@ def get_message():
     mylist = []
     for x in range(100):
         mylist.append(f"Index {x}")
-    return render_template("index.html")
+    return render_template("index.html", mylist=mylist)
