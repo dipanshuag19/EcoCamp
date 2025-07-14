@@ -23,6 +23,6 @@ def addevent():
         if event_id and event_name:
             c.execute("INSERT INTO hi(id, name) VALUES (?, ?)", (event_id, event_name))
             db.commit()
-            return "<h1>Event added... returning to home page</h1>", redirect(url_for("get_message"))
+            return redirect(url_for("get_message"))
         return "Missing data", 400
     return render_template("addevent.html")
