@@ -1,8 +1,9 @@
 from flask import Flask, request, redirect, url_for, render_template, jsonify
 import sqlite3 as sq
+import sqlitecloud, os
 
 app = Flask(__name__)
-db = sq.connect("hi.db", check_same_thread=False)
+db = sq.connect(os.environ.get("SQLITECLOUD"))
 c = db.cursor()
 
 # Create table
