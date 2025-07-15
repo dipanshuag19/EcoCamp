@@ -36,7 +36,7 @@ def deleteevent():
         try:
             c.execute("DELETE FROM hi WHERE id=(?)", event_id))
             db.commit()
-            return redirect(url_for("home")) 
+            return redirect(url_for("home"))
         except Exception as e:
             return f"Error: {e}"
     html_code = """<html>
