@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, url_for, render_template, jsonify
-import sqlite3 as sq
-import sqlitecloud, os
+#import sqlite3 as sq
+import os
+import sqlitecloud as sq
 
 app = Flask(__name__)
 db = sq.connect(os.environ.get("SQLITECLOUD"))
