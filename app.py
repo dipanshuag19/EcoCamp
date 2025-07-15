@@ -11,7 +11,7 @@ c = db.cursor()
 c.execute("CREATE TABLE IF NOT EXISTS hi(id INT primary key, name VARCHAR(30))")
 
 @app.route("/")
-def get_message():
+def home():
     mylist = []
     for row in c.execute("SELECT * FROM hi"):
         mylist.append(f"ID: {row[0]} Name: {row[1]}")
