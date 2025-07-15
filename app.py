@@ -2,12 +2,14 @@ from flask import Flask, request, redirect, url_for, render_template, jsonify, r
 #import sqlite3 as sq
 import os
 import sqlitecloud as sq
+from functools import wraps
 
 app = Flask(__name__)
 db = sq.connect(os.environ.get("SQLITECLOUD"))
 c = db.cursor()
 
 def sqldb(function):
+    @wraps(function)
     def wrapper():
         db = sq.connect(os.environ.get("SQLITECLOUD"))
         c = db.cursor()
