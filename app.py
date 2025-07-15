@@ -39,12 +39,9 @@ def deleteevent():
             return redirect(url_for("home"))
         except Exception as e:
             return f"Error: {e}"
-    html_code = """<html>
-    <head><title>Delete event</title></head>
-    <body>
-    <form onsubmit='/deleteevent' method='POST'>
-    Enter event id to delete: <input type='number' name='eventid'><br><br>
-    <button type='submit'></button></body></html>
+    html_code = """<html><head><title>Delete event</title></head>
+    <body><form onsubmit='/deleteevent' method='POST'>
+    Enter event id to delete: <input type='number' name='eventid'><br><br> <button type='submit'>Delete Event</button></body></html>
     """
     return render_template_string(html_code)
         
