@@ -1,2 +1,14 @@
-env:
-  SQLITECLOUD: ${{ secrets.SQLITECLOUD }}
+name: Auto Run Python
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      SQLITECLOUD: ${{ secrets.SQLITECLOUD }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: python app.py
