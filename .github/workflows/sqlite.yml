@@ -1,0 +1,2 @@
+env:
+  SQLITECLOUD: ${{ secrets.SQLITECLOUD }}
