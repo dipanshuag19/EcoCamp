@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, render_template, jsonify, render_template_engine
+from flask import Flask, request, redirect, url_for, render_template, jsonify, render_template_string
 #import sqlite3 as sq
 import os
 import sqlitecloud as sq
@@ -46,5 +46,5 @@ def deleteevent():
     Enter event id to delete: <input type='number' name='eventid'><br><br>
     <button type='submit'></button></body></html>
     """
-    return render_template_engine(html_code)
+    return render_template_string(html_code)
         
