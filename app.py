@@ -34,7 +34,7 @@ def deleteevent():
     if request.method == "POST":
         event_id = request.form.get("eventid")
         try:
-            c.execute("DELETE FROM hi WHERE id=(?)", event_id))
+            c.execute("DELETE FROM hi WHERE id=(?)", event_id)
             db.commit()
             return redirect(url_for("home"))
         except Exception as e:
