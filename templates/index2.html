@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoCamp | Home</title>
+
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: all 0.3s ease-in-out;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ecf0f1;
+      color: #2c3e50;
+      min-height: 100vh;
+    }
+
+    .dark-mode {
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+    }
+
+    .left {
+      width: 250px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+    }
+
+    .left h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 22px;
+    }
+
+    .left-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .left-items a {
+      text-decoration: none;
+      background-color: #34495e;
+      padding: 12px;
+      text-align: center;
+      border-radius: 8px;
+      color: white;
+      transition: 0.3s;
+      display: block;
+    }
+
+    .left-items a:hover {
+      background-color: #1abc9c;
+    }
+
+    .toggle-btn {
+      margin-top: 20px;
+      background: #1abc9c;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .right {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .events-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .event-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      transition: all 0.3s ease-in-out;
+      width: 300px;
+    }
+
+    .dark-mode .event-card {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+    }
+
+    .event-card h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      align-self: flex-end;
+    }
+
+    .add-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 14px 30px;
+      font-size: 16px;
+      background: linear-gradient(135deg, #1abc9c, #16a085);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-decoration: none;
+    }
+
+    .add-btn:hover {
+      background: linear-gradient(135deg, #16a085, #1abc9c);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .left {
+        width: 100%;
+        text-align: center;
+      }
+      .left-menu {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .left-items a {
+        width: auto;
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+      .right {
+        padding: 20px;
+      }
+      .events-wrapper {
+        justify-content: center;
+      }
+    }
+  </style>
+
+  </head>
+<body>
+
+  <div class="container">
+    <div class="left">
+      <h2>🌿 EcoCamp</h2>
+      <ul class="left-menu">
+        <li class="left-items"><a href="/">🏠 Home</a></li>
+        <li class="left-items"><a href="/addevent">➕ Add Campaign</a></li>
+        <li class="left-items"><a href="#">👀 View Campaign</a></li>
+        <li class="left-items"><a href="#">📞 Contact Us</a></li>
+      </ul>
+      <button class="toggle-btn" onclick="toggleMode()">🌓 Toggle Dark Mode</button>
+    </div>
+
+    <div class="right">
+      <h1 style="margin-bottom: 25px;">📋 All Campaigns</h1>
+
+      <div class="events-wrapper">
+        {% for x in mylist %}
+        <div class="event-card">
+          <h3>{{ x }}</h3>
+          <form method="POST" action="/deleteevent" style="margin: 0;">
+            <input type="hidden" name="eventid" value="{{ x.split(' ')[1] }}"/>
+            <button class="delete-btn" type="submit">🗑 Delete</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+
+      <a href="/addevent" class="add-btn">➕ Add Another Campaign</a>
+    </div>
+  </div>
+
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+  </script>
+</body>
+</html>
