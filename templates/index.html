@@ -7,34 +7,30 @@
 </head>
 <body>
 
-  <div class="container">
-    <div class="left">
+  <div>
+    <div>
       <h2>🌿 EcoCamp</h2>
-      <ul class="left-menu">
-        <li class="left-items"><a href="/">🏠 Home</a></li>
-        <li class="left-items"><a href="/addevent">➕ Add Campaign</a></li>
-        <li class="left-items"><a href="#">👀 View Campaign</a></li>
-        <li class="left-items"><a href="#">📞 Contact Us</a></li>
+      <ul>
+        <li><a href="/">🏠 Home</a></li>
+        <li><a href="/addevent">➕ Add Campaign</a></li>
+        <li><a href="#">👀 View Campaign</a></li>
+        <li><a href="#">📞 Contact Us</a></li>
       </ul>
-      <button class="toggle-btn" onclick="toggleMode()">🌓 Toggle Dark Mode</button>
+      <button onclick="toggleMode()">🌓 Toggle Dark Mode</button>
     </div>
 
-    <div class="right">
+    <div>
       <h1>📋 All Campaigns</h1>
 
-      <div class="events-wrapper">
+      <div>
         {% for x in mylist %}
-        <div class="event-card">
+        <div>
           <h3>{{ x }}</h3>
-          <form method="POST" action="/deleteevent">
-            <input type="hidden" name="eventid" value="{{ x.split(' ')[1] }}"/>
-            <button class="delete-btn" type="submit">🗑 Delete</button>
-          </form>
         </div>
         {% endfor %}
       </div>
 
-      <a href="/addevent" class="add-btn">➕ Add Another Campaign</a>
+      <a href="/addevent">➕ Add Another Campaign</a>
     </div>
   </div>
 
