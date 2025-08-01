@@ -33,7 +33,7 @@ def home(c):
 
 @app.route("/index2")
 @sqldb
-def home(c):
+def home2(c):
     mylist = []
     for row in c.execute("SELECT * FROM hi"):
         mylist.append(f"ID: {row[0]} Name: {row[1]}")
