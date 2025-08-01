@@ -28,6 +28,15 @@ def home(c):
         mylist.append(f"ID: {row[0]} Name: {row[1]}")
     return render_template("index.html", mylist=mylist)
 
+
+@app.route("/index2")
+@sqldb
+def home(c):
+    mylist = []
+    for row in c.execute("SELECT * FROM hi"):
+        mylist.append(f"ID: {row[0]} Name: {row[1]}")
+    return render_template("index.html", mylist=mylist)
+
 @app.route("/addevent", methods=["GET", "POST"])
 @sqldb
 def addevent(c):
