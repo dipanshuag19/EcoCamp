@@ -35,7 +35,7 @@ def home(c):
     mylist = []
     for row in c.execute("SELECT * FROM hi"):
         mylist.append(f"ID: {row[0]} Name: {row[1]}")
-    return render_template("index.html", mylist=mylist)
+    return render_template("index2.html", mylist=mylist)
 
 @app.route("/addevent", methods=["GET", "POST"])
 @sqldb
