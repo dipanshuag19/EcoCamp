@@ -1,42 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoCamp | Home</title>
-</head>
-<body>
 
-  <div>
-    <div>
-      <h2>🌿 EcoCamp</h2>
-      <ul>
-        <li><a href="/">🏠 Home</a></li>
-        <li><a href="/addevent">➕ Add Campaign</a></li>
-        <li><a href="#">👀 View Campaign</a></li>
-        <li><a href="#">📞 Contact Us</a></li>
-      </ul>
-      <button onclick="toggleMode()">🌓 Toggle Dark Mode</button>
-    </div>
-
-    <div>
-      <h1>📋 All Campaigns</h1>
-
-      <div>
-        {% for x in mylist %}
-        <div>
-          <h3>{{ x }}</h3>
-        </div>
-        {% endfor %}
-      </div>
-
-      from flask import Flask, render_template_string
-
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    html_code = ('''
 <!DOCTYPE html>
 <html lang="en">
 <head>
