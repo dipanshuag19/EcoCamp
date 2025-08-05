@@ -44,7 +44,7 @@ def addevent(c):
     if request.method == "POST":
         event_name = request.form.get("eventname")
         if event_name:
-            c.execute("INSERT INTO eventdetail(name) VALUES (?)", (event_name))
+            c.execute("INSERT INTO eventdetail(eventname) VALUES (?)", (event_name))
             return redirect(url_for("home"))
         return "Enter event name"
     return render_template("addevent.html")
