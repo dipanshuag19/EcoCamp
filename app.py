@@ -15,7 +15,7 @@ def sqldb(function):
     def wrapper():
         db = sq.connect(os.environ.get("SQLITECLOUD"))
         c = db.cursor()
-        c.execute("CREATE TABLE IF NOT EXISTS hi(id INT primary key, name VARCHAR(30))")
+        c.execute("CREATE TABLE IF NOT EXISTS hi(eventid INT primary key AUTO_INCREMENT, eventname VARCHAR(30))")
         final = function(c)
         db.commit()
         db.close()
@@ -43,12 +43,11 @@ def home2(c):
 @sqldb
 def addevent(c):
     if request.method == "POST":
-        event_id = request.form.get("eventid")
         event_name = request.form.get("eventname")
-        if event_id and event_name:
-            c.execute("INSERT INTO hi(id, name) VALUES (?, ?)", (event_id, event_name))
+        if event_name:
+            c.execute("INSERT INTO hi(name) VALUES (?)", (event_name))
             return redirect(url_for("home"))
-        return "Missing data or Wrong ID"
+        return "Enter event name"
     return render_template("addevent.html")
 
 @app.route("/deleteevent", methods=["GET", "POST"])
