@@ -15,7 +15,6 @@ def sqldb(function):
     def wrapper():
         db = sq.connect(os.environ.get("SQLITECLOUD"))
         c = db.cursor()
-        c.execute("CREATE TABLE IF NOT EXISTS hi(eventid INT primary key AUTO_INCREMENT, eventname VARCHAR(30))")
         final = function(c)
         db.commit()
         db.close()
@@ -26,7 +25,7 @@ def sqldb(function):
 @sqldb
 def home(c):
     mylist = []
-    for row in c.execute("SELECT * FROM hi"):
+    for row in c.execute("SELECT * FROM eventdetail"):
         mylist.append(f"ID: {row[0]} Name: {row[1]}")
     return render_template("index.html", mylist=mylist)
 
@@ -35,7 +34,7 @@ def home(c):
 @sqldb
 def home2(c):
     mylist = []
-    for row in c.execute("SELECT * FROM hi"):
+    for row in c.execute("SELECT * FROM eventdetail"):
         mylist.append(f"ID: {row[0]} Name: {row[1]}")
     return render_template("index2.html", mylist=mylist)
 
@@ -45,7 +44,7 @@ def addevent(c):
     if request.method == "POST":
         event_name = request.form.get("eventname")
         if event_name:
-            c.execute("INSERT INTO hi(name) VALUES (?)", (event_name))
+            c.execute("INSERT INTO eventdetail(name) VALUES (?)", (event_name))
             return redirect(url_for("home"))
         return "Enter event name"
     return render_template("addevent.html")
@@ -56,7 +55,7 @@ def deleteevent(c):
     if request.method == "POST":
         event_id = request.form.get("eventid")
         try:
-            c.execute("DELETE FROM hi WHERE id=(?)", event_id)
+            c.execute("DELETE FROM eventdetail WHERE id=(?)", event_id)
             return redirect(url_for("home"))
         except Exception as e:
             return f"Error: {e}"
