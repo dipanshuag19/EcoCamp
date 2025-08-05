@@ -4,78 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Add Event</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #2c3e50, #3498db);
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      color: white;
-    }
-
-    .form-container {
-      background-color: rgba(255, 255, 255, 0.05);
-      padding: 30px 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      width: 90%;
-      max-width: 400px;
-    }
-
-    .form-container h1 {
-      text-align: center;
-      margin-bottom: 24px;
-      font-size: 28px;
-      color: #ecf0f1;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    input[type="number"],
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      background-color: rgba(255,255,255,0.2);
-      color: white;
-    }
-
-    input::placeholder {
-      color: #ccc;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #1abc9c, #16a085);
-      border: none;
-      border-radius: 30px;
-      font-size: 16px;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: linear-gradient(135deg, #16a085, #1abc9c);
-    }
-  </style>
 </head>
 <body>
 
-  <div class="form-container">
+  <div>
     <h1>➕ Add New Campaign</h1>
     <form method="POST" action="/addevent">
       <label for="eventid">Event ID</label>
