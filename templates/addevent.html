@@ -12,8 +12,12 @@
     <form method="POST" action="/addevent">
 
       <label for="eventname">Event Name</label>
-      <input type="text" id="eventname" name="eventname" placeholder="Enter Event Name" required />
-
+      <input type="text" id="eventname" name="eventname" placeholder="Enter Event Name (Max 30 Letters)" required />
+      <input type="text" id="email" name="email" placeholder="Enter Your Email" required />
+      <input type="date" id="eventdate" name="eventdate" placeholder="Enter Event Date" required />
+      <input type="time" id="starttime" name="starttime" placeholder="Enter Event Start Time" required />
+      <input type="time" id="endtime" name="endtime" placeholder="Enter Event End Time" required />
+      <input type="location" id="location" name="location" placeholder="Enter Event Location" required />
       <button type="submit">✅ Add Event</button>
     </form>
   </div>
