@@ -7,13 +7,12 @@ import sqlitecloud as sq
 from functools import wraps
 
 app = Flask(__name__)
-db = sq.connect(os.environ.get("SQLITECLOUD"))
-c = db.cursor()
 
 def sqldb(function):
     @wraps(function)
     def wrapper():
         db = sq.connect(os.environ.get("SQLITECLOUD"))
+        db.row_factory = sq.Row
         c = db.cursor()
         final = function(c)
         db.commit()
@@ -35,18 +34,24 @@ def home(c):
 def home2(c):
     mylist = []
     for row in c.execute("SELECT * FROM eventdetail"):
-        mylist.append(f"ID: {row[0]} Name: {row[1]}")
+        mylist.append(f'ID: {row["eventid"]} Name: {row["eventname"]}')
     return render_template("index2.html", mylist=mylist)
 
 @app.route("/addevent", methods=["GET", "POST"])
 @sqldb
 def addevent(c):
     if request.method == "POST":
-        event_name = request.form.get("eventname")
-        if event_name:
-            c.execute("INSERT INTO eventdetail(eventname) VALUES (?)", (event_name,))
-            return redirect(url_for("home"))
-        return "Enter event name"
+        field = ["eventname", "email", "starttime", "endtime", "date", "location"] 
+        event_values = [request.form.get(y) for y in field]
+        check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
+        fetchall = check.fetchall()
+        zipped = zip(field, event_values)
+        for ab in fetchall:
+                if all(ab[x] == y for x,y in zipped):
+                    return "edit_from_id"
+        tuple_all, tuple_event_values = tuple(field), tuple(event_values)
+        c.execute(f"INSERT INTO eventdetail{tuple_all} VALUES {tuple_event_values}")
+        return redirect(url_for("home"))
     return render_template("addevent.html")
 
 @app.route("/deleteevent", methods=["GET", "POST"])
