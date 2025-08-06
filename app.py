@@ -41,7 +41,7 @@ def home2(c):
 @sqldb
 def addevent(c):
     if request.method == "POST":
-        field = ["eventname", "email", "starttime", "endtime", "date", "location"] 
+        field = ["eventname", "email", "starttime", "endtime", "eventdate", "location"] 
         event_values = [request.form.get(y) for y in field]
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
         fetchall = check.fetchall()
