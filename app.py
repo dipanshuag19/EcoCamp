@@ -50,7 +50,8 @@ def addevent(c):
                 if all(ab[x] == y for x,y in zipped):
                     return "edit_from_id"
         tuple_all, tuple_event_values = str(tuple(field)).replace("'",""), tuple(event_values)
-        c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES {tuple_event_values}")
+        query = ("(?)," * len(event_values)).rstrip(",")
+        c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({query})", tuple_event_values)
         return redirect(url_for("home"))
     return render_template("addevent.html")
 
