@@ -99,15 +99,14 @@
     </div>
     <div class="right">
       <h1>📋 All Campaigns</h1>
-      <div class="blur"></div>
-    </div>
-    
-    {% for x in mylist %}
+      <div class="blur">
+         {% for x in mylist %}
     <div class="right">
-      <h2 id="title">{{x}}</h2></h2>
+      <h1 id="title">{{x}}</h2></h2>
     </div>
     {% endfor %}
-    
+      </div>
+    </div>
   </div>
 
 </body>
