@@ -23,8 +23,8 @@
 
     .left {
       width: 250px;
-      background-color: #2c3e50	;
-      color: white;
+      background-color: #86bfca;
+      color: rgb(211, 191, 191);
       padding: 20px;
       display: flex;
       flex-direction: column;
@@ -35,84 +35,114 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      /*border: 1px solid black; */
       margin-top: 15%;
     }
 
     .left-items {
       background-color: #34495e;
       padding: 12px 0;
-      align-items: center;
       text-align: center;
       font-size: 16px;
       border-radius: 8px;
-      width: 100%;
-      
-      
+      cursor: pointer;
     }
-   
 
     .left-items:hover {
       background-color: #74f1d8;
-      
     }
 
     .right {
       flex: 1;
-      background-color: #ecf0f1;
-      padding: 20px;
+      background-image: url('flower.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      /* padding: 20px; */
+      /* position: relative; */
     }
-    #title{
+
+    #title {
       text-align: center;
       font-size: 21px;
+    }
+
+    .blur {
+      border: 2px solid black;
+      /* margin:0px; */
+      /* margin-top: 0%; */
+      /* margin: 0px 0px 0px 0px; */
+      height: 100vh;
+      /* border: 1px solid rgba(206, 125, 19, 0.3); */
+      background-color: rgba(52, 152, 219, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      /* border-radius: 16px; */
+      /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
+      padding: 20px;
+      /* position: relative; */
+      /* z-index: 1; */
+    }
+
+    section {
+      display: none;
+      /* flex:1; */
       
     }
-    .right h1{
-      /* border: 1px solid black;} */}
-    .blur{
-        height: 85vh;
-        margin-top: 1%;
-        width: auto;
-        border: 1px solid rgba(206, 125, 19, 0.3);
-        background-color: rgba(52, 152, 219, 0.15);  /* Light blue glass */
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
-
-
     
+    section.active {
+      display: block;
+    }
+    #home h1 {
+      font-size: 30px;
+      color: #1133f0;
+      text-align: center; 
+      border: 2px solid black;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
     <div class="left">
-      <h2 id ="title">🌿 EcoCamp</h2>
-        <ul class="left-menu">
-        <li class="left-items">🏠 Home</li>
-        <li class="left-items">➕ Add Campaign</li>
-        <li class="left-items">👀 View Campaign</li>
-        <li class="left-items">📞 Contact Us</li>
+      <h2 id="title">🌿 EcoCamp</h2>
+      <ul class="left-menu">
+        <li class="left-items" onclick="showSection('home')">🏠 Home</li>
+        <li class="left-items" onclick="showSection('add')">➕ Add Campaign</li>
+        <li class="left-items" onclick="showSection('view')">👀 View Campaign</li>
+        <li class="left-items" onclick="showSection('contact')">📞 Contact Us</li>
       </ul>
     </div>
-    <div class="right">
-      <h1>📋 All Campaigns</h1>
-      <div class="blur">
-         {% for x in mylist %}
-    <div class="right">
-      <h1 id="title">{{x}}</h2></h2>
-    </div>
-    {% endfor %}
-        <details>
-  <summary><button>Add Event</button></summary>
-  <iframe src="/addevent" width="300" height="200" style="border:1px solid #ccc;"></iframe>
-</details>
 
-      </div>
+    <div class="right">
+      <section id="home" class="active blur">
+        <h1 class="hh1">Join Hands for a Greener Tomorrow</h1>
+      </section>
+
+      <section id="add" class="blur">
+        <h1>➕ Add Campaign</h1>
+      </section>
+
+      <section id="view" class="blur">
+        <h1>👀 View Campaign</h1>
+      </section>
+
+      <section id="contact" class="blur">
+        <h1>📞 Contact Us</h1>
+      </section>
     </div>
   </div>
 
+  <script>
+    function showSection(id) {
+      document.querySelectorAll("section").forEach(sec => {
+        sec.classList.remove("active");
+      });
+
+      document.getElementById(id).classList.add("active");
+    }
+  </script>
+
 </body>
 </html>
+
