@@ -1,208 +1,207 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoCamp | Home</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>EcoCamp — Greener Tomorrow</title>
+
+<!-- Modern font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      transition: all 0.3s ease-in-out;
-    }
+   :root{
+    --bg1: #002c2b;
+    --bg2: #066d6b;
+    --accent: #8be9c6;
+    --muted: rgba(255,255,255,0.75);
+    --glass: rgba(255,255,255,0.06);
+    --card: rgba(255,255,255,0.06);
+    --max: 1200px;
+    --radius: 12px;
+    --ease: cubic-bezier(.2,.9,.3,1);
+  } 
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    color: #e8f8f2;
+    background: linear-gradient(120deg,var(--bg1), #034343 60%, #0b7e74);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-y:auto;
+    scroll-behavior:smooth;
+  }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #ecf0f1;
-      color: #2c3e50;
-      min-height: 100vh;
-    }
 
-    .dark-mode {
-      background-color: #121212;
-      color: #f1f1f1;
-    }
+  header.navbar{
+    position:fixed;
+    left:0;right:0;
+    top:12px;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    pointer-events:none;
+  }
+    .nav-inner{
+    width:100%;
+    max-width:var(--max);
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-radius:14px;
+    padding:10px 16px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    box-shadow:0 6px 30px rgba(2,10,10,0.35);
+    pointer-events:auto;
+    backdrop-filter: blur(8px);
+  }  
+   .brand{
+    display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--accent);
+  } 
+  .logo{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#18b89b,#1dd3af);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;color:#003;
+    box-shadow:0 6px 18px rgba(0,0,0,0.25), inset 0 -6px 16px rgba(255,255,255,0.06);
+  }
+  nav{
+    margin-left:auto;display:flex;gap:8px;align-items:center;
+  }
 
-    .container {
-      display: flex;
-      flex-direction: row;
-      min-height: 100vh;
-    }
+  .navlink:hover{   
+    transform:translateY(-3px);
+    color:#fff;background:rgba(255,255,255,0.03)
+                }
+  .navlink.active{
+    background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));color:#fff;box-shadow:0 8px 20px rgba(0,0,0,0.25)}
+  
+    .cta{
+      margin-left:12px;background:linear-gradient(90deg,#6fe6b1,#2ccf96);color:#003;border:none;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer;
+      transition:transform .18s var(--ease), box-shadow .18s var(--ease);
+  }
+  .cta:hover{
+     transform:translateY(-3px);
+    box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)}
 
-    .left {
-      width: 250px;
-      background-color: #2c3e50;
-      color: white;
-      padding: 20px;
-    }
+ .navlink{
+    text-decoration: none;
+    color: white;
 
-    .left h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 22px;
-    }
+} 
+.main-cc{
+   /* margin-top: 7%; */
+   width: 80vw;
+   margin:7% auto;
+   
+   border-radius: 4%;
+   height: 75vh;
+    box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)
+  
+  
+  }
 
-    .left-menu {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+  .form{
+       width: 65%;
+   margin-top:5% ;
+      border-radius: 4%;
 
-    .left-items a {
-      text-decoration: none;
-      background-color: #34495e;
-      padding: 12px;
-      text-align: center;
-      border-radius: 8px;
-      color: white;
-      transition: 0.3s;
-      display: block;
-    }
+   /* margin-left: 2%; */
+   /* border-radius: 5%; */
+   height: 355px;
 
-    .left-items a:hover {
-      background-color: #1abc9c;
-    }
+    box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)
+        /* border: 1px solid black; */
 
-    .toggle-btn {
-      margin-top: 20px;
-      background: #1abc9c;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+  }
+  .form-right{
+       border-radius: 4%;
+    margin-top:5% ;
+    /* margin-right: ; */
+    height: 355px;
+    width: 30%;
+    box-shadow:0 12px 26px rgba(239, 248, 245, 0.18)
+    /* border: 1px solid black; */
 
-    .right {
-      flex: 1;
-      padding: 30px;
-    }
-
-    .events-wrapper {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .event-card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-start;
-      transition: all 0.3s ease-in-out;
-      width: 300px;
-    }
-
-    .dark-mode .event-card {
-      background-color: #1e1e1e;
-      color: #f1f1f1;
-    }
-
-    .event-card h3 {
-      font-size: 18px;
-      margin-bottom: 12px;
-    }
-
-    .delete-btn {
-      background: #e74c3c;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      color: white;
-      cursor: pointer;
-      align-self: flex-end;
-    }
-
-    .add-btn {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 14px 30px;
-      font-size: 16px;
-      background: linear-gradient(135deg, #1abc9c, #16a085);
-      color: white;
-      border: none;
-      border-radius: 40px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      text-decoration: none;
-    }
-
-    .add-btn:hover {
-      background: linear-gradient(135deg, #16a085, #1abc9c);
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      .left {
-        width: 100%;
-        text-align: center;
-      }
-      .left-menu {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      .left-items a {
-        width: auto;
-        padding: 10px 20px;
-        font-size: 14px;
-      }
-      .right {
-        padding: 20px;
-      }
-      .events-wrapper {
-        justify-content: center;
-      }
-    }
-  </style>
-
-  </head>
+  }
+  .main-form{
+    
+    display: flex;
+     border: 1px solid black; 
+    justify-content: space-evenly;
+  }
+  .cc-h1{
+    border: 1px solid black;
+  }
+  .cc-p{
+        border: 1px solid black;
+        padding: 7px;
+        
+  }
+  input{
+    display: block;
+    border-radius: 4px;
+  }
+</style>
+</head>
 <body>
 
-  <div class="container">
-    <div class="left">
-      <h2>🌿 EcoCamp</h2>
-      <ul class="left-menu">
-        <li class="left-items"><a href="/">🏠 Home</a></li>
-        <li class="left-items"><a href="/addevent">➕ Add Campaign</a></li>
-        <li class="left-items"><a href="#">👀 View Campaign</a></li>
-        <li class="left-items"><a href="#">📞 Contact Us</a></li>
-      </ul>
-      <button class="toggle-btn" onclick="toggleMode()">🌓 Toggle Dark Mode</button>
-    </div>
+<header class="navbar" role="banner">
+  <div class="nav-inner" role="navigation" aria-label="Top navigation">
 
-    <div class="right">
-      <h1 style="margin-bottom: 25px;">📋 All Campaigns</h1>
 
-      <div class="events-wrapper">
-        {% for x in mylist %}
-        <div class="event-card">
-          <h3>{{ x }}</h3>
-          <form method="POST" action="/deleteevent" style="margin: 0;">
-            <input type="hidden" name="eventid" value="{{ x.split(' ')[1] }}"/>
-            <button class="delete-btn" type="submit">🗑 Delete</button>
-          </form>
-        </div>
-        {% endfor %}
+    <div class="brand" title="EcoCamp">
+      <div class="logo" aria-hidden="true">EC</div>
+
+      <div>
+        <div style="font-size:14px">EcoCamp</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600">Greener Tomorrow</div>
       </div>
 
-      <a href="/addevent" class="add-btn">➕ Add Another Campaign</a>
     </div>
-  </div>
 
-  <script>
-    function toggleMode() {
-      document.body.classList.toggle('dark-mode');
-    }
-  </script>
+    <nav>
+      <a class="navlink active" href="#home">Home</a>
+      <a class="navlink" href="#campaigns">Campaigns</a>
+      <a class="navlink" href="#add">Add</a>
+      <a class="navlink" href="#contact">Contact</a>
+      <button class="cta" id="addQuickBtn">+ New Campaign</button>
+    </nav>
+  </div>
+</header>
+<div class="main-cc">
+<h1 class="cc-h1">
+    Create Campaign
+</h1>
+
+<p class="cc-p">
+Add details of your campaign. It will appear live in the campaign list. This demo keeps data in-memory — refreshing clears it.
+</p>
+<div class="main-form">
+<div class="form">
+  <input type="text" placeholder="Enter Short Title">
+  <input type="text" placeholder="One Tag Example:Cleaning,Tree" name="" id="">
+  <input type="text" placeholder="Description of the Title" name="" id="">
+  <input type="submit">
+  <input type="reset">   
+
+</div>
+<div class="form-right">
+  <h3>Tips</h3>
+  Use clear titles and location in the title
+  Tags help others find campaigns quickly
+  Short description work best
+    <div class="f-r-b"> <h4>Recent Activity</h4>
+     No External backend all changes are simulated and stored locally</div>
+</div>
+</div>
+
+</div>
+
 </body>
 </html>
