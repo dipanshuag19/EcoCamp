@@ -45,6 +45,22 @@ def home2(c):
             cleandrive.append(x)
     return render_template("index2.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive)
 
+@app.route("/index3")
+@sqldb
+def home3(c):
+    # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
+    c.execute("SELECT * FROM eventdetail")
+    edetailslist = c.fetchall()
+    treeplant, blooddonate, cleandrive = [], [], []
+    for x in edetailslist:
+        if x['category'] == 'Tree Plantation':
+            treeplant.append(x)
+        elif x['category'] == 'Blood Donation':
+            blooddonate.append(x)
+        else:
+            cleandrive.append(x)
+    return render_template("index2.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive)
+
 @app.route("/addevent", methods=["GET", "POST"])
 @sqldb
 def addevent(c):
