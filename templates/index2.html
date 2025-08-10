@@ -240,7 +240,7 @@
          <h4 style="border: 1px solid">{{eid}}. {{ename}}</h4>
          <p style="border: 1px solid">{{desc}}</p>
          <p style="border: 1px solid">Date: {{edate}} Location: {{location}} <br>Start Time: {{stime}} End Time: {{etime}}</p>
-         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;text-color:black">{{ category }}</small>
+         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          </div>
      {% endfor %}
   </div>
@@ -255,7 +255,19 @@
     </p>
     <div class="main-form">
       <div class="form">
-      <form onsubmit="event.preventDefault();fetch('/addevent',{method:'POST',body:new FormData(this)}).then(r=>r.ok?location='/index2':alert('Error adding event'))">
+            <form onsubmit="event.preventDefault();
+          fetch('/addevent', {
+              method: 'POST',
+              body: new FormData(this)
+          })
+          .then(r => {
+              if (r.ok) {
+                  window.location.href = '/index2'; // full reload
+              } else {
+                  alert('Error adding event');
+              }
+          })
+          .catch(() => alert('Network error'));">
          <input type="text" name="eventname" placeholder="Enter Event Name (Max 30 Letters)" required />
          <input type="text" name="email" placeholder="Enter Your Email" required />
          <input type="text" name="location" placeholder="Enter Event Location" required />
