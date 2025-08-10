@@ -52,7 +52,7 @@ def addevent(c):
         tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
         vals = ", ".join(["?"] * len(event_values))
         c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
-        return redirect(url_for("home"))
+        return "Event Registered ✅. Kindly wait for approval!"
     return render_template("addevent.html")
 
 @app.route("/deleteevent", methods=["GET", "POST"])
