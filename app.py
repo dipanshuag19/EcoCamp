@@ -32,16 +32,16 @@ def home(c):
 @app.route("/index2")
 @sqldb
 def home2(c):
-    mylist = []
-    for row in c.execute("SELECT * FROM eventdetail"):
-        mylist.append(f'ID: {row["eventid"]} Name: {row["eventname"]}')
-    return render_template("index2.html", mylist=mylist)
+    # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
+    c.execute("SELECT * FROM eventdetail")
+    edetails = c.fetchall()
+    return render_template("index2.html", edetailslist=edetailslist)
 
 @app.route("/addevent", methods=["GET", "POST"])
 @sqldb
 def addevent(c):
     if request.method == "POST":
-        field = ["eventname", "email", "starttime", "endtime", "eventdate", "location"] 
+        field = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description"] 
         event_values = [request.form.get(y) for y in field]
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
         fetchall = check.fetchall()
