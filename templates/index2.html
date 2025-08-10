@@ -223,7 +223,7 @@
 </section>
 
 <section id="campaigns">
-  <div class="main-ac" style="display: flex; flex-wrap: wrap; gap: 15px;">>
+  <div class="main-ac">
     <div class="m-a-h">
       <div>
         <h4>Campaigns</h4>
@@ -234,7 +234,7 @@
         <input type="reset" value="Clear">
       </div>
     </div>
-
+     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc in edetailslist %}
          <div style="background: var(--glass);width:30%; border: 1px solid black; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
          <h4 style="border: 1px solid">{{eid}}. {{ename}}</h4>
@@ -243,6 +243,7 @@
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          </div>
      {% endfor %}
+     </div>
   </div>
 </section>
 
