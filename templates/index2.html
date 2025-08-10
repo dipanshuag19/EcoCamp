@@ -255,7 +255,7 @@
     </p>
     <div class="main-form">
       <div class="form">
-      <form onsubmit="event.preventDefault(); fetch('/addevent', {method: 'POST', body: new FormData(this)}).then(r => r.text()).then(alert)">
+      <form onsubmit="event.preventDefault();fetch('/addevent',{method:'POST',body:new FormData(this)}).then(()=>location='/index2')">
          <input type="text" name="eventname" placeholder="Enter Event Name (Max 30 Letters)" required />
          <input type="text" name="email" placeholder="Enter Your Email" required />
          <input type="text" name="location" placeholder="Enter Event Location" required />
