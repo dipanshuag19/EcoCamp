@@ -59,7 +59,7 @@ def home3(c):
             blooddonate.append(x)
         else:
             cleandrive.append(x)
-    return render_template("index2.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive)
+    return render_template("index3.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive)
 
 @app.route("/addevent", methods=["GET", "POST"])
 @sqldb
