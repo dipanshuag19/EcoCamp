@@ -234,12 +234,15 @@
         <input type="reset" value="Clear">
       </div>
     </div>
-    
-    <div style="background: var(--glass);width:30%; border: 1px solid black; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-      <h4 style="border: 1px solid">Tree Plantation Drive</h4>
-      <p style="border: 1px solid">Join us in planting 1000 trees in the community park.</p>
-      <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;">Tree</small>
-    </div>
+
+     {% for eid,ename,email,desc,stime,etime,edate,location,category in edetailslist %}
+         <div style="background: var(--glass);width:30%; border: 1px solid black; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+         <h4 style="border: 1px solid">{{eid}}. {{ename}}</h4>
+         <p style="border: 1px solid">{{desc}}</p>
+         <p style="border: 1px solid">Date: {{edate}} Location: {{location}} <br>Start Time: {{stime}} End Time: {{etime}}</p>
+         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;">{{ category }}</small>
+         </div>
+     {% endfor %}
   </div>
 </section>
 
@@ -252,11 +255,23 @@
     </p>
     <div class="main-form">
       <div class="form">
-        <input type="text" placeholder="Enter Short Title">
-        <input type="text" placeholder="One Tag Example: Cleaning, Tree">
-        <input type="text" placeholder="Description of the Title">
+      <form onsubmit="event.preventDefault(); fetch('/addevent', {method: 'POST'}).then(r => r.text()).then(alert)">
+         <input type="text" name="eventname" placeholder="Enter Event Name (Max 30 Letters)" required />
+         <input type="text" name="email" placeholder="Enter Your Email" required />
+         <input type="text" name="location" placeholder="Enter Event Location" required />
+         <input type="text" name="description" placeholder="Enter Event Description" required />
+         <select name="category" required>
+             <option value="" disabled selected>Select a category</option>
+             <option value="Environment">Tree Plantation</option>
+             <option value="Social">Blood Donation</option>
+             <option value="Education">Cleanlines Drive</option>
+         </select>
+         Event Date: <input type="date" name="eventdate" placeholder="Enter Event Date" required />
+         Event Start Time: <input type="time" name="starttime" placeholder="Enter Event Start Time" required />
+         Event End Time: <input type="time" name="endtime" placeholder="Enter Event End Time" required />
         <input type="submit">
-        <input type="reset">   
+        <input type="reset">
+         </form>
       </div>
       <div class="form-right">
         <h3>Tips</h3>
