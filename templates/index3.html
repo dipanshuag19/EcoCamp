@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>EcoCamp — Greener Tomorrow</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1: #002c2b;
+  --bg2: #066d6b;
+  --accent: #8be9c6;
+  --muted: rgba(255,255,255,0.75);
+  --glass: rgba(255,255,255,0.06);
+  --card: rgba(255,255,255,0.06);
+  --max: 1200px;
+  --radius: 12px;
+  --ease: cubic-bezier(.2,.9,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  color: #e8f8f2;
+  background: linear-gradient(120deg,var(--bg1), #034343 60%, #0b7e74);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-y:auto;
+  scroll-behavior:smooth;
+}
+
+/* Navbar */
+header.navbar{
+  position:fixed;
+  left:0;right:0;
+  top:12px;
+  z-index:1000;
+  display:flex;
+  justify-content:center;
+  pointer-events:none;
+}
+.nav-inner{
+  width:100%;
+  max-width:var(--max);
+  background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius:14px;
+  padding:10px 16px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  box-shadow:0 6px 30px rgba(2,10,10,0.35);
+  pointer-events:auto;
+  backdrop-filter: blur(8px);
+  flex-wrap: wrap;
+}  
+.brand{
+  display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--accent);
+} 
+.logo{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#18b89b,#1dd3af);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;color:#003;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25), inset 0 -6px 16px rgba(255,255,255,0.06);
+}
+nav{
+  margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+}
+.navlink{
+  text-decoration:none;
+  color:white;
+  padding:6px 10px;
+  border-radius:6px;
+  transition:0.2s;
+  cursor:pointer;
+}
+.navlink:hover{   
+  transform:translateY(-3px);
+  background:rgba(255,255,255,0.05);
+}
+.navlink.active{
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+}
+.cta{
+  margin-left:12px;
+  background:linear-gradient(90deg,#6fe6b1,#2ccf96);
+  color:#003;border:none;
+  padding:8px 14px;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+  transition:transform .18s var(--ease), box-shadow .18s var(--ease);
+}
+.cta:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)
+}
+
+/* Sections */
+section{
+  max-width:var(--max);
+  margin:70px auto;
+  padding:20px;
+  display:none;
+}
+section.active{
+  display:block;
+}
+
+/* Create Campaign */
+.main-cc, .main-ac{
+  width:100%;
+  margin: 10px auto;
+  border-radius: 12px;
+  padding: 20px;
+  background: var(--card);
+  box-shadow:0 12px 26px rgba(44, 190, 141, 0.18);
+}
+.main-form{
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.form, .form-right{
+  border-radius: 8px;
+  padding: 15px;
+  background: var(--glass);
+  flex:1;
+  min-width:280px;
+}
+input, select{
+  display: block;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  padding: 6px;
+  width: 100%;
+  border: none;
+}
+
+/* Campaign cards */
+.campaign-grid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.campaign-card{
+  background: var(--glass);
+  flex: 1 1 calc(33.333% - 10px);
+  min-width:260px;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 8px;
+}
+.campaign-card h4, .campaign-card p, .campaign-card small{
+  border:1px solid;
+  padding:4px;
+  border-radius:4px;
+}
+
+/* Responsive adjustments */
+@media (max-width:768px){
+  nav{
+    justify-content:center;
+    margin-left:0;
+  }
+  .nav-inner{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cta{
+    margin-left:0;
+    width:100%;
+  }
+  section{
+    margin:100px 0 50px;
+    padding:15px;
+  }
+  .campaign-card{
+    flex: 1 1 100%;
+  }
+}
+</style>
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-inner">
+    <div class="brand" title="EcoCamp">
+      <div class="logo">EC</div>
+      <div>
+        <div style="font-size:14px">EcoCamp</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600">Greener Tomorrow</div>
+      </div>
+    </div>
+    <nav>
+      <a class="navlink active" data-section="home">Home</a>
+      <a class="navlink" data-section="campaigns">Campaigns</a>
+      <a class="navlink" data-section="add">Add</a>
+      <a class="navlink" data-section="contact">Contact</a>
+      <button class="cta" id="addQuickBtn">+ New Campaign</button>
+    </nav>
+  </div>
+</header>
+
+<section id="home" class="active">
+  <h1>Welcome to EcoCamp</h1>
+  <p>Making the world greener, one campaign at a time.</p>
+</section>
+
+<section id="campaigns">
+  <div class="main-ac">
+    <div class="m-a-h" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+      <div>
+        <h4>Campaigns</h4>
+        <p style="color:var(--muted)">Find campaigns to join or create your own</p>
+      </div>
+      <div class="m-a-h-r" style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="search" placeholder="Search by title or tag">
+        <input type="reset" value="Clear">
+      </div>
+    </div>
+     
+    <h3>Tree Plantation</h3>
+    <div class="campaign-grid">
+    {% for eid,ename,email,stime,etime,edate,location,category,desc in treeplantation %}
+      <div class="campaign-card">
+        <h4>{{eid}}. {{ename}}</h4>
+        <p>{{desc}}</p>
+        <p>Date: {{edate}} Location: {{location}} <br>Start: {{stime}} End: {{etime}}</p>
+        <small style="background:linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color:black;font-weight:bold;">{{ category }}</small>
+      </div>
+    {% endfor %}
+    </div>
+
+    <h3>Blood Donation</h3>
+    <div class="campaign-grid">
+    {% for eid,ename,email,stime,etime,edate,location,category,desc in blooddonation %}
+      <div class="campaign-card">
+        <h4>{{eid}}. {{ename}}</h4>
+        <p>{{desc}}</p>
+        <p>Date: {{edate}} Location: {{location}} <br>Start: {{stime}} End: {{etime}}</p>
+        <small style="background:linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color:black;font-weight:bold;">{{ category }}</small>
+      </div>
+    {% endfor %}
+    </div>
+
+    <h3>Cleanliness Drive</h3>
+    <div class="campaign-grid">
+    {% for eid,ename,email,stime,etime,edate,location,category,desc in cleanlinesdrive %}
+      <div class="campaign-card">
+        <h4>{{eid}}. {{ename}}</h4>
+        <p>{{desc}}</p>
+        <p>Date: {{edate}} Location: {{location}} <br>Start: {{stime}} End: {{etime}}</p>
+        <small style="background:linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color:black;font-weight:bold;">{{ category }}</small>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="add">
+  <div class="main-cc">
+    <h1>Create Campaign</h1>
+    <p style="background:rgba(255,255,255,0.03);border-radius:8px;padding:7px">
+      Add details of your campaign. This demo keeps data in-memory — refreshing clears it.
+    </p>
+    <div class="main-form">
+      <div class="form">
+        <form onsubmit="event.preventDefault();
+          fetch('/addevent', {method: 'POST', body: new FormData(this)})
+          .then(r => r.ok ? window.location.href='/index2' : alert('Error adding event'))
+          .catch(() => alert('Network error'));">
+          <input type="text" name="eventname" placeholder="Enter Event Name (Max 30 Letters)" required />
+          <input type="text" name="email" placeholder="Enter Your Email" required />
+          <input type="text" name="location" placeholder="Enter Event Location" required />
+          <input type="text" name="description" placeholder="Enter Event Description" required />
+          <select name="category" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="Tree Plantation">Tree Plantation</option>
+            <option value="Blood Donation">Blood Donation</option>
+            <option value="Cleanlines Drive">Cleanlines Drive</option>
+          </select>
+          Event Date: <input type="date" name="eventdate" required />
+          Event Start Time: <input type="time" name="starttime" required />
+          Event End Time: <input type="time" name="endtime" required />
+          <input type="submit">
+          <input type="reset">
+        </form>
+      </div>
+      <div class="form-right">
+        <h3>Tips</h3>
+        Use clear titles and location in the title<br>
+        Tags help others find campaigns quickly<br>
+        Short descriptions work best
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h1>Contact Us</h1>
+  <p>Email: hello@ecocamp.org</p>
+</section>
+
+<script>
+const navLinks=document.querySelectorAll('.navlink');
+const sections=document.querySelectorAll('section');
+navLinks.forEach(link=>{
+  link.addEventListener('click',()=>{
+    navLinks.forEach(l=>l.classList.remove('active'));
+    link.classList.add('active');
+    sections.forEach(sec=>sec.classList.remove('active'));
+    document.getElementById(link.getAttribute('data-section')).classList.add('active');
+  });
+});
+document.getElementById('addQuickBtn').addEventListener('click',()=>{
+  navLinks.forEach(l=>l.classList.remove('active'));
+  document.querySelector('.navlink[data-section="add"]').classList.add('active');
+  sections.forEach(sec=>sec.classList.remove('active'));
+  document.getElementById('add').classList.add('active');
+});
+</script>
+</body>
+</html>
