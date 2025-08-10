@@ -40,7 +40,7 @@ def home2(c):
         if x['category'] == 'Tree Plantation':
             treeplant.append(x)
         elif x['category'] == 'Blood Donation':
-            blooddonate.append(x):
+            blooddonate.append(x)
         else:
             cleandrive.append(x)
     return render_template("index2.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive)
