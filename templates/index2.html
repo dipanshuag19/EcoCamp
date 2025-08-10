@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>EcoCamp — Greener Tomorrow</title>
 
-<!-- Modern font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -33,7 +32,6 @@
     scroll-behavior:smooth;
   }
 
-
   header.navbar{
     position:fixed;
     left:0;right:0;
@@ -43,7 +41,7 @@
     justify-content:center;
     pointer-events:none;
   }
-    .nav-inner{
+  .nav-inner{
     width:100%;
     max-width:var(--max);
     background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
@@ -56,7 +54,7 @@
     pointer-events:auto;
     backdrop-filter: blur(8px);
   }  
-   .brand{
+  .brand{
     display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--accent);
   } 
   .logo{
@@ -73,135 +71,233 @@
   nav{
     margin-left:auto;display:flex;gap:8px;align-items:center;
   }
-
+  .navlink{
+    text-decoration:none;
+    color:white;
+    padding:6px 10px;
+    border-radius:6px;
+    transition:0.2s;
+    cursor:pointer;
+  }
   .navlink:hover{   
     transform:translateY(-3px);
-    color:#fff;background:rgba(255,255,255,0.03)
-                }
+    background:rgba(255,255,255,0.05);
+  }
   .navlink.active{
-    background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));color:#fff;box-shadow:0 8px 20px rgba(0,0,0,0.25)}
-  
-    .cta{
-      margin-left:12px;background:linear-gradient(90deg,#6fe6b1,#2ccf96);color:#003;border:none;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer;
-      transition:transform .18s var(--ease), box-shadow .18s var(--ease);
+    background:rgba(255,255,255,0.15);
+    color:#fff;
+  }
+  .cta{
+    margin-left:12px;
+    background:linear-gradient(90deg,#6fe6b1,#2ccf96);
+    color:#003;border:none;
+    padding:8px 14px;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .18s var(--ease), box-shadow .18s var(--ease);
   }
   .cta:hover{
      transform:translateY(-3px);
-    box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)}
-
- .navlink{
-    text-decoration: none;
-    color: white;
-
-} 
-.main-cc{
-   /* margin-top: 7%; */
-   width: 80vw;
-   margin:7% auto;
-   
-   border-radius: 4%;
-   height: 75vh;
     box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)
-  
-  
   }
 
+  /* Sections */
+  section{
+    max-width:var(--max);
+    margin:70px auto;
+    padding:20px;
+    display:none;
+  }
+  section.active{
+    display:block;
+  }
+
+  /* Create Campaign */
+  .main-cc{
+   width: 80vw;
+   margin: 10px auto;
+   border-radius: 4%;
+   height: auto;
+   padding: 20px;
+   background: var(--card);
+   box-shadow:0 12px 26px rgba(44, 190, 141, 0.18);
+  }
   .form{
-       width: 65%;
-   margin-top:5% ;
-      border-radius: 4%;
-
-   /* margin-left: 2%; */
-   /* border-radius: 5%; */
-   height: 355px;
-
-    box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)
-        /* border: 1px solid black; */
-
+    width: 65%;
+    margin-top:3%;
+    border-radius: 4%;
+    padding: 15px;
+    background: var(--glass);
+    height: auto;
   }
   .form-right{
-       border-radius: 4%;
-    margin-top:5% ;
-    /* margin-right: ; */
-    height: 355px;
+    border-radius: 4%;
+    margin-top:3%;
+    padding: 15px;
+    background: var(--glass);
     width: 30%;
-    box-shadow:0 12px 26px rgba(239, 248, 245, 0.18)
-    /* border: 1px solid black; */
-
   }
   .main-form{
-    
     display: flex;
-     border: 1px solid black; 
     justify-content: space-evenly;
+    gap: 20px;
+    flex-wrap: wrap;
   }
   .cc-h1{
-    border: 1px solid black;
+    margin-bottom: 10px;
   }
   .cc-p{
-        border: 1px solid black;
-        padding: 7px;
-        
+    padding: 7px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
   }
   input{
     display: block;
     border-radius: 4px;
+    margin-bottom: 8px;
+    padding: 6px;
+    width: 90%;
+    border: none;
+  }
+
+  /* Campaigns */
+  .main-ac{
+   width: 80vw;
+   margin: 10px auto;
+   border-radius: 12px;
+   background: var(--card);
+   padding: 20px;
+   box-shadow:0 12px 26px rgba(44, 190, 141, 0.18);
+  }
+  .m-a-h{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .m-a-h h4{
+    margin: 0;
+  }
+  .m-a-h p{
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .m-a-h-r{
+    display: flex;
+    gap: 8px;
+  }
+  .m-a-h-r input{
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
   }
 </style>
 </head>
 <body>
 
-<header class="navbar" role="banner">
-  <div class="nav-inner" role="navigation" aria-label="Top navigation">
-
-
+<header class="navbar">
+  <div class="nav-inner">
     <div class="brand" title="EcoCamp">
-      <div class="logo" aria-hidden="true">EC</div>
-
+      <div class="logo">EC</div>
       <div>
         <div style="font-size:14px">EcoCamp</div>
         <div style="font-size:11px;color:var(--muted);font-weight:600">Greener Tomorrow</div>
       </div>
-
     </div>
-
     <nav>
-      <a class="navlink active" href="#home">Home</a>
-      <a class="navlink" href="#campaigns">Campaigns</a>
-      <a class="navlink" href="#add">Add</a>
-      <a class="navlink" href="#contact">Contact</a>
+      <a class="navlink active" data-section="home">Home</a>
+      <a class="navlink" data-section="campaigns">Campaigns</a>
+      <a class="navlink" data-section="add">Add</a>
+      <a class="navlink" data-section="contact">Contact</a>
       <button class="cta" id="addQuickBtn">+ New Campaign</button>
     </nav>
   </div>
 </header>
-<div class="main-cc">
-<h1 class="cc-h1">
-    Create Campaign
-</h1>
 
-<p class="cc-p">
-Add details of your campaign. It will appear live in the campaign list. This demo keeps data in-memory — refreshing clears it.
-</p>
-<div class="main-form">
-<div class="form">
-  <input type="text" placeholder="Enter Short Title">
-  <input type="text" placeholder="One Tag Example:Cleaning,Tree" name="" id="">
-  <input type="text" placeholder="Description of the Title" name="" id="">
-  <input type="submit">
-  <input type="reset">   
+<!-- Sections -->
+<section id="home" class="active">
+  <h1>Welcome to EcoCamp</h1>
+  <p>Making the world greener, one campaign at a time.</p>
+</section>
 
-</div>
-<div class="form-right">
-  <h3>Tips</h3>
-  Use clear titles and location in the title
-  Tags help others find campaigns quickly
-  Short description work best
-    <div class="f-r-b"> <h4>Recent Activity</h4>
-     No External backend all changes are simulated and stored locally</div>
-</div>
-</div>
+<section id="campaigns">
+  <div class="main-ac">
+    <div class="m-a-h">
+      <div>
+        <h4>Campaigns</h4>
+        <p>Find campaigns to join or create your own</p>
+      </div>
+      <div class="m-a-h-r">
+        <input type="search" placeholder="Search by title or tag">
+        <input type="reset" value="Clear">
+      </div>
+    </div>
+    
+    <div style="background: var(--glass);width:30%; border: 1px solid black; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+      <h4 style="border: 1px solid">Tree Plantation Drive</h4>
+      <p style="border: 1px solid">Join us in planting 1000 trees in the community park.</p>
+      <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;">Tree</small>
+    </div>
+  </div>
+</section>
 
-</div>
+<section id="add">
+  <div class="main-cc">
+    <h1 class="cc-h1">Create Campaign</h1>
+    <p class="cc-p">
+      Add details of your campaign. It will appear live in the campaign list.
+      This demo keeps data in-memory — refreshing clears it.
+    </p>
+    <div class="main-form">
+      <div class="form">
+        <input type="text" placeholder="Enter Short Title">
+        <input type="text" placeholder="One Tag Example: Cleaning, Tree">
+        <input type="text" placeholder="Description of the Title">
+        <input type="submit">
+        <input type="reset">   
+      </div>
+      <div class="form-right">
+        <h3>Tips</h3>
+        Use clear titles and location in the title<br>
+        Tags help others find campaigns quickly<br>
+        Short descriptions work best
+        <div class="f-r-b"> 
+          <h4>Recent Activity</h4>
+          No external backend — all changes are simulated and stored locally.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h1>Contact Us</h1>
+  <p>Email: hello@ecocamp.org</p>
+</section>
+
+<script>
+  const navLinks = document.querySelectorAll('.navlink');
+  const sections = document.querySelectorAll('section');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      sections.forEach(sec => sec.classList.remove('active'));
+      const target = link.getAttribute('data-section');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+
+  document.getElementById('addQuickBtn').addEventListener('click', () => {
+    navLinks.forEach(l => l.classList.remove('active'));
+    document.querySelector('.navlink[data-section="add"]').classList.add('active');
+    sections.forEach(sec => sec.classList.remove('active'));
+    document.getElementById('add').classList.add('active');
+  });
+</script>
 
 </body>
 </html>
