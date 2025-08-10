@@ -34,7 +34,7 @@ def home(c):
 def home2(c):
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
     c.execute("SELECT * FROM eventdetail")
-    edetails = c.fetchall()
+    edetailslist = c.fetchall()
     return render_template("index2.html", edetailslist=edetailslist)
 
 @app.route("/addevent", methods=["GET", "POST"])
