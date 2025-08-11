@@ -87,9 +87,10 @@ def addevent(c):
 @sqldb
 def approveevent(c, eventid):
     if session.get("username") == "dipanshuag19":
-        return ("ok", eventid)
+        return f"ok, event ID {eventid}"
     else:
-        return ("not ok", eventid)
+        return f"not ok, event ID {eventid}"
+
         
 
 @app.route("/deleteevent", methods=["GET", "POST"])
