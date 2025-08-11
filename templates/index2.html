@@ -289,11 +289,37 @@
         <input type="reset" value="Clear">
       </div>
     </div>
-    <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-      <h4>Tree Plantation Drive</h4>
-      <p>Join us in planting 1000 trees in the community park.</p>
-      <small style="border-radius: 7px;padding:3px 6px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;">Tree</small>
-    </div>
+     
+         <h3>Tree Plantation</h3>
+     {% for eid,ename,email,stime,etime,edate,location,category,desc in treeplantation %}
+         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+         <h4 style="border: 1px solid">{{eid}}. {{ename}}</h4>
+         <p style="border: 1px solid">{{desc}}</p>
+         <p style="border: 1px solid">Date: {{edate}} Location: {{location}} <br>Start Time: {{stime}} End Time: {{etime}}</p>
+         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
+         </div>
+     {% endfor %}
+
+
+     <h3>Blood Donation</h3>
+     {% for eid,ename,email,stime,etime,edate,location,category,desc in blooddonation %}
+         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+         <h4 style="border: 1px solid">{{eid}}. {{ename}}</h4>
+         <p style="border: 1px solid">{{desc}}</p>
+         <p style="border: 1px solid">Date: {{edate}} Location: {{location}} <br>Start Time: {{stime}} End Time: {{etime}}</p>
+         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
+         </div>
+     {% endfor %}
+     
+     <h3>Cleanlines Drive</h3>
+     {% for eid,ename,email,stime,etime,edate,location,category,desc in cleanlinesdrive %}
+         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+         <h4 style="border: 1px solid">{{eid}}. {{ename}}</h4>
+         <p style="border: 1px solid">{{desc}}</p>
+         <p style="border: 1px solid">Date: {{edate}} Location: {{location}} <br>Start Time: {{stime}} End Time: {{etime}}</p>
+         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
+         </div>
+     {% endfor %}
   </div>
 </section>
 
@@ -306,11 +332,39 @@
     </p>
     <div class="main-form">
       <div class="form">
-        <input type="text" placeholder="Enter Short Title">
-        <input type="text" placeholder="One Tag Example: Cleaning, Tree">
-        <textarea placeholder="Description of the Campaign"></textarea>
+        <form onsubmit="event.preventDefault();
+               fetch('/addevent', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(r => {
+                if (r.ok) {
+                    return r.text();
+                } else {
+                    throw new Error('Error adding event');
+                }
+            })
+            .then(text => {
+                alert(text); 
+                window.location.href = '/index2';
+            })
+            .catch(err => alert(err.message));">
+         <input type="text" name="eventname" placeholder="Enter Event Name (Max 30 Letters)" required />
+         <input type="text" name="email" placeholder="Enter Your Email" required />
+         <input type="text" name="location" placeholder="Enter Event Location" required />
+         <input type="text" name="description" placeholder="Enter Event Description" required />
+         <select name="category" required>
+             <option value="" disabled selected>Select a category</option>
+             <option value="Tree Plantation">Tree Plantation</option>
+             <option value="Blood Donation">Blood Donation</option>
+             <option value="Cleanlines Drive">Cleanlines Drive</option>
+         </select><br>
+         Event Date: <input type="date" name="eventdate" placeholder="Enter Event Date" required />
+         Event Start Time: <input type="time" name="starttime" placeholder="Enter Event Start Time" required />
+         Event End Time: <input type="time" name="endtime" placeholder="Enter Event End Time" required />
         <button class="submit-btn">Submit</button>
-        <button class="reset-btn">Reset</button>   
+        <button class="reset-btn">Reset</button>
+         </form>
       </div>
       <div class="form-right">
         <h3>Tips</h3>
