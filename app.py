@@ -11,11 +11,11 @@ app.secret_key = "ecocamp.fp"
 
 def sqldb(function):
     @wraps(function)
-    def wrapper():
+    def wrapper(*args, **kwargs):
         db = sq.connect(os.environ.get("SQLITECLOUD"))
         db.row_factory = sq.Row
         c = db.cursor()
-        final = function(c)
+        final = function(c, *args, **kwargs)
         db.commit()
         db.close()
         return final
