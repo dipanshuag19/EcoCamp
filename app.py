@@ -1,8 +1,8 @@
 # https://dipanshuag19.dipanshuag19.publicvm.com/
 
-from flask import Flask, request, redirect, url_for, render_template, jsonify, render_template_string
+from flask import Flask, request, redirect, url_for, render_template, render_template_string, flash, session
 #import sqlite3 as sq
-import os
+import os,uuid
 import sqlitecloud as sq
 from functools import wraps
 
@@ -32,6 +32,9 @@ def home(c):
 @app.route("/index2")
 @sqldb
 def home2(c):
+    if not session["username"]:
+        randomuuid = uuid.uuid4()
+        session["username"] = randomuuid
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
     c.execute("SELECT * FROM eventdetail")
     edetailslist = c.fetchall()
@@ -72,12 +75,20 @@ def addevent(c):
         zipped = zip(field, event_values)
         for ab in fetchall:
                 if all(ab[x] == y for x,y in zipped):
-                    return "edit_from_id"
+                    return "Event Already Exists"
         tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
         vals = ", ".join(["?"] * len(event_values))
         c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
         return "Event Registered ✅. Kindly wait for approval!"
-    return render_template("addevent.html")
+
+@app.route("/approveevent/<int: eventid>", methods=["GET", "POST"])
+@sqldb
+def approveevent(c):
+    if session.get("username") == "dipanshuag19":
+        return ("ok")
+    else:
+        return ("not ok")
+        
 
 @app.route("/deleteevent", methods=["GET", "POST"])
 @sqldb
