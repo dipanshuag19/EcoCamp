@@ -7,6 +7,7 @@ import sqlitecloud as sq
 from functools import wraps
 
 app = Flask(__name__)
+app.secret_key = "ecocamp.fp"
 
 def sqldb(function):
     @wraps(function)
@@ -32,9 +33,10 @@ def home(c):
 @app.route("/index2")
 @sqldb
 def home2(c):
-    if not session["username"]:
+    if not session.get('username'):
         randomuuid = uuid.uuid4()
         session["username"] = randomuuid
+    print("Welcome", session["username"])
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
     c.execute("SELECT * FROM eventdetail")
     edetailslist = c.fetchall()
@@ -81,7 +83,7 @@ def addevent(c):
         c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
         return "Event Registered ✅. Kindly wait for approval!"
 
-@app.route("/approveevent/<int: eventid>", methods=["GET", "POST"])
+@app.route("/approveevent/<int:eventid>", methods=["GET", "POST"])
 @sqldb
 def approveevent(c):
     if session.get("username") == "dipanshuag19":
