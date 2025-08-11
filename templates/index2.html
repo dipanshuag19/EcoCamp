@@ -188,7 +188,7 @@
   .form:hover, .form-right:hover {
     transform: translateY(-3px);
   }
-  .form input[type="text"], .form input[type="date"], .form input[type="time"], .form textarea {
+  .form input[type="text"], .form input[type="date"], .form input[type="time"], .form select, .form textarea {
     display: block;
     border-radius: 6px;
     margin-bottom: 12px;
@@ -290,39 +290,45 @@
       </div>
     </div>
      
-         <h3>Tree Plantation</h3>
+         <h3 style="text-align: center;">Tree Plantation</h3>
+     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc in treeplantation %}
          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4 style="border: 1px solid">{{eid}}. {{ename}}</h4>
-         <p style="border: 1px solid">{{desc}}</p>
-         <p style="border: 1px solid">Date: {{edate}} Location: {{location}} <br>Start Time: {{stime}} End Time: {{etime}}</p>
+         <h4 style="text-align: center;">{{ename}}</h4>
+         <p>{{desc}}</p>
+         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
          </div>
      {% endfor %}
+     </div>
 
 
-     <h3>Blood Donation</h3>
+     <h3 style="text-align: center;">Blood Donation</h3>
+     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc in blooddonation %}
          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4 style="border: 1px solid">{{ename}}</h4>
-         <p style="border: 1px solid">{{desc}}</p>
-         <p style="border: 1px solid">Date: {{edate}} Location: {{location}} <br>Start Time: {{stime}} End Time: {{etime}}</p>
+         <h4 style="text-align: center;">{{ename}}</h4>
+         <p>{{desc}}</p>
+         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
          </div>
      {% endfor %}
+     </div>
      
-     <h3>Cleanlines Drive</h3>
+     <h3 style="text-align: center;">Cleanlines Drive</h3>
+     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc in cleanlinesdrive %}
          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4>{{ename}}</h4>
+         <h4 style="text-align: center;">{{ename}}</h4>
          <p>{{desc}}</p>
-         <p>Date: {{edate}} Location: {{location}} <br>Start Time: {{stime}} End Time: {{etime}}</p>
+         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
          </div>
      {% endfor %}
+     </div>
   </div>
 </section>
 
