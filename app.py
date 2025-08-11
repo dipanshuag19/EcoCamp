@@ -85,7 +85,7 @@ def addevent(c):
 
 @app.route("/approveevent/<int:eventid>", methods=["GET", "POST"])
 @sqldb
-def approveevent(c):
+def approveevent(c, eventid):
     if session.get("username") == "dipanshuag19":
         return ("ok", eventid)
     else:
