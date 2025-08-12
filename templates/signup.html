@@ -1,40 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head><title>Login</title></head>
-  <body>
-    <div style="float: left;">
-    <h1> Sign Up </h1>
-    {% if alreadyexists %}
-    <h3>Username already exists! Enter another username.</h3>
-    {% endif %}
+  <head>
+    <title>Login</title>
+  </head>
+  <body style="display: flex; justify-content: space-between;">
+    <section style="width: 45%;">
+      <h1>Sign Up</h1>
+      {% if alreadyexists %}
+      <h3>Username already exists! Enter another username.</h3>
+      {% endif %}
 
-    {% if wrongpass %}
-    <h3>Password must be same! Please Re-Enter Password.</h3>
-    {% endif %}
-    
-    <form action="/signup" method="POST">
-      Enter Full Name: <input type="text" name="nameofuser" placeholder="Full Name (Max 24 Characters)" limit=24 /> <br>
-      Enter Username: <input type="text" name="username" value="{{username}}" /><br>
-      Enter Password: <input type="password" name="password" value="{{password}}" /><br>
-      Confirm Password: <input type="password" name="cpassword" /> <br>
-      <button type="submit">Register</button>
-    </form>
-    </div>
+      {% if wrongpass %}
+      <h3>Password must be same! Please Re-Enter Password.</h3>
+      {% endif %}
 
-    <div style="float: right;">
+      <form action="/signup" method="POST">
+        Enter Full Name: <input type="text" name="nameofuser" placeholder="Full Name (Max 24 Characters)" maxlength="24" /> <br>
+        Enter Username: <input type="text" name="username" value="{{username}}" /><br>
+        Enter Password: <input type="password" name="password" value="{{password}}" /><br>
+        Confirm Password: <input type="password" name="cpassword" /> <br>
+        <button type="submit">Register</button>
+      </form>
+    </section>
+
+    <!-- Divider -->
+    <div style="width: 2px; background-color: black;"></div>
+
+    <section style="width: 45%;">
       <h1>Login</h1>
       {% if usernotexists %}
-      <h3>Username Dosen't Exists! Please Register Your Self</h3>
+      <h3>Username Doesn't Exist! Please Register Yourself.</h3>
       {% endif %}
-    {% if loginwrongpass %}
-    <h3>Password must be correct! Please Re-Enter Correct Password.</h3>
-    {% endif %}
+      {% if loginwrongpass %}
+      <h3>Password must be correct! Please Re-Enter Correct Password.</h3>
+      {% endif %}
 
       <form action="/login" method="POST">
-      Enter Username: <input type="text" name="loginusername" value="{{username}}" /><br>
-      Enter Password: <input type="password" name="loginpassword" /><br>
-      <button type="submit">Login</button>
+        Enter Username: <input type="text" name="loginusername" value="{{username}}" /><br>
+        Enter Password: <input type="password" name="loginpassword" /><br>
+        <button type="submit">Login</button>
       </form>
-    </div>
+    </section>
   </body>
 </html>
