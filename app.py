@@ -110,10 +110,9 @@ def addeventreq(c):
 @sqldb
 def pendingevents(c):
     c.execute("SELECT * FROM eventreq")
-    all = c.fetchall()
-    if not all:
+    allpending = c.fetchall()
+    if not allpending:
         return "No Events Pending For Approval"
-    allpending = zip(*all)
     return render_template("pendingevents.html", pendingevents=allpending)
         
 
