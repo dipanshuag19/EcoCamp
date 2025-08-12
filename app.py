@@ -36,13 +36,14 @@ def signup(c):
         username = request.form.get("username")
         password = request.form.get("password")
         cpassword = request.form.get("cpassword")
+        name = request.form.get("nameofuser")
         c.execute("SELECT * FROM userdetails where username=?", (username,))
         if c.fetchone():
             return render_template("signup.html", alreadyexists=True, password=password, username=username)
         elif password != cpassword:
             return render_template("signup.html", wrongpass=True, password=password, username=username)
         else:
-            c.execute("INSERT INTO userdetails(username, password) VALUES(?, ?)", (username, password))
+            c.execute("INSERT INTO userdetails(username, password, name) VALUES(?, ?)", (username, password, name))
             session["username"] = username
             return redirect(url_for("home"))
     return render_template("signup.html")
@@ -138,7 +139,7 @@ def addeventreq(c):
                 if all(ab[x] == y for x,y in zipped):
                     return "Event Already Exists"
                     
-        fetchall2 = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],)).fetchall()
+        fetchall2 = c.execute("SELECT * FROM eventreq WHERE eventname=(?)", (event_values[0],)).fetchall()
         for ab in fetchall2:
                 if all(ab[x] == y for x,y in zipped):
                     return "Event Already Submitted! Please Wait For Approval"
