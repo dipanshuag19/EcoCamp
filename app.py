@@ -81,7 +81,13 @@ def addevent(c):
         tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
         vals = ", ".join(["?"] * len(event_values))
         c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
-        return "Event Registered ✅. Kindly wait for approval!"
+        lastid = c.execute("SELECT eventid from eventdetail ORDER BY eventid DESC LIMIT 1").fetchone()
+        c.execute("DELETE FROM eventreq WHERE eventid=(?)", lastid)
+        checkleft = c.execute("SELECT * FROM eventreq")
+        if checkleft.fetchall():
+            return redirect(url_for("pendingevents"))
+        else:
+            return redirect(url_for("home"))
 
 @app.route("/addeventreq", methods=["GET", "POST"])
 @sqldb
@@ -97,17 +103,18 @@ def addeventreq(c):
                     return "Event Already Exists"
         tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
         vals = ", ".join(["?"] * len(event_values))
-        c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
+        c.execute(f"INSERT INTO eventreq({tuple_all}) VALUES ({vals})", tuple_event_values)
         return "Event Registered ✅. Kindly wait for approval!"
 
 @app.route("/pendingevents", methods=["GET", "POST"])
 @sqldb
-def approveevent(c, eventid):
-    if session.get("username") == "dipanshuag19":
-        return f"ok, event ID {eventid}"
-    else:
-        return f"not ok, event ID {eventid}"
-
+def pendingevents(c):
+    c.execute("SELECT * FROM eventreq")
+    all = c.fetchall()
+    if not all:
+        return "No Events Pending For Approval"
+    allpending = zip(*all)
+    return render_template("pendingevents.html", pendingevents=allpending)
         
 
 @app.route("/deleteevent", methods=["GET", "POST"])
