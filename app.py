@@ -29,14 +29,50 @@ def home(c):
         mylist.append(f"ID: {row[0]} Name: {row[1]}")
     return render_template("index.html", mylist=mylist)
 
+@app.route("/signup", methods=["GET", "POST"])
+@sqldb
+def signup(c):
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        cpassword = request.form.get("cpassword")
+        c.execute("SELECT * FROM userdetails where username=?", (username,))
+        if c.fetchone():
+            return render_template("signup.html", alreadyexists=True, password=password, username=username)
+        elif password != cpassword:
+            return render_template("signup.html", wrongpass=True, password=password, username=username)
+        else:
+            c.execute("INSERT INTO userdetails(username, password) VALUES(?, ?)", (username, password))
+            session["username"] = username
+            return redirect(url_for("home"))
+    return render_template("signup.html")
 
+@app.route("/login", methods=["GET", "POST"])
+@sqldb
+def login(c):
+    if request.method == "POST":
+        username = request.form.get("loginusername")
+        password = request.form.get("loginpassword")
+        c.execute("SELECT * FROM userdetails where username=?", (username,))
+        fetched = c.fetchone()
+        if not fetched:
+            return render_template("signup.html", usernotexists=True)
+        elif password != fetched["password"]:
+            return render_template("signup.html", loginwrongpass=True, username=username)
+        else:
+            session["username"] = username
+            return redirect(url_for("home"))
+    return render_template("signup.html")
+        
 @app.route("/index2")
 @sqldb
 def home2(c):
+    user = ""
     if not session.get('username'):
-        randomuuid = uuid.uuid4()
-        session["username"] = randomuuid
-    print("Welcome", session["username"])
+        user = "User"
+    else:
+        user = session["username"]
+    print("Welcome", user)
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
     c.execute("SELECT * FROM eventdetail")
     edetailslist = c.fetchall()
@@ -101,6 +137,12 @@ def addeventreq(c):
         for ab in fetchall:
                 if all(ab[x] == y for x,y in zipped):
                     return "Event Already Exists"
+                    
+        fetchall2 = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],)).fetchall()
+        for ab in fetchall2:
+                if all(ab[x] == y for x,y in zipped):
+                    return "Event Already Submitted! Please Wait For Approval"
+                    
         tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
         vals = ", ".join(["?"] * len(event_values))
         c.execute(f"INSERT INTO eventreq({tuple_all}) VALUES ({vals})", tuple_event_values)
