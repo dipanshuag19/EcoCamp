@@ -13,7 +13,7 @@
     {% endif %}
     
     <form action="/signup" method="POST">
-      
+      Enter Full Name: <input type="text" name="nameofuser" placeholder="Full Name (Max 24 Characters)" limit=24 /> <br>
       Enter Username: <input type="text" name="username" value="{{username}}" /><br>
       Enter Password: <input type="password" name="password" value="{{password}}" /><br>
       Confirm Password: <input type="password" name="cpassword" /> <br>
