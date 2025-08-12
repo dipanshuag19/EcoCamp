@@ -70,7 +70,7 @@ def login(c):
 @sqldb
 def home2(c):
     user = ""
-    if not session.get('username'):
+    if not session.get('name'):
         currentuser = "User"
     else:
         currentuser = session["username"]
