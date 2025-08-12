@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head><title>Login</title></head>
+  <body>
+    <div style="float: left;">
+    <h1> Sign Up </h1>
+    {% if alreadyexists %}
+    <h3>Username already exists! Enter another username.</h3>
+    {% endif %}
+
+    {% if wrongpass %}
+    <h3>Password must be same! Please Re-Enter Password.</h3>
+    {% endif %}
+    
+    <form action="/signup" method="POST">
+      
+      Enter Username: <input type="text" name="username" value="{{username}}" /><br>
+      Enter Password: <input type="password" name="password" value="{{password}}" /><br>
+      Confirm Password: <input type="password" name="cpassword" /> <br>
+      <button type="submit">Register</button>
+    </form>
+    </div>
+
+    <div style="float: right;">
+      <h1>Login</h1>
+      {% if usernotexists %}
+      <h3>Username Dosen't Exists! Please Register Your Self</h3>
+      {% endif %}
+    {% if loginwrongpass %}
+    <h3>Password must be correct! Please Re-Enter Correct Password.</h3>
+    {% endif %}
+
+      <form action="/login" method="POST">
+      Enter Username: <input type="text" name="loginusername" value="{{username}}" /><br>
+      Enter Password: <input type="password" name="loginpassword" /><br>
+      <button type="submit">Login</button>
+      </form>
+    </div>
+  </body>
+</html>
