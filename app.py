@@ -70,7 +70,7 @@ def home3(c):
 @sqldb
 def addevent(c):
     if request.method == "POST":
-        field = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description"] 
+        field = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description", "username"] 
         event_values = [request.form.get(y) for y in field]
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
         fetchall = check.fetchall()
@@ -83,7 +83,24 @@ def addevent(c):
         c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
         return "Event Registered ✅. Kindly wait for approval!"
 
-@app.route("/approveevent/<int:eventid>", methods=["GET", "POST"])
+@app.route("/addeventreq", methods=["GET", "POST"])
+@sqldb
+def addeventreq(c):
+    if request.method == "POST":
+        field = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description", "username"] 
+        event_values = [request.form.get(y) for y in field]
+        check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
+        fetchall = check.fetchall()
+        zipped = zip(field, event_values)
+        for ab in fetchall:
+                if all(ab[x] == y for x,y in zipped):
+                    return "Event Already Exists"
+        tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
+        vals = ", ".join(["?"] * len(event_values))
+        c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
+        return "Event Registered ✅. Kindly wait for approval!"
+
+@app.route("/pendingevents", methods=["GET", "POST"])
 @sqldb
 def approveevent(c, eventid):
     if session.get("username") == "dipanshuag19":
