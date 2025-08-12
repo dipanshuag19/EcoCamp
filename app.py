@@ -46,6 +46,7 @@ def signup(c):
         else:
             c.execute("INSERT INTO userdetails(username, password, name) VALUES(?, ?, ?)", (username, password, name))
             session["username"] = username
+            session["name"] = name
             return redirect(url_for("home"))
     return render_template("signup.html")
 
@@ -63,6 +64,7 @@ def login(c):
             return render_template("signup.html", loginwrongpass=True, username=username)
         else:
             session["username"] = username
+            session["name"] = fetched["name"]
             return redirect(url_for("home"))
     return render_template("signup.html")
         
@@ -73,7 +75,7 @@ def home2(c):
     if not session.get('name'):
         currentuser = "User"
     else:
-        currentuser = session["username"]
+        currentuser = session["name"]
     print("Welcome", user)
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
     c.execute("SELECT * FROM eventdetail")
