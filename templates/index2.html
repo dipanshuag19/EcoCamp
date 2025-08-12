@@ -297,7 +297,7 @@
      
          <h3 style="text-align: center;">Tree Plantation</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc in treeplantation %}
+     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in treeplantation %}
          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
          <h4 style="text-align: center;">{{ename}}</h4>
          <p>{{desc}}</p>
@@ -311,7 +311,7 @@
 
      <h3 style="text-align: center;">Blood Donation</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc in blooddonation %}
+     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in blooddonation %}
          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
          <h4 style="text-align: center;">{{ename}}</h4>
          <p>{{desc}}</p>
@@ -324,7 +324,7 @@
      
      <h3 style="text-align: center;">Cleanlines Drive</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc in cleanlinesdrive %}
+     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in cleanlinesdrive %}
          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
          <h4 style="text-align: center;">{{ename}}</h4>
          <p>{{desc}}</p>
