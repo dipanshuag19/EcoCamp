@@ -44,7 +44,7 @@ def signup(c):
         elif password != cpassword:
             return render_template("signup.html", wrongpass=True, password=password, username=username)
         else:
-            c.execute("INSERT INTO userdetails(username, password, name) VALUES(?, ?)", (username, password, name))
+            c.execute("INSERT INTO userdetails(username, password, name) VALUES(?, ?, ?)", (username, password, name))
             session["username"] = username
             return redirect(url_for("home"))
     return render_template("signup.html")
