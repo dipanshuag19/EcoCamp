@@ -8,6 +8,7 @@ from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = "ecocamp.fp"
+session.permanent = True
 
 def sqldb(function):
     @wraps(function)
@@ -70,9 +71,9 @@ def login(c):
 def home2(c):
     user = ""
     if not session.get('username'):
-        user = "User"
+        currentuser = "User"
     else:
-        user = session["username"]
+        currentuser = session["username"]
     print("Welcome", user)
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
     c.execute("SELECT * FROM eventdetail")
@@ -85,7 +86,7 @@ def home2(c):
             blooddonate.append(x)
         else:
             cleandrive.append(x)
-    return render_template("index2.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive)
+    return render_template("index2.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser)
 
 @app.route("/index3")
 @sqldb
