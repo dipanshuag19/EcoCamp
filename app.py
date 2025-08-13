@@ -149,6 +149,8 @@ def addeventreq(c):
                     
         tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
         vals = ", ".join(["?"] * len(event_values))
+        if not session.get["username"]:
+            return render_template("login.html", logintoaddevent=True)
         c.execute(f"INSERT INTO eventreq({tuple_all}) VALUES ({vals})", tuple_event_values)
         return "Event Registered ✅. Kindly wait for approval!"
 
