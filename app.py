@@ -25,10 +25,24 @@ def sqldb(function):
 @app.route("/")
 @sqldb
 def home(c):
-    mylist = []
-    for row in c.execute("SELECT * FROM eventdetail"):
-        mylist.append(f"ID: {row[0]} Name: {row[1]}")
-    return render_template("index.html", mylist=mylist)
+    user = ""
+    if not session.get('name'):
+        currentuser = "User"
+    else:
+        currentuser = session["name"]
+    print("Welcome", user)
+    # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
+    c.execute("SELECT * FROM eventdetail")
+    edetailslist = c.fetchall()
+    treeplant, blooddonate, cleandrive = [], [], []
+    for x in edetailslist:
+        if x['category'] == 'Tree Plantation':
+            treeplant.append(x)
+        elif x['category'] == 'Blood Donation':
+            blooddonate.append(x)
+        else:
+            cleandrive.append(x)
+    return render_template("index.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser)
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
@@ -71,24 +85,10 @@ def login(c):
 @app.route("/index2")
 @sqldb
 def home2(c):
-    user = ""
-    if not session.get('name'):
-        currentuser = "User"
-    else:
-        currentuser = session["name"]
-    print("Welcome", user)
-    # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
-    c.execute("SELECT * FROM eventdetail")
-    edetailslist = c.fetchall()
-    treeplant, blooddonate, cleandrive = [], [], []
-    for x in edetailslist:
-        if x['category'] == 'Tree Plantation':
-            treeplant.append(x)
-        elif x['category'] == 'Blood Donation':
-            blooddonate.append(x)
-        else:
-            cleandrive.append(x)
-    return render_template("index2.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser)
+    mylist = []
+    for row in c.execute("SELECT * FROM eventdetail"):
+        mylist.append(f"ID: {row[0]} Name: {row[1]}")
+    return render_template("index.html", mylist=mylist)
 
 @app.route("/index3")
 @sqldb
@@ -177,4 +177,10 @@ def deleteevent(c):
     Enter event id to delete: <input type='number' name='eventid'><br><br> <button type='submit'>Delete Event</button></body></html>
     """
     return render_template_string(html_code)
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("home"))
+
         
