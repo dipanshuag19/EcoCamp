@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>EcoCamp — Greener Tomorrow</title>
 
+<!-- Modern font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-   :root{
+  :root{
     --bg1: #002c2b;
     --bg2: #066d6b;
     --accent: #8be9c6;
@@ -18,7 +19,7 @@
     --max: 1200px;
     --radius: 12px;
     --ease: cubic-bezier(.2,.9,.3,1);
-  } 
+  }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
@@ -32,6 +33,14 @@
     scroll-behavior:smooth;
   }
 
+  /* --- Page layout --- */
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:28px;
+  }
+
+  /* Top nav */
   header.navbar{
     position:fixed;
     left:0;right:0;
@@ -53,372 +62,549 @@
     box-shadow:0 6px 30px rgba(2,10,10,0.35);
     pointer-events:auto;
     backdrop-filter: blur(8px);
-  }  
+  }
   .brand{
     display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--accent);
-  } 
+  }
   .logo{
-    width:40px;
-    height:40px;
-    border-radius:10px;
-    background:linear-gradient(135deg,#18b89b,#1dd3af);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:800;color:#003;
+    width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#18b89b,#1dd3af);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#003;
     box-shadow:0 6px 18px rgba(0,0,0,0.25), inset 0 -6px 16px rgba(255,255,255,0.06);
   }
   nav{
     margin-left:auto;display:flex;gap:8px;align-items:center;
   }
   .navlink{
-    text-decoration:none;
-    color:white;
-    padding:6px 10px;
-    border-radius:6px;
-    transition:0.2s;
-    cursor:pointer;
+    color:var(--muted);
+    padding:10px 12px;border-radius:10px;text-decoration:none;font-weight:600;
+    transition:all .22s var(--ease);
   }
-  .navlink:hover{   
-    transform:translateY(-3px);
-    background:rgba(255,255,255,0.05);
-  }
-  .navlink.active{
-    background:rgba(255,255,255,0.15);
-    color:#fff;
-  }
+  .navlink:hover{transform:translateY(-3px);color:#fff;background:rgba(255,255,255,0.03)}
+  .navlink.active{background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));color:#fff;box-shadow:0 8px 20px rgba(0,0,0,0.25)}
   .cta{
-    margin-left:12px;
-    background:linear-gradient(90deg,#6fe6b1,#2ccf96);
-    color:#003;border:none;
-    padding:8px 14px;
-    border-radius:10px;
-    font-weight:700;
-    cursor:pointer;
+    margin-left:12px;background:linear-gradient(90deg,#6fe6b1,#2ccf96);color:#003;border:none;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer;
     transition:transform .18s var(--ease), box-shadow .18s var(--ease);
   }
-  .cta:hover{
-     transform:translateY(-3px);
-    box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)
+  .cta:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)}
+
+  /* Hero */
+  .hero{
+    min-height:78vh;
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:28px;
+    align-items:center;
+    padding-top:36px;
+  }
+  .hero-left{
+    padding:34px;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted);font-weight:600;margin-bottom:14px;
+    width:fit-content;
+  }
+  .title{
+    font-size:42px;line-height:1.02;margin:6px 0 12px;font-weight:800;color:#fff;
+    text-shadow:0 8px 30px rgba(2,8,8,0.4);
+  }
+  .lead{color:rgba(255,255,255,0.9);font-size:16px;max-width:62ch;margin-bottom:20px;}
+  .hero-cta{display:flex;gap:12px;align-items:center;margin-top:8px}
+  .btn-primary{background:linear-gradient(90deg,#aef1d0,#5fe0ae);color:#033;border:none;padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 10px 30px rgba(5,40,36,0.24)}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:12px;color:var(--muted);cursor:pointer}
+  .subtle{font-size:13px;color:rgba(255,255,255,0.8);margin-top:10px}
+
+  /* Hero right: live widgets */
+  .hero-right{
+    position:relative;min-height:420px;padding:16px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 20px 50px rgba(2,10,10,0.35);
+    overflow:hidden;
+  }
+  .live-panel{display:flex;flex-direction:column;gap:12px;position:relative;z-index:2}
+  .panel{
+    background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    padding:12px;border-radius:12px;
+  }
+  .clock{
+    font-weight:800;font-size:28px;color:var(--accent);
+  }
+  .quote{
+    font-style:italic;color:var(--muted);
+  }
+  .progress{
+    height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden;
+  }
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6ff0c2,#2ccf96);border-radius:999px;transition:width 600ms var(--ease)}
+  /* decorative floating leaves */
+  .floating{
+    position:absolute;pointer-events:none;inset:0;z-index:1;
+  }
+  .leaf{
+    position:absolute;width:72px;height:72px;opacity:0.12;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+    animation:float linear infinite;
+  }
+  .leaf svg{width:100%;height:100%}
+  @keyframes float {
+    from{transform:translateY(-20vh) rotate(0) scale(0.8);opacity:0}
+    30%{opacity:0.9}
+    to{transform:translateY(110vh) rotate(720deg) scale(1.15);opacity:0}
   }
 
   /* Sections */
   section{
-    max-width:var(--max);
-    margin:70px auto;
-    padding:20px;
-    display:none;
-  }
-  section.active{
-    display:block;
+    margin-top:46px;padding:56px 36px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 20px 60px rgba(2,10,10,0.35);
   }
 
-  /* Campaigns */
-  .main-ac{
-   width: 80vw;
-   margin: 10px auto;
-   border-radius: 12px;
-   background: var(--card);
-   padding: 20px;
-   box-shadow:0 12px 26px rgba(44, 190, 141, 0.18);
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .card{
+    background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);backdrop-filter: blur(6px);
+    transition:transform .32s var(--ease), box-shadow .32s var(--ease);
   }
-  .m-a-h{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  .m-a-h h4{
-    margin: 0;
-  }
-  .m-a-h p{
-    margin: 0;
-    font-size: 14px;
-    color: var(--muted);
-  }
-  .m-a-h-r{
-    display: flex;
-    gap: 8px;
-  }
-  .m-a-h-r input{
-    padding: 6px;
-    border-radius: 6px;
-    border: none;
-  }
+  .card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(3,25,25,0.35)}
 
-  /* Add Campaign */
-  .main-cc {
-    width: 85vw;
-    margin: 20px auto;
-    padding: 25px;
-    border-radius: var(--radius);
-    background: var(--card);
-    box-shadow: 0 12px 26px rgba(44, 190, 141, 0.18);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-  .cc-h1 {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-  .cc-p {
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 8px;
-    color: var(--muted);
-    font-size: 14px;
-  }
-  .main-form {
-    display: flex;
-    gap: 25px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-  .form, .form-right {
-    background: var(--glass);
-    border-radius: var(--radius);
-    padding: 20px;
-    flex: 1;
-    min-width: 280px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s var(--ease);
-  }
-  .form:hover, .form-right:hover {
-    transform: translateY(-3px);
-  }
-  .form input[type="text"], .form input[type="date"], .form input[type="time"], .form select, .form textarea {
-    display: block;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    padding: 10px;
-    width: 100%;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.04);
-    color: white;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form input:focus, .form textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(139, 233, 198, 0.25);
-  }
+  /* Add campaign modal */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:2000}
+  .modal{background:linear-gradient(180deg,#062a28,#05342e);padding:22px;border-radius:12px;min-width:320px;color:var(--muted);box-shadow:0 30px 80px rgba(0,0,0,0.6)}
+  .form-row{display:flex;gap:10px}
+  .input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);outline:none}
 
-   .form select option {
-      background-color: #002c2b;
-      color: white;
-   }
-  .form textarea {
-    resize: none;
-    height: 100px;
-  }
-  .submit-btn {
-    background: linear-gradient(90deg,#6fe6b1,#2ccf96);
-    color: #003;
-    font-weight: 700;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
-  }
-  .submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 26px rgba(44, 190, 141, 0.28);
-  }
-  .reset-btn {
-    background: rgba(255,255,255,0.08);
-    color: white;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 8px;
-    transition: background 0.2s;
-  }
-  .reset-btn:hover {
-    background: rgba(255,255,255,0.15);
-  }
-  .form-right h3 {
-    margin-bottom: 10px;
-    color: var(--accent);
-  }
-  .form-right .f-r-b {
-    margin-top: 15px;
-    padding: 10px;
-    background: rgba(255,255,255,0.04);
-    border-radius: 6px;
-    font-size: 13px;
-    color: var(--muted);
+  /* Campaign list */
+  .campaigns{display:flex;flex-direction:column;gap:12px}
+  .campaign-item{padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.016), rgba(255,255,255,0.008));display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .tag{font-weight:700;color:#012;text-transform:uppercase;background:linear-gradient(90deg,#bff6dd,#6bf0b0);padding:6px 10px;border-radius:999px;font-size:12px}
+
+  /* Contact */
+  .contact-grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
+  .contact-form{display:flex;flex-direction:column;gap:12px}
+  .small{font-size:13px;color:var(--muted)}
+
+  /* footer */
+  footer{margin-top:34px;color:var(--muted);text-align:center;font-size:13px;padding:18px}
+
+  /* Responsive */
+  @media (max-width:950px){
+    .hero{grid-template-columns:1fr;gap:18px}
+    .hero-right{min-height:260px}
+    .nav-inner{padding:10px}
+    .wrap{padding:16px}
+    .contact-grid{grid-template-columns:1fr}
   }
 </style>
 </head>
 <body>
 
-<header class="navbar">
-  <div class="nav-inner">
+<header class="navbar" role="banner">
+  <div class="nav-inner" role="navigation" aria-label="Top navigation">
     <div class="brand" title="EcoCamp">
-      <div class="logo">EC</div>
+      <div class="logo" aria-hidden="true">EC</div>
       <div>
         <div style="font-size:14px">EcoCamp</div>
         <div style="font-size:11px;color:var(--muted);font-weight:600">Greener Tomorrow</div>
       </div>
     </div>
+
     <nav>
-      <a class="navlink active" data-section="home">Home</a>
-      <a class="navlink" data-section="campaigns">Campaigns</a>
-      <a class="navlink" data-section="add">Add</a>
-      <a class="navlink" data-section="contact">Contact</a>
+      <a class="navlink active" href="#home">Home</a>
+      <a class="navlink" href="#campaigns">Campaigns</a>
+      <a class="navlink" href="#add">Add</a>
+      <a class="navlink" href="#contact">Contact</a>
       <button class="cta" id="addQuickBtn">+ New Campaign</button>
     </nav>
   </div>
 </header>
 
-<section id="home" class="active">
-  <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
-  <p>Making the world greener, one campaign at a time.</p>
-</section>
+<main class="wrap" id="page">
 
-<section id="campaigns">
-  <div class="main-ac">
-    <div class="m-a-h">
-      <div>
-        <h4>Campaigns</h4>
-        <p>Find campaigns to join or create your own</p>
+  <!-- HERO -->
+  <section id="home" class="hero" aria-labelledby="hero-title">
+    <div class="hero-left">
+      <div class="eyebrow">🌱 Community • Action • Impact</div>
+      <h1 id="hero-title" class="title">Join hands to protect nature — <span style="color:var(--accent)">start a campaign</span>, plant hope.</h1>
+      <p class="lead">EcoCamp helps you create, discover and support environmental campaigns near you. The UI below is live — add campaigns, search them, and see interactive widgets update in real-time.</p>
+
+      <div class="hero-cta">
+        <button class="btn-primary" id="scrollCampaigns">Explore Campaigns</button>
+        <button class="btn-ghost" id="learnMore">How it works</button>
       </div>
-      <div class="m-a-h-r">
-        <input type="search" placeholder="Search by title or tag">
-        <input type="reset" value="Clear">
-      </div>
+      <div class="subtle">Made with ❤️ • Live demo effects: animated background, floating leaves, parallax & modals</div>
     </div>
-     
-         <h3 style="text-align: center;">Tree Plantation</h3>
-     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in treeplantation %}
-         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4 style="text-align: center;">{{ename}}</h4>
-         <p>{{desc}}</p>
-         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
-         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
-         <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         </div>
-     {% endfor %}
-     </div>
 
+    <aside class="hero-right" aria-hidden="false">
+      <div class="live-panel">
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="small">Local time</div>
+              <div class="clock" id="liveClock">--:--:--</div>
+            </div>
+            <div style="text-align:right">
+              <div class="small">Progress</div>
+              <div style="width:160px" class="progress"><i id="progBar"></i></div>
+            </div>
+          </div>
+        </div>
 
-     <h3 style="text-align: center;">Blood Donation</h3>
-     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in blooddonation %}
-         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4 style="text-align: center;">{{ename}}</h4>
-         <p>{{desc}}</p>
-         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
-         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
-         <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         </div>
-     {% endfor %}
-     </div>
-     
-     <h3 style="text-align: center;">Cleanlines Drive</h3>
-     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in cleanlinesdrive %}
-         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4 style="text-align: center;">{{ename}}</h4>
-         <p>{{desc}}</p>
-         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
-         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
-         <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         </div>
-     {% endfor %}
-     </div>
-  </div>
-</section>
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="small">Quote</div>
+              <div class="quote" id="liveQuote">Loading...</div>
+            </div>
+            <div style="text-align:right">
+              <div class="small">Active campaigns</div>
+              <div style="font-weight:800;font-size:22px;color:var(--accent)" id="campaignCount">0</div>
+            </div>
+          </div>
+        </div>
 
-<section id="add">
-  <div class="main-cc">
-    <h1 class="cc-h1">Create Campaign</h1>
-    <p class="cc-p">
-      Add details of your campaign. It will appear live in the campaign list.
-      This demo keeps data in-memory — refreshing clears it.
-    </p>
-    <div class="main-form">
-      <div class="form">
-        <form onsubmit="event.preventDefault();
-               fetch('/addeventreq', {
-                method: 'POST',
-                body: new FormData(this)
-            })
-            .then(r => {
-                if (r.ok) {
-                    return r.text();
-                } else {
-                    throw new Error('Error adding event');
-                }
-            })
-            .then(text => {
-                alert(text); 
-                window.location.href = '/index2';
-            })
-            .catch(err => alert(err.message));">
-         <input type="text" name="eventname" placeholder="Enter Event Name (Max 50 Letters)" maxlength="50" required />
-         <input type="text" name="email" placeholder="Enter Your Email" maxlength="30" required />
-         <input type="text" name="location" placeholder="Enter Event Location (Max 30 Letters)" maxlength="30" required />
-         <input type="text" name="description" placeholder="Enter Event Description (Max 100 Letters)" maxlength="100" required />
-         <select name="category" required>
-             <option value="" disabled selected>Select a category</option>
-             <option value="Tree Plantation">Tree Plantation</option>
-             <option value="Blood Donation">Blood Donation</option>
-             <option value="Cleanlines Drive">Cleanlines Drive</option>
-         </select><br>
-         Event Date: <input type="date" name="eventdate" placeholder="Enter Event Date" maxlength="8" required /><br>
-         Event Start Time: <input type="time" name="starttime" placeholder="Enter Event Start Time" required /><br>
-         Event End Time: <input type="time" name="endtime" placeholder="Enter Event End Time" required />
-        <button class="submit-btn">Submit</button>
-        <button class="reset-btn">Reset</button>
-         </form>
-      </div>
-      <div class="form-right">
-        <h3>Tips</h3>
-        Use clear titles and location in the title<br>
-        Tags help others find campaigns quickly<br>
-        Short descriptions work best
-        <div class="f-r-b"> 
-          <h4>Recent Activity</h4>
-          No external backend — all changes are simulated and stored locally.
+        <div class="panel" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <div class="small">Quick Actions</div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button class="btn-primary" id="btnAdd">Create</button>
+              <button class="btn-ghost" id="btnRefresh">Refresh</button>
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--muted)">Demo • Data stored in-memory</div>
         </div>
       </div>
+
+      <!-- Decorative floating leaves -->
+      <div class="floating" aria-hidden="true">
+        <!-- Generate a few leaves with different delays using JS -->
+        <div class="leaf" style="left:6%;animation-duration:14s;animation-delay:0s">
+          <svg viewBox="0 0 64 64"><path fill="#bff6dd" d="M32 2c0 0 14 6 18 16s-6 28-18 44C18 46 8 34 8 22S32 2 32 2z"/></svg>
+        </div>
+        <div class="leaf" style="left:72%;width:96px;animation-duration:20s;animation-delay:-4s;top:-10%">
+          <svg viewBox="0 0 64 64"><path fill="#6bf0b0" d="M32 2c0 0 14 6 18 16s-6 28-18 44C18 46 8 34 8 22S32 2 32 2z"/></svg>
+        </div>
+        <div class="leaf" style="left:42%;width:82px;animation-duration:16s;animation-delay:-2s;top:-20%">
+          <svg viewBox="0 0 64 64"><path fill="#8be9c6" d="M32 2c0 0 14 6 18 16s-6 28-18 44C18 46 8 34 8 22S32 2 32 2z"/></svg>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Campaigns -->
+  <section id="campaigns" aria-labelledby="campaigns-title">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px">
+      <div>
+        <h2 id="campaigns-title" style="margin:0;font-size:20px">Active Campaigns</h2>
+        <div class="small">Find campaigns to join or create your own.</div>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="search" class="input" placeholder="Search by title or tag" style="width:320px;background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:10px;color:var(--muted)">
+        <button class="btn-ghost" id="clearSearch">Clear</button>
+      </div>
+    </div>
+
+    <div class="cards" id="campaignCards">
+      <!-- Cards populated by JS -->
+    </div>
+
+    <div style="margin-top:18px;display:flex;justify-content:center">
+      <button class="cta" id="loadMore">Load more</button>
+    </div>
+  </section>
+
+  <!-- Add Campaign (also anchor target for nav) -->
+  <section id="add" aria-labelledby="add-title">
+    <h2 id="add-title" style="margin-top:0">Create a Campaign</h2>
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:18px">
+      <div>
+        <p class="small">Add details of your campaign. It will appear live in the campaign list. This demo keeps data in-memory — refreshing clears it.</p>
+
+        <div class="card" style="margin-top:12px">
+          <form id="addForm" class="contact-form" onsubmit="return false;">
+            <input class="input" id="titleInput" placeholder="Campaign title (e.g. Tree plantation at Riverbank)" required>
+            <input class="input" id="tagInput" placeholder="Tag (e.g. Tree, Beach, CleanUp)">
+            <textarea class="input" id="descInput" rows="4" placeholder="Short description"></textarea>
+            <div style="display:flex;gap:8px">
+              <button class="btn-primary" id="submitCampaign">Create campaign</button>
+              <button class="btn-ghost" id="cancelAdd" type="button">Reset</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      <aside style="position:relative">
+        <div class="card">
+          <div style="font-weight:800;font-size:18px">Tips</div>
+          <ul style="margin-top:10px;color:var(--muted);line-height:1.6">
+            <li>Use clear titles and location in the title</li>
+            <li>Tags help others find campaigns quickly</li>
+            <li>Short descriptions work best</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:16px" class="card">
+          <div style="font-weight:700">Recent activity</div>
+          <div class="small" style="margin-top:8px">No external backend — all changes are simulated and stored locally (in-memory).</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title" style="margin-top:0">Contact Us</h2>
+    <div class="contact-grid">
+      <div>
+        <p class="small">Questions? Partnership ideas? Drop us a message and we'll get back to you (demo: shows preview).</p>
+        <div class="card">
+          <form id="contactForm" class="contact-form" onsubmit="return false;">
+            <input class="input" id="contactName" placeholder="Your name" required>
+            <input class="input" id="contactEmail" placeholder="Your email" type="email" required>
+            <textarea class="input" id="contactMessage" rows="6" placeholder="Message"></textarea>
+            <div style="display:flex;gap:8px">
+              <button class="btn-primary" id="contactSend">Send message</button>
+              <button class="btn-ghost" id="contactReset" type="button">Reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <div style="font-weight:800">Office</div>
+          <div class="small" style="margin-top:8px">EcoCamp HQ • Demo City</div>
+          <div style="margin-top:12px" class="small">Email: hello@ecocamp.demo</div>
+          <div class="small">Phone: +91 90000 00000</div>
+        </div>
+
+        <div style="margin-top:12px" class="card">
+          <div style="font-weight:700">Follow</div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn-ghost">Twitter</button>
+            <button class="btn-ghost">Instagram</button>
+            <button class="btn-ghost">LinkedIn</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> EcoCamp — Live demo UI • No backend • Built for demo purposes
+  </footer>
+</main>
+
+<!-- Modal for quick add -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle" style="margin-top:0">Quick create campaign</h3>
+    <div class="form-row" style="margin-bottom:12px">
+      <input id="qTitle" class="input" placeholder="Title" />
+    </div>
+    <div style="margin-bottom:12px">
+      <input id="qTag" class="input" placeholder="Tag" />
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn-ghost" id="modalCancel">Cancel</button>
+      <button class="btn-primary" id="modalCreate">Create</button>
     </div>
   </div>
-</section>
-
-<section id="contact">
-  <h1>Contact Us</h1>
-  <p>Email: hello@ecocamp.org</p>
-</section>
+</div>
 
 <script>
-  const navLinks = document.querySelectorAll('.navlink');
-  const sections = document.querySelectorAll('section');
+/* ---------- Demo data & utilities ---------- */
+const initialCampaigns = [
+  {title:"Tree Plantation Drive — Central Park", tag:"Tree", desc:"Planting 200 native trees."},
+  {title:"River Clean Up — Riverside", tag:"CleanUp", desc:"Clear plastic from the river bank."},
+  {title:"Beach Turtle Rescue", tag:"Wildlife", desc:"Protect nesting grounds."},
+  {title:"Community Composting Workshop", tag:"Workshop", desc:"Learn composting at home."},
+];
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      sections.forEach(sec => sec.classList.remove('active'));
-      const target = link.getAttribute('data-section');
-      document.getElementById(target).classList.add('active');
+let campaigns = [...initialCampaigns];
+
+/* ---------- DOM refs ---------- */
+const campaignCards = document.getElementById('campaignCards');
+const campaignCount = document.getElementById('campaignCount');
+const searchInput = document.getElementById('search');
+const clearSearch = document.getElementById('clearSearch');
+const progBar = document.getElementById('progBar');
+const liveClock = document.getElementById('liveClock');
+const liveQuote = document.getElementById('liveQuote');
+const yearSpan = document.getElementById('year');
+
+/* ---------- Helpers ---------- */
+function renderCampaigns(filter = ''){
+  campaignCards.innerHTML = '';
+  const f = (filter||'').trim().toLowerCase();
+  const list = campaigns.filter(c=>{
+    if(!f) return true;
+    return c.title.toLowerCase().includes(f) || (c.tag||'').toLowerCase().includes(f) || (c.desc||'').toLowerCase().includes(f);
+  });
+  if(list.length === 0){
+    campaignCards.innerHTML = '<div style="text-align:center;color:var(--muted);padding:28px;border-radius:12px;background:rgba(255,255,255,0.02)">No campaigns found — create one!</div>';
+  } else {
+    list.forEach(c=>{
+      const el = document.createElement('div');
+      el.className = 'card';
+      el.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div style="max-width:65%">
+            <div style="font-weight:800">${escapeHtml(c.title)}</div>
+            <div class="small" style="margin-top:6px">${escapeHtml(c.desc || '')}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="tag">${escapeHtml(c.tag || 'General')}</div>
+            <div style="margin-top:8px"><button class="btn-ghost" onclick="joinCampaign('${escapeAttr(c.title)}')">Join</button></div>
+          </div>
+        </div>`;
+      campaignCards.appendChild(el);
     });
-  });
+  }
+  campaignCount.innerText = campaigns.length;
+}
 
-  document.getElementById('addQuickBtn').addEventListener('click', () => {
-    navLinks.forEach(l => l.classList.remove('active'));
-    document.querySelector('.navlink[data-section="add"]').classList.add('active');
-    sections.forEach(sec => sec.classList.remove('active'));
-    document.getElementById('add').classList.add('active');
+/* quick utilities for safety */
+function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+function escapeAttr(s){ return String(s).replaceAll("'","\\'").replaceAll('"','\\"'); }
+
+/* ---------- Live widgets ---------- */
+const quotes = [
+  "The best time to plant a tree was 20 years ago. The second best time is now.",
+  "Small acts, when multiplied by millions, can change the world.",
+  "We do not inherit the earth from our ancestors; we borrow it from our children.",
+  "Every drop counts. Save water, save life."
+];
+let qIndex = 0;
+function rotateQuote(){ liveQuote.innerText = quotes[qIndex]; qIndex=(qIndex+1)%quotes.length; }
+rotateQuote(); setInterval(rotateQuote, 4500);
+
+function updateClock(){
+  const now = new Date();
+  // show local time in user's locale
+  liveClock.innerText = now.toLocaleTimeString();
+}
+updateClock(); setInterval(updateClock, 1000);
+
+/* progress animation */
+let prog=0;
+setInterval(()=>{ prog = (prog + Math.random()*6); if(prog>100) prog=0; progBar.style.width = prog + '%'; }, 1200);
+
+/* ---------- Buttons & events ---------- */
+document.getElementById('scrollCampaigns').addEventListener('click', ()=> location.href='#campaigns');
+document.getElementById('learnMore').addEventListener('click', ()=> window.scrollBy({top:600,behavior:'smooth'}));
+document.getElementById('loadMore').addEventListener('click', ()=>{
+  // simulate loading more campaigns
+  campaigns.push({title:`Community Drive #${campaigns.length+1}`, tag:'Community', desc:'A new helpful event.'});
+  renderCampaigns(searchInput.value);
+  toast('Loaded more campaigns');
+});
+document.getElementById('clearSearch').addEventListener('click', ()=>{ searchInput.value=''; renderCampaigns(); });
+
+searchInput.addEventListener('input', ()=> renderCampaigns(searchInput.value));
+
+/* Add campaign form */
+document.getElementById('submitCampaign').addEventListener('click', ()=>{
+  const title = document.getElementById('titleInput').value.trim();
+  const tag = document.getElementById('tagInput').value.trim() || 'General';
+  const desc = document.getElementById('descInput').value.trim();
+  if(!title){ toast('Please enter a title'); return; }
+  campaigns.unshift({title,tag,desc});
+  renderCampaigns(searchInput.value);
+  // visual feedback
+  document.getElementById('titleInput').value=''; document.getElementById('tagInput').value=''; document.getElementById('descInput').value='';
+  toast('Campaign created');
+});
+
+/* Cancel/reset add */
+document.getElementById('cancelAdd').addEventListener('click', ()=> {
+  document.getElementById('titleInput').value=''; document.getElementById('tagInput').value=''; document.getElementById('descInput').value='';
+});
+
+/* Contact form */
+document.getElementById('contactSend').addEventListener('click', ()=>{
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const msg = document.getElementById('contactMessage').value.trim();
+  if(!name || !email){ toast('Please provide name and email'); return; }
+  // show preview modal-style toast
+  toast(`Thanks ${name}! Message sent (demo).`);
+  document.getElementById('contactName').value=''; document.getElementById('contactEmail').value=''; document.getElementById('contactMessage').value='';
+});
+document.getElementById('contactReset').addEventListener('click', ()=>{
+  document.getElementById('contactName').value=''; document.getElementById('contactEmail').value=''; document.getElementById('contactMessage').value='';
+});
+
+/* Quick add modal */
+const modal = document.getElementById('modal');
+document.getElementById('addQuickBtn').addEventListener('click', ()=> modal.style.display='flex');
+document.getElementById('modalCancel').addEventListener('click', ()=> { modal.style.display='none'; });
+document.getElementById('modalCreate').addEventListener('click', ()=>{
+  const t = document.getElementById('qTitle').value.trim();
+  const tag = document.getElementById('qTag').value.trim() || 'General';
+  if(!t){ toast('Add a short title'); return; }
+  campaigns.unshift({title:t,tag,desc:''});
+  renderCampaigns();
+  modal.style.display='none';
+  document.getElementById('qTitle').value=''; document.getElementById('qTag').value='';
+  toast('Campaign created');
+});
+
+/* join action */
+function joinCampaign(title){
+  toast(`You've joined "${title}" — (demo)`);
+}
+
+/* initial render */
+renderCampaigns();
+
+/* set footer year */
+yearSpan.innerText = new Date().getFullYear();
+
+/* ---------- Nav active on scroll ---------- */
+const navlinks = Array.from(document.querySelectorAll('.navlink'));
+const sections = navlinks.map(a => document.querySelector(a.getAttribute('href')));
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(ent=>{
+    if(ent.isIntersecting){
+      const id = '#' + ent.target.id;
+      navlinks.forEach(l=> l.classList.toggle('active', l.getAttribute('href')===id));
+    }
   });
+},{threshold:0.36});
+sections.forEach(s=> observer.observe(s));
+
+/* ---------- Tiny toast utility ---------- */
+function toast(msg, ms=2500){
+  const t = document.createElement('div');
+  t.textContent = msg;
+  Object.assign(t.style,{
+    position:'fixed',right:'18px',bottom:'18px',background:'linear-gradient(90deg,#6fe6b1,#2ccf96)',color:'#002a24',padding:'10px 14px',borderRadius:'10px',boxShadow:'0 10px 40px rgba(0,0,0,0.4)',zIndex:9999,fontWeight:800
+  });
+  document.body.appendChild(t);
+  setTimeout(()=> t.style.opacity = '0', ms-400);
+  setTimeout(()=> t.remove(), ms);
+}
+
+/* close modal click outside */
+modal.addEventListener('click', e=>{
+  if(e.target === modal) modal.style.display='none';
+});
+
+/* small helper for "refresh" action */
+document.getElementById('btnRefresh').addEventListener('click', ()=> {
+  toast('Refreshing demo content...');
+  setTimeout(()=> {
+    // simulate a light "refresh" effect by shuffling or adding a sample
+    campaigns.unshift({title: `Eco Drive #${Math.floor(Math.random()*999)}`, tag:'Community', desc:'Auto-generated sample.'});
+    renderCampaigns(searchInput.value);
+  }, 800);
+});
+
+/* keyboard: esc closes modal */
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') modal.style.display='none'; });
+
+/* small accessibility: focus outline for keyboard users */
+document.addEventListener('keyup', e=>{
+  if(e.key === 'Tab') document.body.style.scrollBehavior = 'smooth';
+});
+
+/* ensure initial campaign count */
+campaignCount.innerText = campaigns.length;
 </script>
 
 </body>
