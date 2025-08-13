@@ -4,6 +4,11 @@
     <title>Login</title>
   </head>
   <body style="display: flex; justify-content: space-between;">
+    
+    {% if logintoaddevent %}
+    <h1 style="align: center;"> Please Login To Add The Events! </h1>
+    {% endif %}
+    
     <section style="width: 30%;">
       <h1>Sign Up</h1>
       {% if alreadyexists %}
