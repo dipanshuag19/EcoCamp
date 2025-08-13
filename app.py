@@ -59,9 +59,9 @@ def login(c):
         c.execute("SELECT * FROM userdetails where username=?", (username,))
         fetched = c.fetchone()
         if not fetched:
-            return render_template("signup.html", usernotexists=True)
+            return render_template("signup.html", usernotexists=True, username=username)
         elif password != fetched["password"]:
-            return render_template("signup.html", loginwrongpass=True, username=username)
+            return render_template("signup.html", loginwrongpass=True, loginuname=username)
         else:
             session["username"] = username
             session["name"] = fetched["name"]
