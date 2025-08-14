@@ -48,7 +48,9 @@ def home(c):
     for x in fi:
         fv.append(session.get(x, ""))
     ud = c.execute("SELECT * FROM userdetails WHERE username=?", (currentuname, )).fetchone()
-    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname))
+    if ud["role"] == "admin":
+        isadmin = True
+    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname), isadmin=isadmin)
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
