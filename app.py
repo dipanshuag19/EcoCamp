@@ -30,6 +30,7 @@ def home(c):
         currentuser = "User"
     else:
         currentuser = session["name"]
+    currentuname = session.get("username")
     print("Welcome", user)
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
     c.execute("SELECT * FROM eventdetail")
@@ -42,7 +43,11 @@ def home(c):
             blooddonate.append(x)
         else:
             cleandrive.append(x)
-    return render_template("index.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser)
+    fv = []
+    fi = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description"]
+    for x in fi:
+        fv.append(session.get(x))
+    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, currentuname=currentuname)
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
@@ -137,21 +142,22 @@ def addeventreq(c):
         event_values = [request.form.get(y) for y in field]
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
         fetchall = check.fetchall()
-        zipped = zip(field, event_values)
         for ab in fetchall:
-                if all(ab[x] == y for x,y in zipped):
+                if all(ab[x] == y for x,y in zip(field, event_values)):
                     return "Event Already Exists"
                     
         fetchall2 = c.execute("SELECT * FROM eventreq WHERE eventname=(?)", (event_values[0],)).fetchall()
         for ab in fetchall2:
-                if all(ab[x] == y for x,y in zipped):
+                if all(ab[x] == y for x,y in zip(field, event_values)):
                     return "Event Already Submitted! Please Wait For Approval"
-                    
-        tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
+
+        uuname = session.get("username")
+        efields = ", ".join(field)
         vals = ", ".join(["?"] * len(event_values))
-        if not session.get["username"]:
-            return render_template("login.html", logintoaddevent=True)
-        c.execute(f"INSERT INTO eventreq({tuple_all}) VALUES ({vals})", tuple_event_values)
+        if not uuname:
+            return "Please Login First To Add Event."
+        event_values[-1] = uuname
+        c.execute(f"INSERT INTO eventreq({efields}) VALUES ({vals})", tuple(event_values))
         return "Event Registered ✅. Kindly wait for approval!"
 
 @app.route("/pendingevents", methods=["GET", "POST"])
@@ -164,25 +170,31 @@ def pendingevents(c):
     return render_template("pendingevents.html", pendingevents=allpending)
         
 
-@app.route("/deleteevent", methods=["GET", "POST"])
+@app.route("/deleteevent/<int:eventid>")
 @sqldb
-def deleteevent(c):
-    if request.method == "POST":
-        event_id = request.form.get("eventid")
+def deleteevent(c, eventid):
+    uname = session.get("username")
+    c.execute("SELECT username FROM eventdetail WHERE eventid=?", (eventid,))
+    fe = c.fetchone()
+    c.execute("SELECT role FROM userdetails WHERE username=?", (uname,))
+    fe2 = c.fetchone()
+    if str(fe) == uname or fe2==str("admin"):
         try:
-            c.execute("DELETE FROM eventdetail WHERE eventid=(?)", event_id)
+            c.execute("DELETE FROM eventdetail WHERE eventid=(?)", (eventid,))
             return redirect(url_for("home"))
         except Exception as e:
             return f"Error: {e}"
-    html_code = """<html><head><title>Delete event</title></head>
-    <body><form onsubmit='/deleteevent' method='POST'>
-    Enter event id to delete: <input type='number' name='eventid'><br><br> <button type='submit'>Delete Event</button></body></html>
-    """
-    return render_template_string(html_code)
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("home"))
 
+@app.route("/save_draft", methods=["POST"])
+@sqldb
+def save_draft(c):
+    field = request.form.get("field")
+    value = request.form.get("value")
+    session[field] = value
+    return "DRAFT"
         
