@@ -52,7 +52,7 @@ def home(c):
         ud = c.execute("SELECT * FROM userdetails WHERE username=?", (currentuname, )).fetchone()
         if ud and ud["role"] == "admin":
             isadmin = True
-    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname), isadmin=isadmin)
+    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin))
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
