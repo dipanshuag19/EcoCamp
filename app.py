@@ -46,7 +46,7 @@ def home(c):
     fv = []
     fi = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description"]
     for x in fi:
-        fv.append(session.get(x))
+        fv.append(session.get(x, ""))
     return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, currentuname=currentuname)
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -119,17 +119,21 @@ def addevent(c):
         event_values = [request.form.get(y) for y in field]
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
         fetchall = check.fetchall()
-        zipped = zip(field, event_values)
         for ab in fetchall:
-                if all(ab[x] == y for x,y in zipped):
+                if all(ab[x] == y for x,y in zip(field, event_values)):
                     return "Event Already Exists"
+                    
         tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
         vals = ", ".join(["?"] * len(event_values))
         c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
-        lastid = c.execute("SELECT eventid from eventdetail ORDER BY eventid DESC LIMIT 1").fetchone()
-        c.execute("DELETE FROM eventreq WHERE eventid=(?)", lastid)
+        lastid = c.execute("SELECT eventid FROM eventdetail ORDER BY eventid DESC LIMIT 1").fetchone()[0]
+        c.execute("DELETE FROM eventreq WHERE eventid=(?)", (lastid, ))
+        c.execute("SELECT events FROM userdetails WHERE username=?", (field[-1], ))
+        fe = c.fetchone()[0] or ""
+        joint = f" {fe} {lastid}"
+        c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, field[-1]))
         checkleft = c.execute("SELECT * FROM eventreq")
-        if checkleft.fetchall():
+        if checkleft.fetchone():
             return redirect(url_for("pendingevents"))
         else:
             return redirect(url_for("home"))
