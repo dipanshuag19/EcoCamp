@@ -272,7 +272,7 @@
       <a class="navlink" data-section="campaigns">Campaigns</a>
       <a class="navlink" data-section="add">Add</a>
       <a class="navlink" data-section="contact">Contact</a>
-      <button class="cta" id="addQuickBtn">+ New Campaign</button>
+      <button class="cta" id="quickAddBtnEco">+ New Campaign</button>
     </nav>
   </div>
 </header>
@@ -294,8 +294,9 @@
         <input type="reset" value="Clear">
       </div>
     </div>
-     
-         <h3 style="text-align: center;">Tree Plantation</h3>
+
+     {% if len(treeplantation) >= 1 %}
+     <h3 style="text-align: center;">Tree Plantation</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc,username in treeplantation %}
          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
@@ -304,11 +305,15 @@
          <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
+         {% if str(username) == currentuname %}
+            <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+         {% endif %}
          </div>
      {% endfor %}
      </div>
+     {% endif %}
 
-
+     {% if len(blooddonation) >= 1 %}
      <h3 style="text-align: center;">Blood Donation</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc,username in blooddonation %}
@@ -318,10 +323,15 @@
          <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
+         {% if str(username) == currentuname %}
+            <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+         {% endif %}
          </div>
      {% endfor %}
      </div>
-     
+     {% endif %}
+
+     {% if len(cleanlinesdrive) >= 1 %}
      <h3 style="text-align: center;">Cleanlines Drive</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc,username in cleanlinesdrive %}
@@ -331,9 +341,13 @@
          <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
+         {% if str(username) == currentuname %}
+            <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+         {% endif %}
          </div>
      {% endfor %}
      </div>
+     {% endif %}
   </div>
 </section>
 
@@ -346,36 +360,21 @@
     </p>
     <div class="main-form">
       <div class="form">
-        <form onsubmit="event.preventDefault();
-               fetch('/addeventreq', {
-                method: 'POST',
-                body: new FormData(this)
-            })
-            .then(r => {
-                if (r.ok) {
-                    return r.text();
-                } else {
-                    throw new Error('Error adding event');
-                }
-            })
-            .then(text => {
-                alert(text); 
-                window.location.href = '/index2';
-            })
-            .catch(err => alert(err.message));">
-         <input type="text" name="eventname" placeholder="Enter Event Name (Max 50 Letters)" maxlength="50" required />
-         <input type="text" name="email" placeholder="Enter Your Email" maxlength="30" required />
-         <input type="text" name="location" placeholder="Enter Event Location (Max 30 Letters)" maxlength="30" required />
-         <input type="text" name="description" placeholder="Enter Event Description (Max 100 Letters)" maxlength="100" required />
+        <form id="addEventForm">
+           <!--["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description"]-->
+         <input type="text" value="{{fvalues[0]}}" name="eventname" placeholder="Enter Event Name (Max 50 Letters)" maxlength="50" required />
+         <input type="text" value="{{fvalues[1]}}" name="email" placeholder="Enter Your Email" maxlength="30" required />
+         <input type="text" value="{{fvalues[5]}}" name="location" placeholder="Enter Event Location (Max 30 Letters)" maxlength="30" required />
+         <input type="text" value="{{fvalues[7]}}" name="description" placeholder="Enter Event Description (Max 100 Letters)" maxlength="100" required />
          <select name="category" required>
-             <option value="" disabled selected>Select a category</option>
-             <option value="Tree Plantation">Tree Plantation</option>
-             <option value="Blood Donation">Blood Donation</option>
-             <option value="Cleanlines Drive">Cleanlines Drive</option>
-         </select><br>
-         Event Date: <input type="date" name="eventdate" placeholder="Enter Event Date" maxlength="8" required /><br>
-         Event Start Time: <input type="time" name="starttime" placeholder="Enter Event Start Time" required /><br>
-         Event End Time: <input type="time" name="endtime" placeholder="Enter Event End Time" required />
+             <option value="" disabled {% if not fvalues[6] %}selected{% endif %}>Select a category</option>
+             <option value="Tree Plantation" {% if fvalues[6] == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
+             <option value="Blood Donation" {% if fvalues[6] == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
+             <option value="Cleanlines Drive" {% if fvalues[6] == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
+         </select> <br>
+         Event Date: <input type="date" value="{{fvalues[4]}}" name="eventdate" placeholder="Enter Event Date" maxlength="8" required /><br>
+         Event Start Time: <input type="time" value="{{fvalues[2]}}" name="starttime" placeholder="Enter Event Start Time" required /><br>
+         Event End Time: <input type="time" value="{{fvalues[3]}}" name="endtime" placeholder="Enter Event End Time" required />
         <button class="submit-btn">Submit</button>
         <button class="reset-btn">Reset</button>
          </form>
@@ -400,25 +399,44 @@
 </section>
 
 <script>
-  const navLinks = document.querySelectorAll('.navlink');
-  const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.navlink');
+const sections = document.querySelectorAll('section');
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      sections.forEach(sec => sec.classList.remove('active'));
-      const target = link.getAttribute('data-section');
-      document.getElementById(target).classList.add('active');
-    });
-  });
+function show(id) {
+  navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
+  sections.forEach(s => s.classList.toggle('active', s.id === id));
+}
 
-  document.getElementById('addQuickBtn').addEventListener('click', () => {
-    navLinks.forEach(l => l.classList.remove('active'));
-    document.querySelector('.navlink[data-section="add"]').classList.add('active');
-    sections.forEach(sec => sec.classList.remove('active'));
-    document.getElementById('add').classList.add('active');
-  });
+navLinks.forEach(l => l.onclick = () => show(l.dataset.section));
+quickAddBtnEco.onclick = () => show('add');
+if (location.hash) show(location.hash.slice(1));
+
+addEventForm.onsubmit = e => {
+  e.preventDefault();
+  fetch('/addeventreq', { method: 'POST', body: new FormData(e.target) })
+    .then(r => r.ok ? r.text() : Promise.reject('Error adding event'))
+    .then(t=>
+       t==='Please Login First To Add Event.' ? (alert(t), location='/login'):
+       t==='Event Registered ✅. Kindly wait for approval!' ? (alert(t), location='/index'):
+       alert(t))
+    .catch(alert);
+};
+
+document.querySelectorAll('#addEventForm input, #addEventForm select').forEach(el =>
+  el.addEventListener('change', e => {
+    let fd = new FormData();
+    fd.append('field', el.name);
+    fd.append('value', el.value);
+    fetch('/save_draft', { method: 'POST', body: fd });
+  })
+);
+
+function asktodelete(id) {
+   let askdel = confirm("Are you sure would you like to delete this event?");
+   if (askdel) {
+      window.location.href = "deleteevent/"+id;
+   }
+}
 </script>
 
 </body>
