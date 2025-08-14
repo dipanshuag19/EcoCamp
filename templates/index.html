@@ -295,59 +295,62 @@
       </div>
     </div>
 
-     {% if treeplantation|length >= 1 %}
-     <h3 style="text-align: center;">Tree Plantation</h3>
-     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in treeplantation %}
-         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4 style="text-align: center;">{{ename}}</h4>
-         <p>{{desc}}</p>
-         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
-         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
-         <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         {% if username == c_user or isadmin %}
-            <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-         {% endif %}
-         </div>
-     {% endfor %}
-     </div>
-     {% endif %}
+      {% if treeplantation|length >= 1 %}
+      <h3 style="text-align: center;">Tree Plantation</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+      {% for e in treeplantation %}
+          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
+              <h4 style="text-align: center;">{{ e.eventname }}</h4>
+              <p>{{ e.description }}</p>
+              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
+              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
+              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
+              {% if e.username == c_user or isadmin %}
+                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+              {% endif %}
+          </div>
+      {% endfor %}
+      </div>
+      {% endif %}
+      
+      
+      {% if blooddonation|length >= 1 %}
+      <h3 style="text-align: center;">Blood Donation</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+      {% for e in blooddonation %}
+          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
+              <h4 style="text-align: center;">{{ e.eventname }}</h4>
+              <p>{{ e.description }}</p>
+              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
+              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
+              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
+              {% if e.username == c_user or isadmin %}
+                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+              {% endif %}
+          </div>
+      {% endfor %}
+      </div>
+      {% endif %}
+      
+      
+      {% if cleanlinesdrive|length >= 1 %}
+      <h3 style="text-align: center;">Cleanlines Drive</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+      {% for e in cleanlinesdrive %}
+          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
+              <h4 style="text-align: center;">{{ e.eventname }}</h4>
+              <p>{{ e.description }}</p>
+              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
+              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
+              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
+              {% if e.username == c_user or isadmin %}
+                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+              {% endif %}
+          </div>
+      {% endfor %}
+      </div>
+      {% endif %}
 
-     {% if blooddonation|length >= 1 %}
-     <h3 style="text-align: center;">Blood Donation</h3>
-     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in blooddonation %}
-         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4 style="text-align: center;">{{ename}}</h4>
-         <p>{{desc}}</p>
-         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
-         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
-         <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         {% if username == c_user or isadmin %}
-            <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-         {% endif %}
-         </div>
-     {% endfor %}
-     </div>
-     {% endif %}
-
-     {% if cleanlinesdrive|length >= 1 %}
-     <h3 style="text-align: center;">Cleanlines Drive</h3>
-     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-     {% for eid,ename,email,stime,etime,edate,location,category,desc,username in cleanlinesdrive %}
-         <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-         <h4 style="text-align: center;">{{ename}}</h4>
-         <p>{{desc}}</p>
-         <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
-         <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
-         <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         {% if username == c_user or isadmin  %}
-            <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-         {% endif %}
-         </div>
-     {% endfor %}
-     </div>
-     {% endif %}
   </div>
 </section>
 
