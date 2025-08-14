@@ -1,5 +1,3 @@
-# https://dipanshuag19.dipanshuag19.publicvm.com/
-
 from flask import Flask, request, redirect, url_for, render_template, render_template_string, flash, session
 #import sqlite3 as sq
 import os,uuid
@@ -71,8 +69,10 @@ def signup(c):
             return render_template("signup.html", wrongpass=True, password=password, username=username)
         else:
             c.execute("INSERT INTO userdetails(username, password, name) VALUES(?, ?, ?)", (username, password, name))
+            session.permanent = True
             session["username"] = username
             session["name"] = name
+            print("DEBUG after singup:", dict(session))
             return redirect(url_for("home"))
     return render_template("signup.html")
 
@@ -89,8 +89,10 @@ def login(c):
         elif password != fetched["password"]:
             return render_template("signup.html", loginwrongpass=True, loginuname=username)
         else:
-            session["username"] = username
+            session.permanent = True
+            session["username"] = fetched["username"]
             session["name"] = fetched["name"]
+            print("DEBUG after login:", dict(session))
             return redirect(url_for("home"))
     return render_template("signup.html")
         
