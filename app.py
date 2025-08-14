@@ -47,13 +47,16 @@ def home(c):
     fi = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description"]
     for x in fi:
         fv.append(session.get(x, ""))
-    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, currentuname=currentuname)
+    ud = c.execute("SELECT * FROM userdetails WHERE username=?", (currentuname, )).fetchone()
+    if edetailslist["username"] == currentuname or ud["role"]=="admin":
+        owneroradmin = True
+    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, owneroradmin=owneroradmin)
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
 def signup(c):
     if request.method == "POST":
-        username = request.form.get("username")
+        username = request.form.get("username").lower()
         password = request.form.get("password")
         cpassword = request.form.get("cpassword")
         name = request.form.get("nameofuser")
@@ -73,7 +76,7 @@ def signup(c):
 @sqldb
 def login(c):
     if request.method == "POST":
-        username = request.form.get("loginusername")
+        username = request.form.get("loginusername").lower()
         password = request.form.get("loginpassword")
         c.execute("SELECT * FROM userdetails where username=?", (username,))
         fetched = c.fetchone()
@@ -194,6 +197,7 @@ def deleteevent(c, eventid):
 @app.route("/logout")
 def logout():
     session.pop('username')
+    session.pop('name')
     return redirect(url_for("home"))
 
 @app.route("/save_draft", methods=["POST"])
