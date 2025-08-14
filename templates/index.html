@@ -295,7 +295,7 @@
       </div>
     </div>
 
-     {% if len(treeplantation) >= 1 %}
+     {% if treeplantation|length >= 1 %}
      <h3 style="text-align: center;">Tree Plantation</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc,username in treeplantation %}
@@ -313,7 +313,7 @@
      </div>
      {% endif %}
 
-     {% if len(blooddonation) >= 1 %}
+     {% if blooddonation|length >= 1 %}
      <h3 style="text-align: center;">Blood Donation</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc,username in blooddonation %}
@@ -331,7 +331,7 @@
      </div>
      {% endif %}
 
-     {% if len(cleanlinesdrive) >= 1 %}
+     {% if cleanlinesdrive|length >= 1 %}
      <h3 style="text-align: center;">Cleanlines Drive</h3>
      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
      {% for eid,ename,email,stime,etime,edate,location,category,desc,username in cleanlinesdrive %}
