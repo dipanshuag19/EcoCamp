@@ -33,7 +33,7 @@ def home(c):
     currentuname = session.get("username")
     print("Welcome", user)
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
-    c.execute("SELECT * FROM eventdetail")
+    query = c.execute("SELECT * FROM eventdetail")
     edetailslist = c.fetchall()
     treeplant, blooddonate, cleandrive = [], [], []
     for x in edetailslist:
@@ -48,9 +48,7 @@ def home(c):
     for x in fi:
         fv.append(session.get(x, ""))
     ud = c.execute("SELECT * FROM userdetails WHERE username=?", (currentuname, )).fetchone()
-    if edetailslist["username"] == currentuname or ud["role"]=="admin":
-        owneroradmin = True
-    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, owneroradmin=owneroradmin)
+    return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname))
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
