@@ -417,7 +417,7 @@ addEventForm.onsubmit = e => {
     .then(r => r.ok ? r.text() : Promise.reject('Error adding event'))
     .then(t=>
        t==='Please Login First To Add Event.' ? (alert(t), location='/login'):
-       t==='Event Registered ✅. Kindly wait for approval!' ? (alert(t), location='/index'):
+       t==='Event Registered ✅. Kindly wait for approval!' ? (alert(t), location='/'):
        alert(t))
     .catch(alert);
 };
