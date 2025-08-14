@@ -189,11 +189,13 @@ def pendingevents(c):
 @sqldb
 def deleteevent(c, eventid):
     uname = session.get("username")
+    if not uname:
+        return "Login First"
     c.execute("SELECT username FROM eventdetail WHERE eventid=?", (eventid,))
     fe = c.fetchone()
     c.execute("SELECT role FROM userdetails WHERE username=?", (uname,))
     fe2 = c.fetchone()
-    if str(fe) == uname or fe2==str("admin"):
+    if fe["username"] == uname or fe2["role"]=="admin":
         try:
             c.execute("DELETE FROM eventdetail WHERE eventid=(?)", (eventid,))
             return redirect(url_for("home"))
@@ -207,11 +209,11 @@ def logout():
     return redirect(url_for("home"))
 
 @app.route("/save_draft", methods=["POST"])
-@sqldb
-def save_draft(c):
+def save_draft():
     field = request.form.get("field")
     value = request.form.get("value")
     if value and value.strip():
+        session.permanent = True
         session[field] = value.strip()
     return "DRAFT"
         
