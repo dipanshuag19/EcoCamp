@@ -305,7 +305,7 @@
          <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         {% if username|string == c_user  %}
+         {% if username == c_user or isadmin %}
             <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
          {% endif %}
          </div>
@@ -323,7 +323,7 @@
          <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         {% if username|string == c_user  %}
+         {% if username == c_user or isadmin %}
             <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
          {% endif %}
          </div>
@@ -341,7 +341,7 @@
          <p><b>Date:</b> {{edate}} <b>Location:</b> {{location}} <br><b>Start Time:</b> {{stime}} <b>End Time:</b> {{etime}}</p>
          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ category }}</small>
          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">  #{{ eid }} </small>
-         {% if username|string == c_user  %}
+         {% if username == c_user or isadmin  %}
             <button onclick="asktodelete({{eid}})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
          {% endif %}
          </div>
