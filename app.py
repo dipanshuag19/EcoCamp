@@ -189,7 +189,7 @@ def deleteevent(c, eventid):
 
 @app.route("/logout")
 def logout():
-    session.clear()
+    session.pop('username')
     return redirect(url_for("home"))
 
 @app.route("/save_draft", methods=["POST"])
@@ -197,6 +197,7 @@ def logout():
 def save_draft(c):
     field = request.form.get("field")
     value = request.form.get("value")
-    session[field] = value
+    if value and value.strip():
+        session[field] = value.strip()
     return "DRAFT"
         
