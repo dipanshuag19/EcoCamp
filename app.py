@@ -126,11 +126,11 @@ def addevent(c):
         tuple_all, tuple_event_values = ", ".join(field), tuple(event_values)
         vals = ", ".join(["?"] * len(event_values))
         c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
-        lastid = c.execute("SELECT eventid FROM eventdetail ORDER BY eventid DESC LIMIT 1").fetchone()[0]
+        lastid = c.execute("SELECT eventid FROM eventdetail ORDER BY eventid DESC LIMIT 1").fetchone()
         c.execute("DELETE FROM eventreq WHERE eventid=(?)", (lastid, ))
         c.execute("SELECT events FROM userdetails WHERE username=?", (field[-1], ))
-        fe = c.fetchone()[0] or ""
-        joint = f" {fe} {lastid}"
+        fe = str(c.fetchone()) or ""
+        joint = f"{fe} {lastid}"
         c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, field[-1]))
         checkleft = c.execute("SELECT * FROM eventreq")
         if checkleft.fetchone():
@@ -205,3 +205,7 @@ def save_draft(c):
         session[field] = value.strip()
     return "DRAFT"
         
+@app.route("/clearsession")
+def clearsession():
+    session.clear()
+    return redirect(url_for("home"))
