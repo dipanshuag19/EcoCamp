@@ -138,8 +138,10 @@ def addevent(c):
 @sqldb
 def addeventreq(c):
     if request.method == "POST":
+        uuname = session.get("username")
         field = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description", "username"] 
         event_values = [request.form.get(y) for y in field]
+        event_values[-1] = uuname
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
         fetchall = check.fetchall()
         for ab in fetchall:
@@ -151,13 +153,13 @@ def addeventreq(c):
                 if all(ab[x] == y for x,y in zip(field, event_values)):
                     return "Event Already Submitted! Please Wait For Approval"
 
-        uuname = session.get("username")
         efields = ", ".join(field)
         vals = ", ".join(["?"] * len(event_values))
         if not uuname:
             return "Please Login First To Add Event."
-        event_values[-1] = uuname
         c.execute(f"INSERT INTO eventreq({efields}) VALUES ({vals})", tuple(event_values))
+        for x in field:
+            session.pop(x)
         return "Event Registered ✅. Kindly wait for approval!"
 
 @app.route("/pendingevents", methods=["GET", "POST"])
