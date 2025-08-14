@@ -25,6 +25,8 @@ def sqldb(function):
 @app.route("/")
 @sqldb
 def home(c):
+    print("DEBUG session:", dict(session))
+
     user = ""
     if not session.get('name'):
         currentuser = "User"
