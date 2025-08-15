@@ -8,49 +8,43 @@
 
 {% for eid, ename, email, stime, etime, edate, elocation, category, desc, uname in pendingevents %}
 <form action="/addevent" method="POST">
-    <input type="hidden" name="eventid" value="{{eid}}">
     
+    Event ID:
+    <input type="number" name="eventid" value="{{eid}}" disabled><br>
     Event Name: 
     <input type="text" name="eventname" value="{{ename}}" maxlength="50" required><br>
-    
     Email:
     <input type="email" name="email" value="{{email}}" maxlength="30" required><br>
-    
     Location:
     <input type="text" name="location" value="{{elocation}}" maxlength="30" required><br>
-    
     Description:
     <input type="text" name="description" value="{{desc}}" maxlength="100" required><br>
-    
     Username:
     <input type="text" name="username" value="{{uname}}" maxlength="100" required><br>
-    
     Category:
     <select name="category" required>
         <option value="Tree Plantation" {% if category == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
         <option value="Blood Donation" {% if category == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
         <option value="Cleanlines Drive" {% if category == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
     </select><br>
-    
     Event Date:
     <input type="date" name="eventdate" value="{{edate}}" required><br>
-    
     Event Start Time:
-    <input type="time" name="starttime" value="{{stime}}" required><br>
-    
+    <input type="time" name="starttime" value="{{stime}}" required><br> 
     Event End Time:
     <input type="time" name="endtime" value="{{etime}}" required><br>
-    
     <button type="submit">Submit</button>
+    <button type="button" onclick="declineevent({{eid}})">Decline</button>
 </form>
-
-<!-- Decline form -->
-<form action="/declineevent" method="POST" style="display:inline;">
-    <input type="hidden" name="eventid" value="{{eid}}">
-    <button type="submit">Decline</button>
-</form>
-<hr>
 {% endfor %}
-
+    
+<script>
+    function declineevent(eventid) {
+        let okk = prompt("Enter the reason to decline in short: ")
+        if (okk) {
+            window.location.href = "/decline_event/"+eventid ;
+        }
+    }
+</script>
 </body>
 </html>
