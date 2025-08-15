@@ -140,7 +140,7 @@ def addevent(c):
         c.execute("SELECT events FROM userdetails WHERE username=?", (field[-1], ))
         fe = str(c.fetchone()) or ""
         joint = f"{fe} {lastid}"
-        c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, field[-1]))
+        c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, event_values[-1]))
         checkleft = c.execute("SELECT * FROM eventreq")
         if checkleft.fetchone():
             return redirect(url_for("pendingevents"))
@@ -191,9 +191,9 @@ def deleteevent(c, eventid):
     uname = session.get("username")
     if not uname:
         return "Login First"
-    c.execute("SELECT username FROM eventdetail WHERE eventid=?", (eventid,))
+    c.execute("SELECT * FROM eventdetail WHERE eventid=?", (eventid,))
     fe = c.fetchone()
-    c.execute("SELECT role FROM userdetails WHERE username=?", (uname,))
+    c.execute("SELECT * FROM userdetails WHERE username=?", (uname,))
     fe2 = c.fetchone()
     if fe["username"] == uname or fe2["role"]=="admin":
         try:
@@ -216,6 +216,23 @@ def save_draft():
         session.permanent = True
         session[field] = value.strip()
     return "DRAFT"
+
+@app.route("/decline_event/<int:eventid>")
+@sqldb
+def decline_event(c, eventid):
+    u = session.get("username")
+    if u:
+        c.execute("SELECT * FROM userdetails WHERE username=?", (u, ))
+        f = c.fetchone()
+        if f["role"] == "admin":
+            c.execute("DELETE FROM eventreq WHERE id=?", (eventid, ))
+            seq = c.execute("SELECT * FROM sqlite_sequence WHERE name=?", ("eventreq",)).fetchone()
+            c.execute("UPDATE sqlite_sequence SET seq=? WHERE name=?", (seq["seq"], "eventdetail"))
+            
+    if c.execute("SELECT eventid FROM eventreq").fetchone():
+        return redirect(url_for("pendingevents"))
+    else:
+        return redirect(url_for("home"))
         
 @app.route("/clearsession")
 def clearsession():
