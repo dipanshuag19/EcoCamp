@@ -172,17 +172,25 @@ def addeventreq(c):
             return "Please Login First To Add Event."
         c.execute(f"INSERT INTO eventreq({efields}) VALUES ({vals})", tuple(event_values))
         for x in field:
-            session.pop(x)
+            if x != "username":
+                session.pop(x)
         return "Event Registered ✅. Kindly wait for approval!"
 
 @app.route("/pendingevents", methods=["GET", "POST"])
 @sqldb
 def pendingevents(c):
-    c.execute("SELECT * FROM eventreq")
-    allpending = c.fetchall()
-    if not allpending:
-        return "No Events Pending For Approval"
-    return render_template("pendingevents.html", pendingevents=allpending)
+    uname = session.get("username")
+    if not uname:
+        return "Login First"
+    f = c.execute("SELECT * FROM userdetails WHERE username=?", (uname, )).fetchone()
+    if f["role"] == "admin":
+        c.execute("SELECT * FROM eventreq")
+        allpending = c.fetchall()
+        if not allpending:
+            return "No Events Pending For Approval"
+        return render_template("pendingevents.html", pendingevents=allpending)
+    else:
+        return redirect(url_for("home"))
         
 
 @app.route("/deleteevent/<int:eventid>")
