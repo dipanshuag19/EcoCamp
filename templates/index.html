@@ -254,6 +254,53 @@
     font-size: 13px;
     color: var(--muted);
   }
+  .main-h{
+    height: 60vh;
+    width: 80vw;
+    display: flex;
+    border: 1px solid black;
+  }
+  .main-h div{
+    border: 1px solid black;
+    width: 50%;
+  }
+
+  /* Right box login form styling */
+  .login-form {
+    flex-direction: column;
+    padding: 40px;
+    gap: 15px;
+  }
+
+  .login-form input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+
+  .login-form input:focus {
+    border-color: #2cbe8d;
+    box-shadow: 0 0 5px rgba(44, 190, 141, 0.4);
+  }
+
+  .login-form button {
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    background: #2cbe8d;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s ease;
+  }
+
+  .login-form button:hover {
+    background: #249e73;
+   
 </style>
 </head>
 <body>
@@ -280,6 +327,14 @@
 <section id="home" class="active">
   <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
   <p>Making the world greener, one campaign at a time.</p>
+  <div class="main-h">
+    <div>Left Box</div>
+  <div class="login-form">
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <button>Login</button>
+  </div>
+  </div>
 </section>
 
 <section id="campaigns">
