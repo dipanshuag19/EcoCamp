@@ -233,7 +233,7 @@ def decline_event(c, eventid):
         c.execute("SELECT * FROM userdetails WHERE username=?", (u, ))
         f = c.fetchone()
         if f["role"] == "admin":
-            c.execute("DELETE FROM eventreq WHERE id=?", (eventid, ))
+            c.execute("DELETE FROM eventreq WHERE eventid=?", (eventid, ))
             seq = c.execute("SELECT * FROM sqlite_sequence WHERE name=?", ("eventreq",)).fetchone()
             c.execute("UPDATE sqlite_sequence SET seq=? WHERE name=?", (seq["seq"], "eventdetail"))
             
