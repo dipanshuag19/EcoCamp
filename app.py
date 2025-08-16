@@ -141,8 +141,12 @@ def addevent(c):
         lastid = c.execute("SELECT eventid FROM eventdetail ORDER BY eventid DESC LIMIT 1").fetchone()
         c.execute("DELETE FROM eventreq WHERE eventid=(?)", lastid)
         uud = c.execute("SELECT events FROM userdetails WHERE username=?", (field[-1], )).fetchone()
-        fe = "" if uud is None else uud["events"]
-        joint = f"{fe} {lastid['eventid']}"
+        if not uud or not uud["events"]:
+            fe = []
+        else:
+            fe = uud["events"].split()
+        fe.append(str(lastid["eventid"]))
+        joint = " ".join(fe)
         c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, event_values[-1]))
         checkleft = c.execute("SELECT * FROM eventreq")
         if checkleft.fetchone():
@@ -209,9 +213,17 @@ def deleteevent(c, eventid):
     if fe["username"] == uname or fe2["role"]=="admin":
         try:
             c.execute("DELETE FROM eventdetail WHERE eventid=(?)", (eventid,))
+            ok = c.execute("SELECT events FROM userdetails WHERE username=?", (uname, )).fetchone()
+            ev = ok["events"].split(" ")
+            if str(eventid) in ev:
+                ev.remove(str(eventid))
+                repl = " ".join(ev)
+                c.execute("UPDATE userdetails SET events=? WHERE username=?", (repl, uname))
             return redirect(url_for("home"))
         except Exception as e:
             return f"Error: {e}"
+    else:
+        return redirect(url_for("home"))
 
 @app.route("/logout")
 def logout():
