@@ -328,7 +328,10 @@
   <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
   <p>Making the world greener, one campaign at a time.</p>
   <div class="main-h">
-    <div>Left Box</div>
+    <div>{%if isadmin %}
+    <iframe src="pendingevents.html"></iframe>
+       {% endif %}
+    </div>
   <div class="login-form">
     <input type="text" placeholder="Username">
     <input type="password" placeholder="Password">
