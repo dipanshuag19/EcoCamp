@@ -505,8 +505,22 @@ const navLinks = document.querySelectorAll('.navlink');
 const sections = document.querySelectorAll('section');
 
 function show(id) {
-  navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
-  sections.forEach(s => s.classList.toggle('active', s.id === id));
+  // Find the section to show
+  const target = document.getElementById(id);
+  if (!target) return;
+
+  // Determine the parent container (document.body for top-level, or nearest parent <div>/<section>)
+  const container = target.parentElement;
+
+  // Handle navlink highlighting only within the same container
+  container.querySelectorAll('.navlink').forEach(l =>
+    l.classList.toggle('active', l.dataset.section === id)
+  );
+
+  // Show/hide only sections that are siblings inside the same container
+  container.querySelectorAll(':scope > section').forEach(s =>
+    s.classList.toggle('active', s.id === id)
+  );
 }
 
 navLinks.forEach(l => l.onclick = () => show(l.dataset.section));
