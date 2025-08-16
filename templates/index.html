@@ -327,46 +327,58 @@
 <section id="home" class="active">
   <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
   <p>Making the world greener, one campaign at a time.</p>
+  
   <div class="main-h">
-    <div>{% if isadmin %}
-      <iframe src="/pendingevents"></iframe>
-    {% endif %}</div>
-
-    <!-- Nested tabs inside Home -->
     <div>
-      <button class="navlink" data-section="home-main">Home</button>
-      <button class="navlink" data-section="login">Login</button>
-      <button class="navlink" data-section="signup">Signup</button>
+      {% if isadmin %}
+        <iframe src="/pendingevents"></iframe>
+      {% endif %}
+    </div>
+
+    <!-- Top-level tabs inside Home -->
+    <div>
+      <button class="navlink" data-section="home-tab">Home</button>
+      <button class="navlink" data-section="account-tab">Account</button>
     </div>
 
     <!-- Nested Home content -->
-    <section id="home-main" class="active">
+    <section id="home-tab" class="active">
       <p>Welcome to Home content!</p>
     </section>
 
-    <!-- Nested Login content -->
-    <section id="login">
-      <form class="login-form">
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <button type="submit">Login</button>
-      </form>
-    </section>
+    <!-- Nested Account content -->
+    <section id="account-tab">
+      <!-- Account mini-tabs -->
+      <div>
+        <button class="navlink" data-section="login">Login</button>
+        <button class="navlink" data-section="signup">Signup</button>
+      </div>
 
-    <!-- Nested Signup content -->
-    <section id="signup">
-      <form class="login-form">
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <input type="cpassword" placeholder="Confirm Password">
-        <input type="text" placeholder="Full Name">
-        <input type="text" placeholder="Email">
-        <button type="submit">Sign Up</button>
-      </form>
+      <!-- Login form -->
+      <section id="login">
+        <form class="login-form">
+          <input type="text" placeholder="Username">
+          <input type="password" placeholder="Password">
+          <button type="submit">Login</button>
+        </form>
+      </section>
+
+      <!-- Signup form -->
+      <section id="signup">
+        <form class="login-form">
+          <input type="text" placeholder="Username">
+          <input type="password" placeholder="Password">
+          <input type="cpassword" placeholder="Confirm Password">
+          <input type="text" placeholder="Full Name">
+          <input type="text" placeholder="Email">
+          <button type="submit">Sign Up</button>
+        </form>
+      </section>
     </section>
 
   </div>
 </section>
+
 
 
 <section id="campaigns">
