@@ -503,17 +503,17 @@
 <script>
 const navLinks = document.querySelectorAll('.navlink');
 const sections = document.querySelectorAll('section');
-const nestedSections = document.querySelectorAll('#home .main-h section'); // nested under home
+const nestedSections = document.querySelectorAll('#home .main-h section');
 
 function show(id) {
-  navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
-  sections.forEach(s => s.classList.toggle('active', s.id === id));
-  nestedSections.forEach(s => s.classList.toggle('active', s.id === id));
+  navLinks.forEach(l => l.classList.toggle('active', l.dataset.section===id));
+  sections.forEach(s => s.classList.toggle('active', s.id===id));
+  nestedSections.forEach(s => s.classList.toggle('active', s.id===id));
 }
 
 navLinks.forEach(l => l.onclick = () => show(l.dataset.section));
-quickAddBtnEco.onclick = () => show('add');
-if (location.hash) show(location.hash.slice(1));
+document.getElementById('quickAddBtnEco').onclick = () => show('add');
+if(location.hash) show(location.hash.slice(1));
 
 addEventForm.onsubmit = e => {
   e.preventDefault();
