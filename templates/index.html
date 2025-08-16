@@ -333,31 +333,40 @@
        {% endif %}
     </div>
      <div>
-  <details style="display:inline-block; margin-right:10px;">
-    <summary>Home</summary>
-  </details>
-  <details style="display:inline-block; margin-right:10px;">
-    <summary>Account</summary>
-    <details style="display:inline-block; margin-right:10px;">
-      <summary>Login</summary>
-      <form class="login-form">
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <button>Login</button>
-      </form>
-    </details>
-    <details style="display:inline-block; margin-right:10px;">
-      <summary>Signup</summary>
-      <form class="login-form">
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <input type="cpassword" placeholder="Confirm Password">
-        <input type="text" placeholder="Full Name">
-        <input type="text" placeholder="Email">
-        <button>Sign Up</button>
-      </form>
-    </details>
-  </details>
+  <nav>
+  <button class="navlink" data-section="home">Home</button>
+  <button class="navlink" data-section="login">Login</button>
+  <button class="navlink" data-section="signup">Signup</button>
+</nav>
+
+<section id="home" class="active">
+  <p>Welcome to Home</p>
+</section>
+
+<section id="login">
+  <form class="login-form">
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <button type="submit">Login</button>
+  </form>
+</section>
+
+<section id="signup">
+  <form class="signup-form">
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <input type="cpassword" placeholder="Confirm Password">
+    <input type="text" placeholder="Full Name">
+    <input type="text" placeholder="Email">
+    <button type="submit">Sign Up</button>
+  </form>
+</section>
+
+<style>
+  section { display: none; }
+  section.active { display: block; }
+</style>
+
 </div>
 
   </div>
