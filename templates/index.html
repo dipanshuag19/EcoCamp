@@ -333,29 +333,33 @@
        {% endif %}
     </div>
      <div>
-        <button>Home</button>
-        <details><summary>Account</summary><br>
-        <details>
-           <summary>Login</summary>
-           <form class="login-form">
-             <input type="text" placeholder="Username">
-             <input type="password" placeholder="Password">
-             <button>Login</button>
-           </form>
-        </details>
-           <details>
-              <summary>Signup</summary>
-              <form class="login-form">
-              <input type="text" placeholder="Username">
-              <input type="password" placeholder="Password">
-              <input type="cpassword" placeholder="Confirm Password">
-              <input type="text" placeholder="Full Name">
-              <input type="text" placeholder="Email">
-              <button>Sign Up</button>
-           </form>
-           </details>
-        </details>
-     </div>
+  <details style="display:inline-block; margin-right:10px;">
+    <summary>Home</summary>
+  </details>
+  <details style="display:inline-block; margin-right:10px;">
+    <summary>Account</summary>
+    <details style="display:inline-block; margin-right:10px;">
+      <summary>Login</summary>
+      <form class="login-form">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button>Login</button>
+      </form>
+    </details>
+    <details style="display:inline-block; margin-right:10px;">
+      <summary>Signup</summary>
+      <form class="login-form">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <input type="cpassword" placeholder="Confirm Password">
+        <input type="text" placeholder="Full Name">
+        <input type="text" placeholder="Email">
+        <button>Sign Up</button>
+      </form>
+    </details>
+  </details>
+</div>
+
   </div>
 </section>
 
