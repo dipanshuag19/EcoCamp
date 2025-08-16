@@ -140,7 +140,7 @@ def addevent(c):
         c.execute(f"INSERT INTO eventdetail({tuple_all}) VALUES ({vals})", tuple_event_values)
         lastid = c.execute("SELECT eventid FROM eventdetail ORDER BY eventid DESC LIMIT 1").fetchone()
         c.execute("DELETE FROM eventreq WHERE eventid=(?)", lastid)
-        uud = c.execute("SELECT events FROM userdetails WHERE username=?", (field[-1], )).fetchone()
+        uud = c.execute("SELECT events FROM userdetails WHERE username=?", (event_values[-1], )).fetchone()
         if not uud or not uud["events"]:
             fe = []
         else:
