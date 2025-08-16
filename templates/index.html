@@ -1,13 +1,10 @@
 <!doctype html>
+
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>EcoCamp — Greener Tomorrow</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
+<title>EcoCamp — Greener Tomorrow</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet"><style>
    :root{
     --bg1: #002c2b;
     --bg2: #066d6b;
@@ -319,11 +316,8 @@
      border-radius: 8px;
      padding: 15px;
 }
-</style>
-</head>
-<body>
-
-<header class="navbar">
+</style></head>
+<body><header class="navbar">
   <div class="nav-inner">
     <div class="brand" title="EcoCamp">
       <div class="logo">EC</div>
@@ -340,68 +334,59 @@
       <button class="cta" id="quickAddBtnEco">+ New Campaign</button>
     </nav>
   </div>
-</header>
-
-<section id="home" class="active">
+</header><section id="home" class="active">
   <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
-  <p>Making the world greener, one campaign at a time.</p>
-  
-  <div class="main-h">
+  <p>Making the world greener, one campaign at a time.</p>  <div class="main-h">
     <div>
       {% if isadmin %}
         <iframe src="/pendingevents"></iframe>
       {% endif %}
-    </div>
-
-    <!-- Right side with tabs + content stacked -->
-    <div class="nested-container">
-      <!-- Top-level tabs inside Home -->
-      <div class="nested-tabs">
-        <button class="navlink active" data-section="home-tab">Home</button>
-        <button class="navlink" data-section="account-tab">Account</button>
-      </div>
-
-      <!-- Nested Home content -->
-      <section id="home-tab" class="active">
-        <p>Welcome to Home content!</p>
-      </section>
-
-      <!-- Nested Account content -->
-      <section id="account-tab">
-        <!-- Account mini-tabs -->
-        <div class="nested-tabs">
-          <button class="navlink active" data-section="login">Login</button>
-          <button class="navlink" data-section="signup">Signup</button>
-        </div>
-
-        <!-- Login form -->
-        <section id="login" class="active">
-          <form class="login-form">
-            <input type="text" placeholder="Username">
-            <input type="password" placeholder="Password">
-            <button type="submit">Login</button>
-          </form>
-        </section>
-
-        <!-- Signup form -->
-        <section id="signup">
-          <form class="login-form">
-            <input type="text" placeholder="Username">
-            <input type="password" placeholder="Password">
-            <input type="cpassword" placeholder="Confirm Password">
-            <input type="text" placeholder="Full Name">
-            <input type="text" placeholder="Email">
-            <button type="submit">Sign Up</button>
-          </form>
-        </section>
-      </section>
-    </div>
+    </div><!-- Right side with tabs + content stacked -->
+<div class="nested-container">
+  <!-- Top-level tabs inside Home -->
+  <div class="nested-tabs">
+    <button class="navlink active" data-section="home-tab">Home</button>
+    <button class="navlink" data-section="account-tab">Account</button>
   </div>
-</section>
 
+  <!-- Nested Home content -->
+  <section id="home-tab" class="active">
+    <p>Welcome to Home content!</p>
+  </section>
 
+  <!-- Nested Account content -->
+  <section id="account-tab">
+    <!-- Account mini-tabs -->
+    <div class="nested-tabs">
+      <button class="navlink active" data-section="login">Login</button>
+      <button class="navlink" data-section="signup">Signup</button>
+    </div>
 
-<section id="campaigns">
+    <!-- Login form -->
+    <section id="login" class="active">
+      <form class="login-form">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button type="submit">Login</button>
+      </form>
+    </section>
+
+    <!-- Signup form -->
+    <section id="signup">
+      <form class="login-form">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <input type="cpassword" placeholder="Confirm Password">
+        <input type="text" placeholder="Full Name">
+        <input type="text" placeholder="Email">
+        <button type="submit">Sign Up</button>
+      </form>
+    </section>
+  </section>
+</div>
+
+  </div>
+</section><section id="campaigns">
   <div class="main-ac">
     <div class="m-a-h">
       <div>
@@ -412,68 +397,64 @@
         <input type="search" placeholder="Search by title or tag">
         <input type="reset" value="Clear">
       </div>
-    </div>
-
-      {% if treeplantation|length >= 1 %}
-      <h3 style="text-align: center;">Tree Plantation</h3>
-      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-      {% for e in treeplantation %}
-          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-              <h4 style="text-align: center;">{{ e.eventname }}</h4>
-              <p>{{ e.description }}</p>
-              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
-              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
-              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
-              {% if e.username == c_user or isadmin %}
-                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-              {% endif %}
-          </div>
-      {% endfor %}
+    </div>{% if treeplantation|length >= 1 %}
+  <h3 style="text-align: center;">Tree Plantation</h3>
+  <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+  {% for e in treeplantation %}
+      <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
+          <h4 style="text-align: center;">{{ e.eventname }}</h4>
+          <p>{{ e.description }}</p>
+          <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
+          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
+          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
+          {% if e.username == c_user or isadmin %}
+              <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+          {% endif %}
       </div>
-      {% endif %}
-      
-      
-      {% if blooddonation|length >= 1 %}
-      <h3 style="text-align: center;">Blood Donation</h3>
-      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-      {% for e in blooddonation %}
-          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-              <h4 style="text-align: center;">{{ e.eventname }}</h4>
-              <p>{{ e.description }}</p>
-              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
-              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
-              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
-              {% if e.username == c_user or isadmin %}
-                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-              {% endif %}
-          </div>
-      {% endfor %}
+  {% endfor %}
+  </div>
+  {% endif %}
+  
+  
+  {% if blooddonation|length >= 1 %}
+  <h3 style="text-align: center;">Blood Donation</h3>
+  <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+  {% for e in blooddonation %}
+      <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
+          <h4 style="text-align: center;">{{ e.eventname }}</h4>
+          <p>{{ e.description }}</p>
+          <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
+          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
+          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
+          {% if e.username == c_user or isadmin %}
+              <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+          {% endif %}
       </div>
-      {% endif %}
-      
-      
-      {% if cleanlinesdrive|length >= 1 %}
-      <h3 style="text-align: center;">Cleanlines Drive</h3>
-      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-      {% for e in cleanlinesdrive %}
-          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-              <h4 style="text-align: center;">{{ e.eventname }}</h4>
-              <p>{{ e.description }}</p>
-              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
-              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
-              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
-              {% if e.username == c_user or isadmin %}
-                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-              {% endif %}
-          </div>
-      {% endfor %}
+  {% endfor %}
+  </div>
+  {% endif %}
+  
+  
+  {% if cleanlinesdrive|length >= 1 %}
+  <h3 style="text-align: center;">Cleanlines Drive</h3>
+  <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+  {% for e in cleanlinesdrive %}
+      <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
+          <h4 style="text-align: center;">{{ e.eventname }}</h4>
+          <p>{{ e.description }}</p>
+          <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
+          <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
+          <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
+          {% if e.username == c_user or isadmin %}
+              <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
+          {% endif %}
       </div>
-      {% endif %}
+  {% endfor %}
+  </div>
+  {% endif %}
 
   </div>
-</section>
-
-<section id="add">
+</section><section id="add">
   <div class="main-cc">
     <h1 class="cc-h1">Create Campaign</h1>
     <p class="cc-p">
@@ -513,14 +494,10 @@
       </div>
     </div>
   </div>
-</section>
-
-<section id="contact">
+</section><section id="contact">
   <h1>Contact Us</h1>
   <p>Email: hello@ecocamp.org</p>
-</section>
-
-<script>
+</section><script>
 const navLinks = document.querySelectorAll('.navlink');
 const sections = document.querySelectorAll('section');
 
@@ -573,7 +550,5 @@ function asktodelete(id) {
       window.location.href = "deleteevent/"+id;
    }
 }
-</script>
-
-</body>
+</script></body>
 </html>
