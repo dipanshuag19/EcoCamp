@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, render_template, render_template_string, flash, session
+from flask import Flask, request, redirect, url_for, render_template, render_template_string, flash, session, jsonify
 #import sqlite3 as sq
 import os,uuid
 import sqlitecloud as sq
@@ -52,6 +52,9 @@ def home(c):
         ud = c.execute("SELECT * FROM userdetails WHERE username=?", (currentuname, )).fetchone()
         if ud and ud["role"] == "admin":
             isadmin = True
+
+    if request.args.get("api"):
+        return jsonify({"user": currentuser, "username": currentuname, "is_admin": isadmin, "events": edetailslist, "favorites": fv})
     return render_template("index.html",treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin))
 
 @app.route("/signup", methods=["GET", "POST"])
