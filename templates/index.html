@@ -352,7 +352,13 @@
         <iframe src="/pendingevents"></iframe>
       {% endif %}
     </div>
-     <div class="login-form">
+     
+     <div>
+     <button>Home</button>
+     <button onclick="document.getElementById('myDiv').style.display = document.getElementById('loginpage').style.display==='none'?'block':'none'">Account</button>
+     </div>
+     
+     <div class="login-form" id="loginpage" style="display:none; padding:10px; background:lightblue;">
         <form>
             <input type="text" placeholder="Username">
             <input type="password" placeholder="Password">
