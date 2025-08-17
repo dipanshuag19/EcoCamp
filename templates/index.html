@@ -346,7 +346,7 @@
   <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
   <p>Making the world greener, one campaign at a time.</p>
   
-  <div class="main-h">
+  <div class="main-h" style="display:flex; flex-direction:column; gap:10px;">
     <div>
       {% if isadmin %}
         <iframe src="/pendingevents"></iframe>
@@ -357,17 +357,20 @@
       <button onclick="document.getElementById('2ndhome').style.display='block'; document.getElementById('loginpage').style.display='none';">Home</button>
       <button onclick="document.getElementById('2ndhome').style.display='none'; document.getElementById('loginpage').style.display='block';">Account</button>
     </div>
+    
+    <!-- NOW inside main-h -->
+    <h1 id="2ndhome" style="display:block; padding:10px;">
+      Active Campaigns: {{ edetailslist|length }}
+    </h1>
+
+    <form class="login-form" id="loginpage" style="display:none; padding:10px;">
+      <input type="text" placeholder="Username">
+      <input type="password" placeholder="Password">
+      <button type="submit">Login</button>
+    </form>
   </div>
-
-  <!-- This part will be stacked below -->
-  <h1 id="2ndhome" style="display:block; padding:10px;">Active Campaigns: {{ edetailslist|length }}</h1>
-
-  <form class="login-form" id="loginpage" style="display:none; padding:10px;">
-    <input type="text" placeholder="Username">
-    <input type="password" placeholder="Password">
-    <button type="submit">Login</button>
-  </form>
 </section>
+
 
 
 
