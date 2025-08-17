@@ -346,38 +346,46 @@
   <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
   <p>Making the world greener, one campaign at a time.</p>
   
-  <div class="main-h">
-  <div>
+  <div class="main-h" style="display:flex; gap:20px;">
+  <!-- Left Box -->
+  <div style="flex:1; border:1px solid black; padding:10px;">
     {% if isadmin %}
       <iframe src="/pendingevents"></iframe>
     {% endif %}
   </div>
 
-  <div>
-    <!-- Home button shows heading and hides login -->
-    <button onclick="document.getElementById('2ndhome').style.display='block'; 
-                     document.getElementById('loginpage').style.display='none';">
-      Home
-    </button>
+  <!-- Right Box -->
+  <div style="flex:2; border:1px solid black; padding:10px;">
+    <!-- Buttons -->
+    <div>
+      <button onclick="document.getElementById('homecontent').style.display='block'; 
+                       document.getElementById('accountcontent').style.display='none';">
+        Home
+      </button>
+      <button onclick="document.getElementById('homecontent').style.display='none'; 
+                       document.getElementById('accountcontent').style.display='block';">
+        Account
+      </button>
+    </div>
 
-    <!-- Account button hides heading and shows login -->
-    <button onclick="document.getElementById('2ndhome').style.display='none'; 
-                     document.getElementById('loginpage').style.display='block';">
-      Account
-    </button>
+    <!-- Home Content -->
+    <div id="homecontent" style="margin-top:10px; display:block;">
+      <h1 style="background:#004040; color:white; padding:10px; border-radius:8px;">
+        Active Campaigns: {{ edetailslist|length }}
+      </h1>
+    </div>
+
+    <!-- Account Content -->
+    <div id="accountcontent" style="margin-top:10px; display:none;">
+      <form class="login-form" style="background:#004040; padding:15px; border-radius:8px;">
+        <input type="text" placeholder="Username" style="display:block; width:100%; margin-bottom:10px;">
+        <input type="password" placeholder="Password" style="display:block; width:100%; margin-bottom:10px;">
+        <button type="submit">Login</button>
+      </form>
+    </div>
   </div>
 </div>
 
-<!-- This is hidden/shown dynamically -->
-<h1 id="2ndhome" style="display:block; margin-top:10px; padding:10px; background:#004040; border-radius:8px; color:white;">
-  Active Campaigns: {{ edetailslist|length }}
-</h1>
-
-<form class="login-form" id="loginpage" style="display:none; margin-top:10px; padding:10px; background:#004040; border-radius:8px;">
-  <input type="text" placeholder="Username">
-  <input type="password" placeholder="Password">
-  <button type="submit">Login</button>
-</form>
 
 </section>
 
