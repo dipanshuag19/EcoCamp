@@ -356,30 +356,49 @@
 
   <!-- Right Box -->
   <div>
-  <button onclick="document.getElementById('2ndhome').style.display='block'; document.getElementById('accountpage').style.display='none';"> Home </button>
-  <button onclick="document.getElementById('2ndhome').style.display='none'; document.getElementById('accountpage').style.display='block';"> Account </button>
-     
-  <h1 id="2ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
+  <button onclick="
+  document.getElementById('2ndhome').style.display='block';
+  document.getElementById('accountpage').style.display='none';
+  document.getElementById('loginpage').style.display='none';
+  document.getElementById('signuppage').style.display='none';
+">Home</button>
 
-  <section id="accountpage">
-     <button onclick="document.getElementById('loginpage').style.display='block'; document.getElementById('signuppage').style.display='none';">Login</button>
-     <button onclick="document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='block';">Sign Up</button>
-  </section>
+<button onclick="
+  document.getElementById('2ndhome').style.display='none';
+  document.getElementById('accountpage').style.display='block';
+  document.getElementById('loginpage').style.display='none';
+  document.getElementById('signuppage').style.display='none';
+">Account</button>
 
-  <form class="login-form" id="loginpage" style="display:block;">
-    <input type="text" placeholder="Username">
-    <input type="password" placeholder="Password">
-    <button type="submit">Login</button>
-  </form>
+<h1 id="2ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
 
-   <form class="login-form" id="signuppage" style="display:none;">
-    <input type="text" placeholder="Full Name">
-    <input type="text" placeholder="Username">
-    <input type="text" placeholder="Email">
-    <input type="password" placeholder="Password">
-    <input type="cpassword" placeholder="Confirm Password">
-    <button type="submit">Login</button>
-  </form>
+<section id="accountpage" style="display:none; text-align:center; margin-top:20px;">
+  <button onclick="
+    document.getElementById('loginpage').style.display='block';
+    document.getElementById('signuppage').style.display='none';
+  ">Login</button>
+
+  <button onclick="
+    document.getElementById('loginpage').style.display='none';
+    document.getElementById('signuppage').style.display='block';
+  ">Sign Up</button>
+</section>
+
+<form class="login-form" id="loginpage" style="display:none; text-align:center; margin-top:20px;">
+  <input type="text" placeholder="Username"><br><br>
+  <input type="password" placeholder="Password"><br><br>
+  <button type="submit">Login</button>
+</form>
+
+<form class="login-form" id="signuppage" style="display:none; text-align:center; margin-top:20px;">
+  <input type="text" placeholder="Full Name"><br><br>
+  <input type="text" placeholder="Username"><br><br>
+  <input type="email" placeholder="Email"><br><br>
+  <input type="password" placeholder="Password"><br><br>
+  <input type="password" placeholder="Confirm Password"><br><br>
+  <button type="submit">Sign Up</button>
+</form>
+
      
 </div>
 
