@@ -267,10 +267,16 @@
 
   /* Right box login form styling */
   .login-form {
-    flex-direction: column;
-    padding: 40px;
-    gap: 15px;
-  }
+  display: none;         
+  flex-direction: column;
+  padding: 40px;
+  gap: 15px;
+  width: 320px;               
+  margin: 20px auto;            
+  background: #fff;           
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
 
   .login-form input {
     width: 100%;
@@ -302,23 +308,34 @@
     background: #249e73;
   }
 
-   .nested-container {
-     flex: 1;
-     display: flex;
-     flex-direction: column;
-     gap: 10px;
-   }
-   
-   .nested-tabs {
-     display: flex;
-     gap: 8px;
-   }
-   
-   .nested-container section {
-     background: rgba(255,255,255,0.04);
-     border-radius: 8px;
-     padding: 15px;
+/* Account section wrapper */
+.account-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  gap: 20px;
 }
+
+.account-container .toggle-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.account-container .toggle-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #2cbe8d;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.account-container .toggle-buttons button:hover {
+  background: #249e73;
+}
+
 </style>
 </head>
 <body>
@@ -372,32 +389,28 @@
 
 <h1 id="2ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
 
-<section id="accountpage" style="display:none; text-align:center; margin-top:20px;">
-  <button onclick="
-    document.getElementById('loginpage').style.display='block';
-    document.getElementById('signuppage').style.display='none';
-  ">Login</button>
+<section id="accountpage" class="account-container" style="display:none;">
+  <div class="toggle-buttons">
+    <button onclick="document.getElementById('loginpage').style.display='flex'; document.getElementById('signuppage').style.display='none';">Login</button>
+    <button onclick="document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='flex';">Sign Up</button>
+  </div>
 
-  <button onclick="
-    document.getElementById('loginpage').style.display='none';
-    document.getElementById('signuppage').style.display='block';
-  ">Sign Up</button>
+  <form class="login-form" id="loginpage">
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <button type="submit">Login</button>
+  </form>
+
+  <form class="login-form" id="signuppage">
+    <input type="text" placeholder="Full Name">
+    <input type="text" placeholder="Username">
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <input type="password" placeholder="Confirm Password">
+    <button type="submit">Sign Up</button>
+  </form>
 </section>
 
-<form class="login-form" id="loginpage" style="display:none; text-align:center; margin-top:20px;">
-  <input type="text" placeholder="Username"><br><br>
-  <input type="password" placeholder="Password"><br><br>
-  <button type="submit">Login</button>
-</form>
-
-<form class="login-form" id="signuppage" style="display:none; text-align:center; margin-top:20px;">
-  <input type="text" placeholder="Full Name"><br><br>
-  <input type="text" placeholder="Username"><br><br>
-  <input type="email" placeholder="Email"><br><br>
-  <input type="password" placeholder="Password"><br><br>
-  <input type="password" placeholder="Confirm Password"><br><br>
-  <button type="submit">Sign Up</button>
-</form>
 
      
 </div>
