@@ -346,29 +346,39 @@
   <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
   <p>Making the world greener, one campaign at a time.</p>
   
-  <div class="main-h" style="display:flex; flex-direction:column; gap:10px;">
-    <div>
-      {% if isadmin %}
-        <iframe src="/pendingevents"></iframe>
-      {% endif %}
-    </div>
-     
-    <div>
-      <button onclick="document.getElementById('2ndhome').style.display='block'; document.getElementById('loginpage').style.display='none';">Home</button>
-      <button onclick="document.getElementById('2ndhome').style.display='none'; document.getElementById('loginpage').style.display='block';">Account</button>
-    </div>
-    
-    <!-- NOW inside main-h -->
-    <h1 id="2ndhome" style="display:block; padding:10px;">
-      Active Campaigns: {{ edetailslist|length }}
-    </h1>
-
-    <form class="login-form" id="loginpage" style="display:none; padding:10px;">
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <button type="submit">Login</button>
-    </form>
+  <div class="main-h">
+  <div>
+    {% if isadmin %}
+      <iframe src="/pendingevents"></iframe>
+    {% endif %}
   </div>
+
+  <div>
+    <!-- Home button shows heading and hides login -->
+    <button onclick="document.getElementById('2ndhome').style.display='block'; 
+                     document.getElementById('loginpage').style.display='none';">
+      Home
+    </button>
+
+    <!-- Account button hides heading and shows login -->
+    <button onclick="document.getElementById('2ndhome').style.display='none'; 
+                     document.getElementById('loginpage').style.display='block';">
+      Account
+    </button>
+  </div>
+</div>
+
+<!-- This is hidden/shown dynamically -->
+<h1 id="2ndhome" style="display:block; margin-top:10px; padding:10px; background:#004040; border-radius:8px; color:white;">
+  Active Campaigns: {{ edetailslist|length }}
+</h1>
+
+<form class="login-form" id="loginpage" style="display:none; margin-top:10px; padding:10px; background:#004040; border-radius:8px;">
+  <input type="text" placeholder="Username">
+  <input type="password" placeholder="Password">
+  <button type="submit">Login</button>
+</form>
+
 </section>
 
 
