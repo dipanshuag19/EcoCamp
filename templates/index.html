@@ -354,10 +354,11 @@
     </div>
      
      <div>
-     <button>Home</button>
-     <button onclick="document.getElementById('loginpage').style.display = document.getElementById('loginpage').style.display==='none'?'block':'none'">Account</button>
+     <button onclick="document.getElementById('2ndhome').style.display='block'; document.getElementById('loginpage').style.display='none';">Home</button>
+     <button onclick="document.getElementById('2ndhome').style.display='none'; document.getElementById('loginpage').style.display='block';">Account</button>
      </div>
      
+     <h1 id="2ndhome" style="display:block; padding:10px;">Active Campaigns: {{ edetailslist|length }}</h1>
         <form class="login-form" id="loginpage" style="display:none; padding:10px;">
             <input type="text" placeholder="Username">
             <input type="password" placeholder="Password">
