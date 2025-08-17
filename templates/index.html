@@ -278,7 +278,7 @@
 }
 
    /* Account section wrapper */
-#accountpage {
+#ndhome {
   display: none;               /* hidden by default */
   display: flex;
   flex-direction: column;
@@ -386,20 +386,20 @@
   <!-- Right Box -->
   <div>
   <button onclick="
-  document.getElementById('2ndhome').style.display='block';
+  document.getElementById('ndhome').style.display='block';
   document.getElementById('accountpage').style.display='none';
   document.getElementById('loginpage').style.display='none';
   document.getElementById('signuppage').style.display='none';
 ">Home</button>
 
 <button onclick="
-  document.getElementById('homepage').style.display='none';
+  document.getElementById('ndhome').style.display='none';
   document.getElementById('accountpage').style.display='flex';
   document.getElementById('loginpage').style.display='flex';   /* show login */
   document.getElementById('signuppage').style.display='none'; /* hide signup */
 ">Account</button>
 
-<h1 id="2ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
+<h1 id="ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
 
 <section id="accountpage" class="account-container" style="display:none;">
   <div class="toggle-buttons">
