@@ -266,17 +266,29 @@
   }
 
   /* Right box login form styling */
-  .login-form {
-  display: none;         
+.login-form {
+  display: none;                 /* hidden by default */
   flex-direction: column;
   padding: 40px;
   gap: 15px;
-  width: 320px;               
-  margin: 20px auto;            
-  background: #fff;           
+  width: 320px;
+  background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
+
+   /* Account section wrapper */
+#accountpage {
+  display: none;               /* hidden by default */
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* centers horizontally */
+  justify-content: flex-start; /* keep near top, not stuck at middle */
+  padding-top: 60px;           /* spacing from nav bar */
+  gap: 20px;                   /* spacing between buttons & forms */
+  min-height: calc(100vh - 80px); /* take full screen height under nav */
+}
+
 
   .login-form input {
     width: 100%;
@@ -381,10 +393,10 @@
 ">Home</button>
 
 <button onclick="
-  document.getElementById('2ndhome').style.display='none';
-  document.getElementById('accountpage').style.display='block';
-  document.getElementById('loginpage').style.display='none';
-  document.getElementById('signuppage').style.display='none';
+  document.getElementById('homepage').style.display='none';
+  document.getElementById('accountpage').style.display='flex';
+  document.getElementById('loginpage').style.display='flex';   /* show login */
+  document.getElementById('signuppage').style.display='none'; /* hide signup */
 ">Account</button>
 
 <h1 id="2ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
