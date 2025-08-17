@@ -352,50 +352,13 @@
         <iframe src="/pendingevents"></iframe>
       {% endif %}
     </div>
-
-    <!-- Right side with tabs + content stacked -->
-    <div class="nested-container">
-      <!-- Top-level tabs inside Home -->
-      <div class="nested-tabs">
-        <button class="navlink active" data-section="home-tab">Home</button>
-        <button class="navlink" data-section="account-tab">Account</button>
-      </div>
-
-      <!-- Nested Home content -->
-      <section id="home-tab" class="active">
-        <p>Welcome to Home content!</p>
-      </section>
-
-      <!-- Nested Account content -->
-      <section id="account-tab">
-        <!-- Account mini-tabs -->
-        <div class="nested-tabs">
-          <button class="navlink active" data-section="login">Login</button>
-          <button class="navlink" data-section="signup">Signup</button>
-        </div>
-
-        <!-- Login form -->
-        <section id="login" class="active">
-          <form class="login-form">
+     <div class="login-form">
+        <form>
             <input type="text" placeholder="Username">
             <input type="password" placeholder="Password">
             <button type="submit">Login</button>
           </form>
-        </section>
-
-        <!-- Signup form -->
-        <section id="signup">
-          <form class="login-form">
-            <input type="text" placeholder="Username">
-            <input type="password" placeholder="Password">
-            <input type="cpassword" placeholder="Confirm Password">
-            <input type="text" placeholder="Full Name">
-            <input type="text" placeholder="Email">
-            <button type="submit">Sign Up</button>
-          </form>
-        </section>
-      </section>
-    </div>
+     </div>
   </div>
 </section>
 
