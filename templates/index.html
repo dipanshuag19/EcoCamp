@@ -271,10 +271,6 @@
   flex-direction: column;
   padding: 40px;
   gap: 15px;
-  width: 320px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
    /* Account section wrapper */
@@ -336,16 +332,7 @@
 
 .account-container .toggle-buttons button {
   padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  background: #2cbe8d;
-  color: #fff;
   cursor: pointer;
-  transition: background 0.2s;
-}
-
-.account-container .toggle-buttons button:hover {
-  background: #249e73;
 }
 
 </style>
@@ -385,19 +372,12 @@
 
   <!-- Right Box -->
   <div>
-  <button onclick="
-  document.getElementById('ndhome').style.display='block';
-  document.getElementById('accountpage').style.display='none';
-  document.getElementById('loginpage').style.display='none';
-  document.getElementById('signuppage').style.display='none';
-">Home</button>
+  <button onclick="document.getElementById('ndhome').style.display='block';document.getElementById('accountpage').style.display='none';
+     document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='none';">Home</button>
 
-<button onclick="
-  document.getElementById('ndhome').style.display='none';
-  document.getElementById('accountpage').style.display='flex';
-  document.getElementById('loginpage').style.display='flex';   /* show login */
-  document.getElementById('signuppage').style.display='none'; /* hide signup */
-">Account</button>
+<button onclick="document.getElementById('ndhome').style.display='none'; document.getElementById('accountpage').style.display='flex';
+  document.getElementById('loginpage').style.display='flex';
+  document.getElementById('signuppage').style.display='none';">Account</button>
 
 <h1 id="ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
 
@@ -422,9 +402,6 @@
     <button type="submit">Sign Up</button>
   </form>
 </section>
-
-
-     
 </div>
 
 </div>
