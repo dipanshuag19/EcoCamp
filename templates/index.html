@@ -356,16 +356,31 @@
 
   <!-- Right Box -->
   <div>
-  <button onclick="document.getElementById('2ndhome').style.display='block'; document.getElementById('loginpage').style.display='none';"> Home </button>
-  <button onclick="document.getElementById('2ndhome').style.display='none'; document.getElementById('loginpage').style.display='block';"> Account </button>
+  <button onclick="document.getElementById('2ndhome').style.display='block'; document.getElementById('accountpage').style.display='none';"> Home </button>
+  <button onclick="document.getElementById('2ndhome').style.display='none'; document.getElementById('accountpage').style.display='block';"> Account </button>
      
   <h1 id="2ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
 
-  <form class="login-form" id="loginpage" style="display:none;">
+  <section id="accountpage">
+     <button onclick="document.getElementById('loginpage').style.display='block'; document.getElementById('signuppage').style.display='none';">Login</button>
+     <button onclick="document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='block';">Sign Up</button>
+  </section>
+
+  <form class="login-form" id="loginpage" style="display:block;">
     <input type="text" placeholder="Username">
     <input type="password" placeholder="Password">
     <button type="submit">Login</button>
   </form>
+
+   <form class="login-form" id="signuppage" style="display:none;">
+    <input type="text" placeholder="Full Name">
+    <input type="text" placeholder="Username">
+    <input type="text" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <input type="cpassword" placeholder="Confirm Password">
+    <button type="submit">Login</button>
+  </form>
+     
 </div>
 
 </div>
