@@ -280,10 +280,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;        /* center horizontally */
-  justify-content: center;    /* center vertically instead of stuck at top */
-  min-height: calc(100vh - 80px); /* take full screen height under nav */
+  justify-content: flex-start;    /* center vertically instead of stuck at top */
   gap: 20px;                  /* small spacing between toggle & form */
   padding: 20px;              /* light padding around edges */
+  min-height: auto;              /* don’t force full viewport height */
 }
 
 
@@ -329,6 +329,9 @@
 .account-container .toggle-buttons {
   display: flex;
   gap: 10px;
+  justify-content: center;
+  width: auto;       /* don’t stretch wider than needed */
+  border: none;      /* remove that black box */
 }
 
 .account-container .toggle-buttons button {
