@@ -267,22 +267,23 @@
 
   /* Right box login form styling */
 .login-form {
-  display: none;                 /* hidden by default */
+  display: none;
   flex-direction: column;
-  padding: 40px;
   gap: 15px;
+  width: 100%;
+  max-width: 320px;   /* keeps it neat and centered */
 }
 
    /* Account section wrapper */
 #ndhome {
-  display: none;               /* hidden by default */
+  display: none;
   display: flex;
   flex-direction: column;
-  align-items: center;         /* centers horizontally */
-  justify-content: flex-start; /* keep near top, not stuck at middle */
-  padding-top: 30px;           /* spacing from nav bar */
-  gap: 10px;                   /* spacing between buttons & forms */
+  align-items: center;        /* center horizontally */
+  justify-content: center;    /* center vertically instead of stuck at top */
   min-height: calc(100vh - 80px); /* take full screen height under nav */
+  gap: 20px;                  /* small spacing between toggle & form */
+  padding: 20px;              /* light padding around edges */
 }
 
 
