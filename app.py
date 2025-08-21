@@ -1,11 +1,16 @@
 from flask import Flask, request, redirect, url_for, render_template, render_template_string, flash, session, jsonify
 #import sqlite3 as sq
-import os,uuid
+import os, requests, datetime, time
 import sqlitecloud as sq
 from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = "ecocamp.fp"
+
+def sendlog(message):
+    link = f"https://api.telegram.org/bot{os.environ.get('TGBOTTOKEN')}/sendMessage"
+    parameters = {"chat_id": "-1002945250812", "text": f'🗓️ {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n{message}'}
+    requests.get(link, params=parameters)
 
 def sqldb(function):
     @wraps(function)
@@ -48,14 +53,18 @@ def home(c):
     for x in fi:
         fv.append(session.get(x, ""))
     isadmin = False
+    userdetails = {}
     if currentuname:
         ud = c.execute("SELECT * FROM userdetails WHERE username=?", (currentuname, )).fetchone()
         if ud and ud["role"] == "admin":
             isadmin = True
+        userdetails = ud if ud else {}
 
     if request.args.get("api"):
+        sendlog(f"API Accessed by {currentuser} ({currentuname})")
         return jsonify({"user": currentuser, "username": currentuname, "is_admin": isadmin, "events": edetailslist, "favorites": fv})
-    return render_template("index.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin))
+    sendlog(f"Home Page Accessed by {currentuser} ({currentuname})")
+    return render_template("index.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
@@ -65,19 +74,22 @@ def signup(c):
         password = request.form.get("password")
         cpassword = request.form.get("cpassword")
         name = request.form.get("nameofuser")
+        email = request.form.get("email")
         c.execute("SELECT * FROM userdetails where username=?", (username,))
         if c.fetchone():
-            return render_template("signup.html", alreadyexists=True, password=password, username=username)
+            return "Username Exists"
+        if c.execute("SELECT * FROM userdetails where email=?", (email,)).fetchone():
+            return "Email Exists"
         elif password != cpassword:
-            return render_template("signup.html", wrongpass=True, password=password, username=username)
+            return "Wrong Password"
         else:
-            c.execute("INSERT INTO userdetails(username, password, name) VALUES(?, ?, ?)", (username, password, name))
+            c.execute("INSERT INTO userdetails(username, password, name, email) VALUES(?, ?, ?, ?)", (username, password, name, email))
             session.permanent = True
             session["username"] = username
             session["name"] = name
             print("DEBUG after singup:", dict(session))
-            return redirect(url_for("home"))
-    return render_template("signup.html")
+            sendlog(f"New Signup: {name} ({username})")
+            return "Signup Success ✅"
 
 @app.route("/login", methods=["GET", "POST"])
 @sqldb
@@ -85,19 +97,19 @@ def login(c):
     if request.method == "POST":
         username = request.form.get("loginusername").lower()
         password = request.form.get("loginpassword")
-        c.execute("SELECT * FROM userdetails where username=?", (username,))
+        c.execute("SELECT * FROM userdetails where username=? or email=?", (username, username))
         fetched = c.fetchone()
         if not fetched:
-            return render_template("signup.html", usernotexists=True, username=username)
+            return "No username found"
         elif password != fetched["password"]:
-            return render_template("signup.html", loginwrongpass=True, loginuname=username)
+            return "Wrong Password"
         else:
             session.permanent = True
             session["username"] = fetched["username"]
             session["name"] = fetched["name"]
             print("DEBUG after login:", dict(session))
-            return redirect(url_for("home"))
-    return render_template("signup.html")
+            sendlog(f"User Login: {fetched['name']} ({fetched['username']})")
+            return "Login Success ✅"
         
 @app.route("/index2")
 @sqldb
@@ -148,6 +160,7 @@ def addevent(c):
         fe.append(str(lastid["eventid"]))
         joint = " ".join(fe)
         c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, event_values[-1]))
+        sendlog(f"#EventAdd \nNew Event Added: #{lastid} {event_values} by {event_values[-1]}")
         checkleft = c.execute("SELECT * FROM eventreq")
         if checkleft.fetchone():
             return redirect(url_for("pendingevents"))
@@ -181,6 +194,7 @@ def addeventreq(c):
         for x in field:
             if x != "username":
                 session.pop(x)
+        sendlog(f"#EventRequst \nNew Event Request: {event_values} by {uuname}")
         return "Event Registered ✅. Kindly wait for approval!"
 
 @app.route("/pendingevents", methods=["GET", "POST"])
@@ -219,16 +233,19 @@ def deleteevent(c, eventid):
                 ev.remove(str(eventid))
                 repl = " ".join(ev)
                 c.execute("UPDATE userdetails SET events=? WHERE username=?", (repl, uname))
+                sendlog(f"#EventDelete \nEvent Deleted: {eventid} by {uname}")
             return redirect(url_for("home"))
         except Exception as e:
+            sendlog(f"Error Deleting Event {eventid}: {e}")
             return f"Error: {e}"
     else:
         return redirect(url_for("home"))
 
 @app.route("/logout")
 def logout():
-    session.pop('username')
-    session.pop('name')
+    u = session.pop('username')
+    n = session.pop('name')
+    sendlog(f"User Logout: {n} ({u})")
     return redirect(url_for("home"))
 
 @app.route("/save_draft", methods=["POST"])
@@ -251,6 +268,7 @@ def decline_event(c, eventid):
             c.execute("DELETE FROM eventreq WHERE eventid=?", (eventid, ))
             seq = c.execute("SELECT * FROM sqlite_sequence WHERE name=?", ("eventreq",)).fetchone()
             c.execute("UPDATE sqlite_sequence SET seq=? WHERE name=?", (seq["seq"], "eventdetail"))
+            sendlog(f"#EventDecline \nEvent Declined: {eventid} by {u}")
             
     if c.execute("SELECT eventid FROM eventreq").fetchone():
         return redirect(url_for("pendingevents"))
@@ -259,5 +277,19 @@ def decline_event(c, eventid):
         
 @app.route("/clearsession")
 def clearsession():
-    session.clear()
+    c = session.clear()
+    sendlog(f"Session Cleared {c}")
     return redirect(url_for("home"))
+
+@sqldb
+def checkevent(c):
+    ch = c.execute("SELECT eventid, endtime FROM eventdetail").fetchall()
+    for x in ch:
+        etime = datetime.datetime.strptime(x["endtime"], "%d-%m-%Y %H:%M")
+        if etime < datetime.datetime.now():
+            c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
+            sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
+
+while True:
+    checkevent()
+    time.sleep(10)
