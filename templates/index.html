@@ -258,11 +258,13 @@
     height: 60vh;
     width: 80vw;
     display: flex;
-    border: 1px solid black;
   }
   .main-h div{
-    border: 1px solid black;
     width: 50%;
+    background-color: var(--bg1);
+    border-right: 1px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
   }
 
   /* Right box login form styling */
@@ -332,6 +334,7 @@
   justify-content: center;
   width: auto;       /* don’t stretch wider than needed */
   border: none;      /* remove that black box */
+  flex-direction: column;
 }
 
 .account-container .toggle-buttons button {
@@ -364,7 +367,7 @@
 
 <section id="home" class="active">
   <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
-  <p>Making the world greener, one campaign at a time.</p>
+  <p>Making the world greener</p>
   
   <div class="main-h">
   <!-- Left Box -->
@@ -372,37 +375,60 @@
     {% if isadmin %}
       <iframe src="/pendingevents"></iframe>
     {% endif %}
+    <h1 style="font-size:40px; text-shadow: #003;">Join hands to protect nature — start a campaign, plant hope.</h1>
+    <p style="font-size:20px; color:var(--muted);">Together, we can make a difference. Join us in our mission to create, discover and support a greener, cleaner and healthier world.</p>
   </div>
 
   <!-- Right Box -->
-  <div>
+  <div class="toggle-buttons">
   <button onclick="document.getElementById('ndhome').style.display='block';document.getElementById('accountpage').style.display='none';
      document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='none';">Home</button>
 
+{% if c_user == "None" %}
 <button onclick="document.getElementById('ndhome').style.display='none'; document.getElementById('accountpage').style.display='flex';
-  document.getElementById('loginpage').style.display='flex';
-  document.getElementById('signuppage').style.display='none';">Account</button>
+  document.getElementById('loginpage').style.display='flex'; document.getElementById('signuppage').style.display='none';">Account</button>
+{% else %}
+<button onclick="document.getElementById('ndhome').style.display='none'; document.getElementById('accountpage').style.display='flex';
+  document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='none';">Account</button>
+{% endif %}
 
-<h1 id="ndhome" style="display:block;">Active Campaigns: {{ edetailslist|length }}</h1>
+<h1 id="ndhome"></h1>
+<script>
+fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t=>{
+ q=t.split`\n`;f=()=>ndhome.innerText="Active Campaigns: {{ edetailslist|length }}\n\n— "+q[Math.random()*q.length|0];f();setInterval(f,5000)
+})
+</script>
 
+{% if c_user == "None" %}
 <section id="accountpage" class="account-container" style="display:none;">
   <div class="toggle-buttons">
     <button onclick="document.getElementById('loginpage').style.display='flex'; document.getElementById('signuppage').style.display='none';">Login</button>
     <button onclick="document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='flex';">Sign Up</button>
   </div>
+{% else %}
+<section id="accountpage" class="account-container" style="display:none;">
+  <div class="toggle-buttons">
+    <h3 style="color: var(--accent);">Welcome, {{ fullname }}!</h3>
+    <h4>Username: {{ c_user }}</h3>
+    <h4>Email: {{ userdetails['email'] }}</h3>
+
+    <button onclick="window.location.href='/logout';">Logout</button>
+    <button onclick="window.location.href='/clearsession';">Clear Session</button>
+  </div>
+{% endif %}
 
   <form class="login-form" id="loginpage">
-    <input type="text" placeholder="Username">
-    <input type="password" placeholder="Password">
+    <input type="text" name="loginusername" placeholder="Enter Username Or Email" required />
+    <input type="password" name="loginpassword" placeholder="Enter Password" required/>
     <button type="submit">Login</button>
   </form>
 
   <form class="login-form" id="signuppage">
-    <input type="text" placeholder="Full Name">
-    <input type="text" placeholder="Username">
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Password">
-    <input type="password" placeholder="Confirm Password">
+    <input type="text" name="nameofuser" placeholder="Full Name" maxlength="24" required />
+    <input type="text" name="username" placeholder="Enter A Username" maxlength="20" required />
+    <input type="email" name="email" placeholder="Enter Email" required />
+    <input type="password" name="password" placeholder="Enter Password" required />
+    <input type="password" name="cpassword" placeholder="Enter Confirm Password" required />
     <button type="submit">Sign Up</button>
   </form>
 </section>
@@ -410,7 +436,6 @@
 
 </div>
 </section>
-
 
 <section id="campaigns">
   <div class="main-ac">
@@ -536,22 +561,8 @@ const navLinks = document.querySelectorAll('.navlink');
 const sections = document.querySelectorAll('section');
 
 function show(id) {
-  // Find the section to show
-  const target = document.getElementById(id);
-  if (!target) return;
-
-  // Determine the parent container (document.body for top-level, or nearest parent <div>/<section>)
-  const container = target.parentElement;
-
-  // Handle navlink highlighting only within the same container
-  container.querySelectorAll('.navlink').forEach(l =>
-    l.classList.toggle('active', l.dataset.section === id)
-  );
-
-  // Show/hide only sections that are siblings inside the same container
-  container.querySelectorAll(':scope > section').forEach(s =>
-    s.classList.toggle('active', s.id === id)
-  );
+  navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
+  sections.forEach(s => s.classList.toggle('active', s.id === id));
 }
 
 navLinks.forEach(l => l.onclick = () => show(l.dataset.section));
@@ -563,19 +574,33 @@ addEventForm.onsubmit = e => {
   fetch('/addeventreq', { method: 'POST', body: new FormData(e.target) })
     .then(r => r.ok ? r.text() : Promise.reject('Error adding event'))
     .then(t=>
-       t==='Please Login First To Add Event.' ? (alert(t), location='/login'):
+       t==='Please Login First To Add Event.' ? (alert(t), location='/'):
        t==='Event Registered ✅. Kindly wait for approval!' ? (alert(t), location='/'):
        alert(t))
     .catch(alert);
 };
 
+loginpage.onsubmit = e => {
+  e.preventDefault();
+  fetch('/login', { method: 'POST', body: new FormData(e.target) })
+  .then(r => r.ok ? r.text() : Promise.reject('Error Logging in'))
+  .then(t => t === 'Login Success ✅' ? (alert(t), location='/'): 
+  alert(t)).catch(alert);
+};
+
+signuppage.onsubmit = e => {
+  e.preventDefault();
+  fetch('/signup', { method: 'POST', body: new FormData(e.target) })
+    .then(r => r.ok ? r.text() : Promise.reject('Error Signing up'))
+    .then(t => t === 'Signup Success ✅' ? (alert(t), location='/'): 
+    alert(t)).catch(alert);};
+
 document.querySelectorAll('#addEventForm input, #addEventForm select').forEach(el =>
   el.addEventListener('change', e => {
     let fd = new FormData();
-    fd.append('field', el.name);
-    fd.append('value', el.value);
+    fd.append('field', el.name); fd.append('value', el.value);
     fetch('/save_draft', { method: 'POST', body: fd });
-  })
+})
 );
 
 function asktodelete(id) {
