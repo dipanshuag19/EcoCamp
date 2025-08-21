@@ -15,7 +15,6 @@ def sendlog(message):
 def sqldb(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-        session.permanent = True # Flask permanent session dont remove
         db = sq.connect(os.environ.get("SQLITECLOUD"))
         db.row_factory = sq.Row
         c = db.cursor()
