@@ -286,7 +286,7 @@ def checkevent(c):
         ch = c.execute("SELECT eventid, endtime, enddate FROM eventdetail").fetchall()
         for x in ch:
             ist = zoneinfo.ZoneInfo("Asia/Kolkata")
-            etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M")
+            etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M").replace(tzinfo=ist)
             print(etime)
             if etime <= datetime.datetime.now(ist):
                 print(datetime.datetime.now(ist))
