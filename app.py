@@ -298,4 +298,5 @@ def checkeventloop():
         checkevent()
         time.sleep(30)
 
-threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
+if __name__ == "__main__":
+    threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
