@@ -1,15 +1,16 @@
 from flask import Flask, request, redirect, url_for, render_template, render_template_string, flash, session, jsonify
 #import sqlite3 as sq
-import os, requests, datetime, time, threading
+import os, requests, datetime, time, threading, zoneinfo
 import sqlitecloud as sq
 from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = "ecocamp.fp"
+ist = zoneinfo.ZoneInfo("Asia/Kolkata")
 
 def sendlog(message):
     link = f"https://api.telegram.org/bot{os.environ.get('TGBOTTOKEN')}/sendMessage"
-    parameters = {"chat_id": "-1002945250812", "text": f'🗓️ {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n{message}'}
+    parameters = {"chat_id": "-1002945250812", "text": f'🗓️ {datetime.datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")}\n{message}'}
     requests.get(link, params=parameters)
 
 def sqldb(function):
@@ -282,10 +283,11 @@ def clearsession():
 
 @sqldb
 def checkevent(c):
-        ch = c.execute("SELECT eventid, endtime FROM eventdetail").fetchall()
+        ch = c.execute("SELECT eventid, endtime, enddate FROM eventdetail").fetchall()
         for x in ch:
-            etime = datetime.datetime.strptime(x["endtime"], "%Y-%m-%d %H:%M")
-            if etime <= datetime.datetime.now():
+            ist = zoneinfo.ZoneInfo("Asia/Kolkata")
+            etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M")
+            if etime <= datetime.datetime.now(ist):
                 c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
                 sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
 
