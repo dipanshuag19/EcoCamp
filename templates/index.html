@@ -543,7 +543,7 @@ fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t
       <div class="form-right">
         <h3>Tips</h3>
         Use clear titles and location in the title<br>
-        Tags help others find campaigns quickly<br>
+        Category help others find campaigns quickly<br>
         Short descriptions work best
         <div class="f-r-b"> 
           <h4>Recent Activity</h4>
@@ -554,10 +554,38 @@ fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t
   </div>
 </section>
 
-<section id="contact">
-  <h1>Contact Us</h1>
-  <p>Email: hello@ecocamp.org</p>
+<section id="contact" style="padding:50px 20px; background:#f0f8f2; text-align:center; font-family:Arial, sans-serif;">
+  <h1 style="margin-bottom:10px; color:#2d6a4f;">Contact Us</h1>
+  <p style="margin-bottom:40px; font-size:18px; color:#333;">
+    Email: <a href="mailto:hello@ecocamp.org">hello@ecocamp.org</a>
+  </p>
+
+  <!-- AI Assistant Chat Box -->
+  <div style="max-width:400px; margin:0 auto; border:2px solid #2d6a4f; border-radius:15px; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+    
+    <div style="background:#2d6a4f; color:#fff; padding:10px; border-radius:13px 13px 0 0;">
+      <h2 style="margin:0; font-size:18px;">EcoCamp AI Assistant</h2>
+    </div>
+    
+    <div id="chatBody" style="height:250px; overflow-y:auto; padding:10px; background:#f9f9f9;">
+      <div style="padding:8px 12px; margin-bottom:10px; border-radius:10px; display:inline-block; max-width:80%; background:#d9f0e8; text-align:left;">
+        Hi! I’m your AI assistant. How can I help you today?
+      </div>
+    </div>
+    
+    <div style="padding:10px; border-top:1px solid #ccc;">
+      <form id="aiChatForm">
+        <input type="text" name="message" placeholder="Type your message..." required
+          style="width:70%; padding:8px; border-radius:5px; border:1px solid #ccc;">
+        <button type="submit" style="padding:8px 15px; background:#2d6a4f; color:#fff; border:none; border-radius:5px; cursor:pointer;">
+          Send
+        </button>
+      </form>
+    </div>
+    
+  </div>
 </section>
+
 
 <script>
 const navLinks = document.querySelectorAll('.navlink');
