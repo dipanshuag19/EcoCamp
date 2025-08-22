@@ -287,7 +287,9 @@ def checkevent(c):
         for x in ch:
             ist = zoneinfo.ZoneInfo("Asia/Kolkata")
             etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M")
+            print(etime)
             if etime <= datetime.datetime.now(ist):
+                print(datetime.datetime.now(ist))
                 c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
                 sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
 
