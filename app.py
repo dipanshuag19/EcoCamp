@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, url_for, render_template, render_template_string, flash, session, jsonify
 #import sqlite3 as sq
-import os, requests, datetime, time
+import os, requests, datetime, time, threading
 import sqlitecloud as sq
 from functools import wraps
 
@@ -280,15 +280,18 @@ def clearsession():
     sendlog(f"Session Cleared {c}")
     return redirect(url_for("home"))
 
-# @sqldb
-# def checkevent(c):
-#     ch = c.execute("SELECT eventid, endtime FROM eventdetail").fetchall()
-#     for x in ch:
-#         etime = datetime.datetime.strptime(x["endtime"], "%d-%m-%Y %H:%M")
-#         if etime < datetime.datetime.now():
-#             c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
-#             sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
+@sqldb
+def checkevent(c):
+        ch = c.execute("SELECT eventid, endtime FROM eventdetail").fetchall()
+        for x in ch:
+            etime = datetime.datetime.strptime(x["endtime"], "%Y-%m-%d %H:%M")
+            if etime <= datetime.datetime.now():
+                c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
+                sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
 
-# while True:
-#     checkevent()
-#     time.sleep(10)
+def checkeventloop():
+    while True:
+        checkevent()
+        time.sleep(30)
+
+threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
