@@ -48,7 +48,7 @@ def home(c):
         else:
             cleandrive.append(x)
     fv = []
-    fi = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description"]
+    fi = ["eventname", "email", "starttime", "endtime", "eventdate", "enddate", "location", "category", "description"]
     for x in fi:
         fv.append(session.get(x, ""))
     isadmin = False
@@ -138,7 +138,7 @@ def home3(c):
 @sqldb
 def addevent(c):
     if request.method == "POST":
-        field = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description", "username"] 
+        field = ["eventname", "email", "starttime", "endtime", "eventdate", "enddate", "location", "category", "description", "username"] 
         event_values = [request.form.get(y) for y in field]
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
         fetchall = check.fetchall()
@@ -171,7 +171,7 @@ def addevent(c):
 def addeventreq(c):
     if request.method == "POST":
         uuname = session.get("username")
-        field = ["eventname", "email", "starttime", "endtime", "eventdate", "location", "category", "description", "username"] 
+        field = ["eventname", "email", "starttime", "endtime", "eventdate", "enddate", "location", "category", "description", "username"] 
         event_values = [request.form.get(y) for y in field]
         event_values[-1] = uuname
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
