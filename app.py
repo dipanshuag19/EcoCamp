@@ -281,6 +281,25 @@ def clearsession():
     sendlog(f"Session Cleared {c}")
     return redirect(url_for("home"))
 
+@app.route("/sendotp")
+def sendotp():
+    import smtplib, ssl, random
+    code = random.randint(100000, 999999)
+    sender = "dipanshuashokagarwal@gmail.com"
+    password = "zrxf ydwo mqqz nqql"   # <-- App Password
+    receiver = "hu1243009@sjchs.edu.in"
+    message = f"""Subject: Server Started
+    
+    Your code: **{code}**, expiry in 5 min
+    """
+    
+    context = ssl.create_default_context()
+    
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(sender, password)
+        smtp.sendmail(sender, receiver, message)
+    return "OTP SENT"
+
 @sqldb
 def checkevent(c):
         ch = c.execute("SELECT eventid, endtime, enddate FROM eventdetail").fetchall()
