@@ -555,28 +555,32 @@ fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t
   </div>
 </section>
 
-<section id="contact" style="padding:50px 20px; background:#f0f8f2; text-align:center; font-family:Arial, sans-serif;">
-  <h1 style="margin-bottom:20px; color:#2d6a4f;">Contact Us</h1>
+<section id="contact">
+  <div class="main-cc">
+    <h1 class="cc-h1">Contact Us</h1>
+    <p class="cc-p">
+      Send us a message — we’ll get back to you soon.
+    </p>
 
-  <form action="/submit_contact" method="POST" style="max-width:400px; margin:0 auto; display:flex; flex-direction:column; gap:15px;">
-    
-    <input type="text" name="name" placeholder="Your Name" required
-      style="padding:10px; border:1px solid #ccc; border-radius:5px; font-size:16px;">
-    
-    <input type="email" name="email" placeholder="Your Email" required
-      style="padding:10px; border:1px solid #ccc; border-radius:5px; font-size:16px;">
-    
-    <textarea name="message" placeholder="Your Message" rows="5" required
-      style="padding:10px; border:1px solid #ccc; border-radius:5px; font-size:16px;"></textarea>
-    
-    <button type="submit" style="padding:12px; background:#2d6a4f; color:#fff; border:none; border-radius:5px; font-size:16px; cursor:pointer;">
-      Send Message
-    </button>
-
-  </form>
-
-  <p style="margin-top:30px; font-size:16px; color:#333;">Or email us directly at <a href="mailto:hello@ecocamp.org">hello@ecocamp.org</a></p>
+    <div class="main-form">
+      <div class="form" style="flex:1;">
+        <form id="contactForm">
+          {% if c_user == "None" %}
+            <input type="text" name="name" placeholder="Your Name" maxlength="40" required />
+            <input type="email" name="email" placeholder="Your Email" maxlength="40" required />
+          {% else %}
+            <input type="text" name="name" value="{{ fullname }}" readonly />
+            <input type="email" name="email" value="{{ userdetails['email'] }}" readonly />
+          {% endif %}
+          
+          <textarea name="message" placeholder="Write your message..." required></textarea>
+          <button class="submit-btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </section>
+
 
 
 <script>
