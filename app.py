@@ -10,19 +10,44 @@ ist = zoneinfo.ZoneInfo("Asia/Kolkata")
 
 def sendlog(message):
     link = f"https://api.telegram.org/bot{os.environ.get('TGBOTTOKEN')}/sendMessage"
-    parameters = {"chat_id": "-1002945250812", "text": f'🗓️ {datetime.datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")}\n{message}'}
+    parameters = {"chat_id": "-1002945250812", "text": f'ㅤㅤㅤ\n🗓️ {datetime.datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")}\n{message}\nㅤㅤㅤ'}
     requests.get(link, params=parameters)
 
+def sendmail(receiver, subject, message):
+    import smtplib, ssl, random
+    sender = "dipanshuashokagarwal@gmail.com"
+    password = os.environ.get("MAIL_APP_PASS")
+    context = ssl.create_default_context()
+    msg = f"{subject}\n\n{message}"
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(sender, password)
+        smtp.sendmail(sender, receiver, msg)
+        sendlog(f"Email sent to {receiver}")
+
+db = sq.connect(os.environ.get("SQLITECLOUD"), check_same_thread=False)
+db.row_factory = sq.Row
 def sqldb(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-        db = sq.connect(os.environ.get("SQLITECLOUD"))
-        db.row_factory = sq.Row
-        c = db.cursor()
-        final = function(c, *args, **kwargs)
-        db.commit()
-        db.close()
-        return final
+        global db
+        try:
+            c = db.cursor()
+            final = function(c, *args, **kwargs)
+            cm = db.commit()
+            return final
+        except:
+            try:
+                db.close()
+                sendlog("CONNECTION CLOSED")
+            except:
+                print("RECONNECTING DB")
+            sendlog("RECONNECTING DB")
+            db = sq.connect(os.environ.get("SQLITECLOUD"), check_same_thread=False)
+            db.row_factory = sq.Row
+            c = db.cursor()
+            final = function(c, *args, **kwargs)
+            db.commit()
+            return final
     return wrapper
 
 @app.route("/")
@@ -63,7 +88,6 @@ def home(c):
     if request.args.get("api"):
         sendlog(f"API Accessed by {currentuser} ({currentuname})")
         return jsonify({"user": currentuser, "username": currentuname, "is_admin": isadmin, "events": edetailslist, "favorites": fv})
-    sendlog(f"Home Page Accessed by {currentuser} ({currentuname})")
     return render_template("index.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -160,6 +184,7 @@ def addevent(c):
         fe.append(str(lastid["eventid"]))
         joint = " ".join(fe)
         c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, event_values[-1]))
+        sendmail(event_values[1], "Event Approved", f'Congragulations 🎉\n\nYour Event "{event_values[0]}" is approved and now visible on Campaigns Page with Event ID: {lastid}')
         sendlog(f"#EventAdd \nNew Event Added: #{lastid} {event_values} by {event_values[-1]}")
         checkleft = c.execute("SELECT * FROM eventreq")
         if checkleft.fetchone():
@@ -280,25 +305,6 @@ def clearsession():
     c = session.clear()
     sendlog(f"Session Cleared {c}")
     return redirect(url_for("home"))
-
-@app.route("/sendotp")
-def sendotp():
-    import smtplib, ssl, random
-    code = random.randint(100000, 999999)
-    sender = "dipanshuashokagarwal@gmail.com"
-    password = "zrxf ydwo mqqz nqql"   # <-- App Password
-    receiver = "hu1243009@sjchs.edu.in"
-    message = f"""Subject: Server Started
-    
-    Your code: **{code}**, expiry in 5 min
-    """
-    
-    context = ssl.create_default_context()
-    
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
-        smtp.login(sender, password)
-        smtp.sendmail(sender, receiver, message)
-    return "OTP SENT"
 
 @sqldb
 def checkevent(c):
