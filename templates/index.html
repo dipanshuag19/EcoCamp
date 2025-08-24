@@ -189,7 +189,7 @@
   .form:hover, .form-right:hover {
     transform: translateY(-3px);
   }
-  .form input[type="text"], .form input[type="date"], .form input[type="time"], .form select, .form textarea {
+  .form input[type="text"], .form input[type="date"], .form input[type="time"], .form input[type="email"],  .form select, .form textarea {
     display: block;
     border-radius: 6px;
     margin-bottom: 12px;
@@ -563,7 +563,7 @@ fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t
     </p>
 
     <div class="main-form">
-      <div class="form" style="flex:1;">
+      <div class="form">
         <form id="contactForm">
           {% if c_user == "None" %}
             <input type="text" name="name" placeholder="Your Name" maxlength="40" required />
