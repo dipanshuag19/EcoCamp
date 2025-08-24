@@ -421,7 +421,7 @@ fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t
 <form class="login-form" id="loginpage">
   <input type="text" name="loginusername" placeholder="Enter Username Or Email" required />
   <input type="password" name="loginpassword" id="loginpassword" placeholder="Enter Password" required/>
-  <span onclick="let p=document.getElementById('loginpassword'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer;">👁️</span>
+  <span onclick="let p=document.getElementById('loginpassword'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer; display:flex">👁️</span>
   <button type="submit">Login</button>
 </form>
 
