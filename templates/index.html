@@ -418,20 +418,24 @@ fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t
   </div>
 {% endif %}
 
-  <form class="login-form" id="loginpage">
-    <input type="text" name="loginusername" placeholder="Enter Username Or Email" required />
-    <input type="password" name="loginpassword" placeholder="Enter Password" required/>
-    <button type="submit">Login</button>
-  </form>
+<form class="login-form" id="loginpage">
+  <input type="text" name="loginusername" placeholder="Enter Username Or Email" required />
+  <input type="password" name="loginpassword" id="loginpassword" placeholder="Enter Password" required/>
+  <span onclick="let p=document.getElementById('loginpassword'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer;">👁️</span>
+  <button type="submit">Login</button>
+</form>
 
-  <form class="login-form" id="signuppage">
-    <input type="text" name="nameofuser" placeholder="Full Name" maxlength="24" required />
-    <input type="text" name="username" placeholder="Enter A Username" maxlength="20" required />
-    <input type="email" name="email" placeholder="Enter Email" required />
-    <input type="password" name="password" placeholder="Enter Password" required />
-    <input type="password" name="cpassword" placeholder="Enter Confirm Password" required />
-    <button type="submit">Sign Up</button>
-  </form>
+<form class="login-form" id="signuppage">
+  <input type="text" name="nameofuser" placeholder="Full Name" maxlength="24" required />
+  <input type="text" name="username" placeholder="Enter A Username" maxlength="20" required />
+  <input type="email" name="email" placeholder="Enter Email" required />
+  <input type="password" name="password" id="signup_password" placeholder="Enter Password" required />
+  <span onclick="let p=document.getElementById('signup_password'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer;">👁️</span>
+  <input type="password" name="cpassword" id="signup_cpassword" placeholder="Enter Confirm Password" required />
+  <span onclick="let p=document.getElementById('signup_cpassword'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer;">👁️</span>
+  <button type="submit">Sign Up</button>
+</form>
+   
 </section>
 </div>
 
