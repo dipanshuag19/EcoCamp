@@ -526,7 +526,6 @@ fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t
        <form id="addEventForm">
          <!--["eventname", "email", "starttime", "endtime", "eventdate", "enddate", "location", "category", "description"]-->
          <input type="text" value="{{fvalues[0]}}" name="eventname" placeholder="Enter Event Name (Max 50 Letters)" maxlength="50" required />
-         <input type="text" value="{{fvalues[1]}}" name="email" placeholder="Enter Your Email" maxlength="30" required />
          <input type="text" value="{{fvalues[5]}}" name="location" placeholder="Enter Event Location (Max 30 Letters)" maxlength="30" required />
          <input type="text" value="{{fvalues[7]}}" name="description" placeholder="Enter Event Description (Max 100 Letters)" maxlength="100" required />
          <select name="category" required>
