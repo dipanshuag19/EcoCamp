@@ -6,35 +6,37 @@
 <body>
 <h1>Pending Events</h1>
 
-{% for eid, ename, email, stime, etime, edate, elocation, category, desc, uname in pendingevents %}
+{% for x in pendingevents %}
 <form action="/addevent" method="POST">
     
     Event ID:
-    <input type="number" name="eventid" value="{{eid}}" disabled><br>
+    <input type="number" name="eventid" value="{{x.eventid}}" disabled><br>
     Event Name: 
-    <input type="text" name="eventname" value="{{ename}}" maxlength="50" required><br>
+    <input type="text" name="eventname" value="{{x.eventname}}" maxlength="50" required><br>
     Email:
-    <input type="email" name="email" value="{{email}}" maxlength="30" required><br>
+    <input type="email" name="email" value="{{x.email}}" maxlength="50" required><br>
     Location:
-    <input type="text" name="location" value="{{elocation}}" maxlength="30" required><br>
+    <input type="text" name="location" value="{{x.location}}" maxlength="30" required><br>
     Description:
-    <input type="text" name="description" value="{{desc}}" maxlength="100" required><br>
+    <input type="text" name="description" value="{{x.description}}" maxlength="100" required><br>
     Username:
-    <input type="text" name="username" value="{{uname}}" maxlength="100" required><br>
+    <input type="text" name="username" value="{{x.username}}" maxlength="100" required><br>
     Category:
     <select name="category" required>
-        <option value="Tree Plantation" {% if category == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
-        <option value="Blood Donation" {% if category == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
-        <option value="Cleanlines Drive" {% if category == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
+        <option value="Tree Plantation" {% if x.category == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
+        <option value="Blood Donation" {% if x.category == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
+        <option value="Cleanlines Drive" {% if x.category == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
     </select><br>
     Event Date:
-    <input type="date" name="eventdate" value="{{edate}}" required><br>
+    <input type="date" name="eventdate" value="{{x.eventdate}}" required><br>
+    End Date:
+    <input type="date" name="enddate" value="{{x.enddate}}" required><br>
     Event Start Time:
-    <input type="time" name="starttime" value="{{stime}}" required><br> 
+    <input type="time" name="starttime" value="{{x.starttime}}" required><br> 
     Event End Time:
-    <input type="time" name="endtime" value="{{etime}}" required><br>
+    <input type="time" name="endtime" value="{{x.endtime}}" required><br>
     <button type="submit">Submit</button>
-    <button type="button" onclick="declineevent({{eid}})">Decline</button>
+    <button type="button" onclick="declineevent({{x.eventid}})">Decline</button>
 </form>
 {% endfor %}
     
@@ -42,7 +44,7 @@
     function declineevent(eventid) {
         let okk = prompt("Enter the reason to decline in short: ")
         if (okk) {
-            window.location.href = "/decline_event/"+eventid ;
+            window.location.href = "/decline_event/" + eventid + "/" + encodeURIComponent(okk);
         }
     }
 </script>
