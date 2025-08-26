@@ -111,6 +111,7 @@ def signup(c):
             session.permanent = True
             session["username"] = username
             session["name"] = name
+            session["email"] = email
             print("DEBUG after singup:", dict(session))
             sendlog(f"New Signup: {name} ({username})")
             return "Signup Success ✅"
@@ -131,6 +132,7 @@ def login(c):
             session.permanent = True
             session["username"] = fetched["username"]
             session["name"] = fetched["name"]
+            session["email"] = fetched["email"]
             print("DEBUG after login:", dict(session))
             sendlog(f"User Login: {fetched['name']} ({fetched['username']})")
             return "Login Success ✅"
@@ -196,10 +198,10 @@ def addevent(c):
 @sqldb
 def addeventreq(c):
     if request.method == "POST":
-        uuname = session.get("username")
+        uuname, uemail = session.get("username"), session.get("email")
         field = ["eventname", "email", "starttime", "endtime", "eventdate", "enddate", "location", "category", "description", "username"] 
         event_values = [request.form.get(y) for y in field]
-        event_values[-1] = uuname
+        event_values[-1], event_values[1] = uuname, uemail
         check = c.execute("SELECT * FROM eventdetail WHERE eventname=(?)", (event_values[0],))
         fetchall = check.fetchall()
         for ab in fetchall:
@@ -247,18 +249,20 @@ def deleteevent(c, eventid):
         return "Login First"
     c.execute("SELECT * FROM eventdetail WHERE eventid=?", (eventid,))
     fe = c.fetchone()
+    extra = c.execute("SELECT * FROM userdetails WHERE username=?", (fe["username"], )).fetchone()
     c.execute("SELECT * FROM userdetails WHERE username=?", (uname,))
     fe2 = c.fetchone()
     if fe["username"] == uname or fe2["role"]=="admin":
         try:
             c.execute("DELETE FROM eventdetail WHERE eventid=(?)", (eventid,))
-            ok = c.execute("SELECT events FROM userdetails WHERE username=?", (uname, )).fetchone()
+            ok = c.execute("SELECT events, email FROM userdetails WHERE username=?", (fe["username"], )).fetchone()
             ev = ok["events"].split(" ")
             if str(eventid) in ev:
                 ev.remove(str(eventid))
                 repl = " ".join(ev)
-                c.execute("UPDATE userdetails SET events=? WHERE username=?", (repl, uname))
-                sendlog(f"#EventDelete \nEvent Deleted: {eventid} by {uname}")
+                c.execute("UPDATE userdetails SET events=? WHERE username=?", (repl, extra["username"]))
+                sendmail(extra["email"], "Event Deleted", f"Hey {extra['name']}! Your event {fe['eventname']} with ID {eventid} was deleted by {uname}")
+                sendlog(f"#EventDelete \nEvent Deleted: {eventid}, {fe['eventname']} by {uname}")
             return redirect(url_for("home"))
         except Exception as e:
             sendlog(f"Error Deleting Event {eventid}: {e}")
@@ -270,7 +274,8 @@ def deleteevent(c, eventid):
 def logout():
     u = session.pop('username')
     n = session.pop('name')
-    sendlog(f"User Logout: {n} ({u})")
+    e = session.pop('email')
+    sendlog(f"User Logout: {n} ({u}) {e}")
     return redirect(url_for("home"))
 
 @app.route("/save_draft", methods=["POST"])
@@ -282,18 +287,20 @@ def save_draft():
         session[field] = value.strip()
     return "DRAFT"
 
-@app.route("/decline_event/<int:eventid>")
+@app.route("/decline_event/<int:eventid>/<path:reason>")
 @sqldb
-def decline_event(c, eventid):
+def decline_event(c, eventid, reason):
     u = session.get("username")
     if u:
         c.execute("SELECT * FROM userdetails WHERE username=?", (u, ))
         f = c.fetchone()
         if f["role"] == "admin":
+            email = c.execute("SELECT email from eventreq WHERE eventid=?", (eventid, )).fetchone()
             c.execute("DELETE FROM eventreq WHERE eventid=?", (eventid, ))
             seq = c.execute("SELECT * FROM sqlite_sequence WHERE name=?", ("eventreq",)).fetchone()
             c.execute("UPDATE sqlite_sequence SET seq=? WHERE name=?", (seq["seq"], "eventdetail"))
-            sendlog(f"#EventDecline \nEvent Declined: {eventid} by {u}")
+            sendmail(email['email'], "Event Declined", f"We sorry to inform to you that your event was declined for following reason:\n{reason}")
+            sendlog(f"#EventDecline \nEvent Declined: {eventid} by {u}\nReason: {reason}")
             
     if c.execute("SELECT eventid FROM eventreq").fetchone():
         return redirect(url_for("pendingevents"))
