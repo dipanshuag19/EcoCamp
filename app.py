@@ -27,13 +27,13 @@ def sendmail(receiver, subject, message):
 def sqldb(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-            db = sq.connect(os.environ.get("SQLITECLOUD"))
-            db.row_factory = sq.Row
-            c = db.cursor()
-            final = function(c, *args, **kwargs)
-            cm = db.commit()
-            db.close()
-            return final
+        db = sq.connect(os.environ.get("SQLITECLOUD"))
+        db.row_factory = sq.Row
+        c = db.cursor()
+        final = function(c, *args, **kwargs)
+        db.commit()
+        db.close()
+        return final
     return wrapper
 
 @app.route("/")
