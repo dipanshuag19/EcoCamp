@@ -302,6 +302,7 @@ def clearsession():
 @sqldb
 def checkevent(c):
         ch = c.execute("SELECT eventid, endtime, enddate FROM eventdetail").fetchall()
+        print("CHECK_EVENT_LOOP")
         for x in ch:
             ist = zoneinfo.ZoneInfo("Asia/Kolkata")
             etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M").replace(tzinfo=ist)
