@@ -24,29 +24,15 @@ def sendmail(receiver, subject, message):
         smtp.sendmail(sender, receiver, msg)
         sendlog(f"Email sent to {receiver}")
 
-db = sq.connect(os.environ.get("SQLITECLOUD"))
-db.row_factory = sq.Row
 def sqldb(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-        global db
-        try:
-            c = db.cursor()
-            final = function(c, *args, **kwargs)
-            cm = db.commit()
-            return final
-        except:
-            try:
-                db.close()
-                sendlog("CONNECTION CLOSED")
-            except:
-                print("RECONNECTING DB")
-            sendlog("RECONNECTING DB")
             db = sq.connect(os.environ.get("SQLITECLOUD"))
             db.row_factory = sq.Row
             c = db.cursor()
             final = function(c, *args, **kwargs)
-            db.commit()
+            cm = db.commit()
+            db.close()
             return final
     return wrapper
 
