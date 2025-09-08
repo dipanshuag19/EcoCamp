@@ -300,6 +300,7 @@ def clearsession():
     return redirect(url_for("home"))
 
 @sqldb
+@app.route("/checkeventloop")
 def checkevent(c):
         ch = c.execute("SELECT eventid, endtime, enddate FROM eventdetail").fetchall()
         print("CHECK_EVENT_LOOP")
@@ -311,11 +312,12 @@ def checkevent(c):
                 print(datetime.datetime.now(ist))
                 c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
                 sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
+        return "CHECK EVENT LOOP COMPLETED"
 
-@app.route("/checkeventloop")
-def checkeventloop():
-    checkevent()
-    return "CHECK EVENT LOOP COMPLETED"
+# @app.route("/checkeventloop")
+# def checkeventloop():
+#     checkevent()
+#     return "CHECK EVENT LOOP COMPLETED"
     
 # if __name__ == "__main__":
 #     threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
