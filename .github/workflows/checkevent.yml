@@ -1,0 +1,36 @@
+name: Run Check Event Loop Every 30s
+
+on:
+  schedule:
+    - cron: "*/1 * * * *"  # triggers every 1 minute
+  workflow_dispatch:        # allow manual runs
+
+jobs:
+  run-checkevent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run checkevent twice (every 30s)
+        run: |
+          python - <<'EOF'
+          import time
+          from app import checkevent
+          
+          print("Running at 0s...")
+          checkevent()
+          
+          time.sleep(30)
+          print("Running at 30s...")
+          checkevent()
+          EOF
