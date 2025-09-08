@@ -3,7 +3,8 @@ name: Run Check Event Loop Every 30s
 on:
   schedule:
     - cron: "*/1 * * * *"  # triggers every 1 minute
-
+  workflow-dispatch:
+  
 jobs:
   run-checkevent:
     runs-on: ubuntu-latest
