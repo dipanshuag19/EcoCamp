@@ -303,12 +303,10 @@ def clearsession():
 @sqldb
 def checkevent(c):
         ch = c.execute("SELECT eventid, endtime, enddate FROM eventdetail").fetchall()
+        ist = zoneinfo.ZoneInfo("Asia/Kolkata")
         for x in ch:
-            ist = zoneinfo.ZoneInfo("Asia/Kolkata")
             etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M").replace(tzinfo=ist)
-            print(etime)
             if etime <= datetime.datetime.now(ist):
-                print(datetime.datetime.now(ist))
                 c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
                 sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
         return "<h1>CHECK EVENT LOOP COMPLETED</h1>"
