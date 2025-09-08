@@ -312,10 +312,13 @@ def checkevent(c):
                 c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
                 sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
 
-# def checkeventloop():
-#     while True:
-#         checkevent()
-#         time.sleep(30)
+@app.route("/checkeventloop")
+def checkeventloop():
+    for x in range(2):
+        if x == 1:
+            return
+        checkevent()
+        time.sleep(30)
 
 # if __name__ == "__main__":
 #     threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
