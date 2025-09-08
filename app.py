@@ -299,8 +299,8 @@ def clearsession():
     sendlog(f"Session Cleared {c}")
     return redirect(url_for("home"))
 
-@sqldb
 @app.route("/checkeventloop")
+@sqldb
 def checkevent(c):
         ch = c.execute("SELECT eventid, endtime, enddate FROM eventdetail").fetchall()
         print("CHECK_EVENT_LOOP")
