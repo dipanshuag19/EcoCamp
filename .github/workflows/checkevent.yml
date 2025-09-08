@@ -3,7 +3,7 @@ name: Run Check Event Loop Every 30s
 on:
   schedule:
     - cron: "*/1 * * * *"  # triggers every 1 minute
-  workflow-dispatch:
+  workflow_dispatch:
   
 jobs:
   run-checkevent:
