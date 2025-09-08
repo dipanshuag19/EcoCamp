@@ -314,11 +314,7 @@ def checkevent(c):
 
 @app.route("/checkeventloop")
 def checkeventloop():
-    for x in range(2):
-        if x == 1:
-            return
-        checkevent()
-        time.sleep(30)
+    checkevent()
 
 # if __name__ == "__main__":
 #     threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
