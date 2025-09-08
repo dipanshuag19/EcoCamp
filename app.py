@@ -172,7 +172,7 @@ def addevent(c):
         fe.append(str(lastid["eventid"]))
         joint = " ".join(fe)
         c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, event_values[-1]))
-        sendmail(event_values[1], "Event Approved", f'Congragulations 🎉\n\nYour Event "{event_values[0]}" is approved and now visible on Campaigns Page with Event ID: {lastid}')
+        sendmail(event_values[1], "Event Approved", f'Congragulations\n\nYour Event "{event_values[0]}" is approved and now visible on Campaigns Page with Event ID: {lastid}')
         sendlog(f"#EventAdd \nNew Event Added: #{lastid} {event_values} by {event_values[-1]}")
         checkleft = c.execute("SELECT * FROM eventreq")
         if checkleft.fetchone():
