@@ -39,8 +39,6 @@ def sqldb(function):
 @app.route("/")
 @sqldb
 def home(c):
-    print("DEBUG session:", dict(session))
-
     user = ""
     if not session.get('name'):
         currentuser = "User"
@@ -98,7 +96,6 @@ def signup(c):
             session["username"] = username
             session["name"] = name
             session["email"] = email
-            print("DEBUG after singup:", dict(session))
             sendlog(f"New Signup: {name} ({username})")
             return "Signup Success ✅"
 
@@ -119,7 +116,6 @@ def login(c):
             session["username"] = fetched["username"]
             session["name"] = fetched["name"]
             session["email"] = fetched["email"]
-            print("DEBUG after login:", dict(session))
             sendlog(f"User Login: {fetched['name']} ({fetched['username']})")
             return "Login Success ✅"
         
