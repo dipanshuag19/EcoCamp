@@ -315,6 +315,7 @@ def checkevent(c):
 @app.route("/checkeventloop")
 def checkeventloop():
     checkevent()
-
+    return "CHECK EVENT LOOP COMPLETED"
+    
 # if __name__ == "__main__":
 #     threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
