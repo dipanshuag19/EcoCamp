@@ -147,7 +147,6 @@
     border: none;
   }
 
-  /* Add Campaign */
   .main-cc {
     width: 85vw;
     margin: 20px auto;
@@ -342,6 +341,112 @@
   padding: 10px 20px;
   cursor: pointer;
 }
+/* General Styles for Forms */
+.login-form, .signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.login-form input,
+.signup-form input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.04);
+  color: white;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-form input:focus,
+.signup-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 5px rgba(44, 190, 141, 0.4);
+}
+
+.login-form button,
+.signup-form button {
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.15s ease;
+  margin-top: 10px;
+}
+
+.login-form button:hover,
+.signup-form button:hover {
+  background: #2ccf96;
+  transform: translateY(-2px);
+}
+
+.login-form span,
+.signup-form span {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #ffffff;
+  text-align: right;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.login-form .toggle-buttons,
+.signup-form .toggle-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.login-form .toggle-buttons button,
+.signup-form .toggle-buttons button {
+  padding: 8px 20px;
+  font-size: 1rem;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.login-form .toggle-buttons button:hover,
+.signup-form .toggle-buttons button:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .login-form, .signup-form {
+    padding: 20px;
+    width: 90%;
+  }
+
+  .login-form input,
+  .signup-form input {
+    font-size: 1.1rem;
+  }
+
+  .login-form button,
+  .signup-form button {
+    font-size: 1.1rem;
+  }
+}
 
 </style>
 </head>
@@ -381,7 +486,7 @@
   </div>
 
   <!-- Right Box -->
-  <div class="toggle-buttons">
+<!--   <div class="toggle-buttons">
   <button onclick="document.getElementById('ndhome').style.display='block';document.getElementById('accountpage').style.display='none';
      document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='none';">Home</button>
 
@@ -394,7 +499,7 @@
 {% endif %}
 
 <h1 id="ndhome"></h1>
-<script>
+<script> -->
 fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t=>{
  q=t.split`\n`;f=()=>ndhome.innerText="Active Campaigns: {{ edetailslist|length }}\n\n— "+q[Math.random()*q.length|0];f();setInterval(f,5000)
 })
@@ -425,16 +530,34 @@ fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t
   <button type="submit">Login</button>
 </form>
 
-<form class="login-form" id="signuppage">
+<!-- Login Form -->
+<form class="login-form" id="loginpage">
+  <h2 style="color: var(--accent);">Login to EcoCamp</h2>
+  <input type="text" name="loginusername" placeholder="Enter Username or Email" required />
+  <input type="password" name="loginpassword" id="loginpassword" placeholder="Enter Password" required />
+  <span onclick="let p=document.getElementById('loginpassword'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer; display:flex">👁️</span>
+  <button type="submit">Login</button>
+  <div class="toggle-buttons">
+    <button type="button" onclick="document.getElementById('signupage').style.display='flex'; document.getElementById('loginpage').style.display='none';">Sign Up</button>
+  </div>
+</form>
+
+<!-- Sign Up Form -->
+<form class="signup-form" id="signuppage">
+  <h2 style="color: var(--accent);">Create an Account</h2>
   <input type="text" name="nameofuser" placeholder="Full Name" maxlength="24" required />
   <input type="text" name="username" placeholder="Enter A Username" maxlength="20" required />
   <input type="email" name="email" placeholder="Enter Email" required />
   <input type="password" name="password" id="signup_password" placeholder="Enter Password" required />
   <span onclick="let p=document.getElementById('signup_password'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer;">👁️</span>
-  <input type="password" name="cpassword" id="signup_cpassword" placeholder="Enter Confirm Password" required />
+  <input type="password" name="cpassword" id="signup_cpassword" placeholder="Confirm Password" required />
   <span onclick="let p=document.getElementById('signup_cpassword'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer;">👁️</span>
   <button type="submit">Sign Up</button>
+  <div class="toggle-buttons">
+    <button type="button" onclick="document.getElementById('loginpage').style.display='flex'; document.getElementById('signuppage').style.display='none';">Already have an account? Login</button>
+  </div>
 </form>
+
    
 </section>
 </div>
