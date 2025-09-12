@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,636 +9,783 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-   :root{
-    --bg1: #002c2b;
-    --bg2: #066d6b;
-    --accent: #8be9c6;
-    --muted: rgba(255,255,255,0.75);
-    --glass: rgba(255,255,255,0.06);
-    --card: rgba(255,255,255,0.06);
-    --max: 1200px;
-    --radius: 12px;
-    --ease: cubic-bezier(.2,.9,.3,1);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
-    color: #e8f8f2;
-    background: linear-gradient(120deg,var(--bg1), #034343 60%, #0b7e74);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    overflow-y:auto;
-    scroll-behavior:smooth;
-  }
+    :root{
+        --bg1: #002c2b;
+        --bg2: #066d6b;
+        --accent: #8be9c6;
+        --muted: rgba(255,255,255,0.75);
+        --glass: rgba(255,255,255,0.06);
+        --card: rgba(255,255,255,0.06);
+        --max: 1200px;
+        --radius: 12px;
+        --ease: cubic-bezier(.2,.9,.3,1);
+    }
+    *{
+        box-sizing:border-box;
+        margin:0;
+        padding:0;
+    }
+    html,body{
+        height:100%;
+    }
+    body{
+        font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+        color: #e8f8f2;
+        background: linear-gradient(120deg,var(--bg1), #034343 60%, #0b7e74);
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        overflow-y:auto;
+        scroll-behavior:smooth;
+    }
 
-  header.navbar{
-    position:fixed;
-    left:0;right:0;
-    top:12px;
-    z-index:1000;
-    display:flex;
-    justify-content:center;
-    pointer-events:none;
-  }
-  .nav-inner{
-    width:100%;
-    max-width:var(--max);
-    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    border-radius:14px;
-    padding:10px 16px;
-    display:flex;
-    align-items:center;
-    gap:18px;
-    box-shadow:0 6px 30px rgba(2,10,10,0.35);
-    pointer-events:auto;
-    backdrop-filter: blur(8px);
-  }  
-  .brand{
-    display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--accent);
-  }
-  .logo{
-    width:40px;
-    height:40px;
-    border-radius:10px;
-    background:linear-gradient(135deg,#18b89b,#1dd3af);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:800;color:#003;
-    box-shadow:0 6px 18px rgba(0,0,0,0.25), inset 0 -6px 16px rgba(255,255,255,0.06);
-  }
-  nav{
-    margin-left:auto;display:flex;gap:8px;align-items:center;
-  }
-  .navlink{
-    text-decoration:none;
-    color:white;
-    padding:6px 10px;
-    border-radius:6px;
-    transition:0.2s;
-    cursor:pointer;
-  }
-  .navlink:hover{  
-    transform:translateY(-3px);
-    background:rgba(255,255,255,0.05);
-  }
-  .navlink.active{
-    background:rgba(255,255,255,0.15);
-    color:#fff;
-  }
-  .cta{
-    margin-left:12px;
-    background:linear-gradient(90deg,#6fe6b1,#2ccf96);
-    color:#003;border:none;
-    padding:8px 14px;
-    border-radius:10px;
-    font-weight:700;
-    cursor:pointer;
-    transition:transform .18s var(--ease), box-shadow .18s var(--ease);
-  }
-  .cta:hover{
-     transform:translateY(-3px);
-    box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)
-  }
+    /* General Layout Improvements */
+    .container {
+        width: 100%;
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 0 20px;
+    }
 
-  /* Sections */
-  section{
-    max-width:var(--max);
-    margin:70px auto;
-    padding:20px;
-    display:none;
-  }
-  section.active{
-    display:block;
-  }
+    /* Responsive Navbar */
+    header.navbar{
+        position:fixed;
+        left:0; right:0;
+        top:0; /* Changed from 12px for better edge-to-edge look */
+        z-index:1000;
+        padding: 12px 0;
+        background: rgba(0, 44, 43, 0.5); /* Semi-transparent background */
+        backdrop-filter: blur(10px);
+    }
+    .nav-inner{
+        display:flex;
+        align-items:center;
+        justify-content: space-between;
+        gap:18px;
+        width: 100%;
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .brand{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        font-weight:700;
+        font-size:18px;
+        color:var(--accent);
+    }
+    .logo{
+        width:40px;
+        height:40px;
+        border-radius:10px;
+        background:linear-gradient(135deg,#18b89b,#1dd3af);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-weight:800;
+        color:#003;
+        box-shadow:0 6px 18px rgba(0,0,0,0.25), inset 0 -6px 16px rgba(255,255,255,0.06);
+    }
+    nav{
+        display:flex;
+        gap:8px;
+        align-items:center;
+    }
+    .navlink{
+        text-decoration:none;
+        color:white;
+        padding:6px 10px;
+        border-radius:6px;
+        transition:0.2s;
+        cursor:pointer;
+        white-space: nowrap; /* Prevents link text from breaking */
+    }
+    .navlink:hover{
+        transform:translateY(-2px);
+        background:rgba(255,255,255,0.05);
+    }
+    .navlink.active{
+        background:rgba(255,255,255,0.15);
+        color:#fff;
+    }
+    .cta{
+        background:linear-gradient(90deg,#6fe6b1,#2ccf96);
+        color:#003;
+        border:none;
+        padding:8px 14px;
+        border-radius:10px;
+        font-weight:700;
+        cursor:pointer;
+        transition:transform .18s var(--ease), box-shadow .18s var(--ease);
+    }
+    .cta:hover{
+        transform:translateY(-3px);
+        box-shadow:0 12px 26px rgba(44, 190, 141, 0.18)
+    }
 
-  /* Campaigns */
-  .main-ac{
-   width: 80vw;
-   margin: 10px auto;
-   border-radius: 12px;
-   background: var(--card);
-   padding: 20px;
-   box-shadow:0 12px 26px rgba(44, 190, 141, 0.18);
-  }
-  .m-a-h{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  .m-a-h h4{
-    margin: 0;
-  }
-  .m-a-h p{
-    margin: 0;
-    font-size: 14px;
-    color: var(--muted);
-  }
-  .m-a-h-r{
-    display: flex;
-    gap: 8px;
-  }
-  .m-a-h-r input{
-    padding: 6px;
-    border-radius: 6px;
-    border: none;
-  }
+    /* Sections */
+    section{
+        display:none;
+        padding-top: 100px; /* Offset for fixed navbar */
+        padding-bottom: 40px;
+    }
+    section.active{
+        display:block;
+    }
 
-  /* Add Campaign */
-  .main-cc {
-    width: 85vw;
-    margin: 20px auto;
-    padding: 25px;
-    border-radius: var(--radius);
-    background: var(--card);
-    box-shadow: 0 12px 26px rgba(44, 190, 141, 0.18);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-  .cc-h1 {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-  .cc-p {
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 8px;
-    color: var(--muted);
-    font-size: 14px;
-  }
-  .main-form {
-    display: flex;
-    gap: 25px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-  .form, .form-right {
-    background: var(--glass);
-    border-radius: var(--radius);
-    padding: 20px;
-    flex: 1;
-    min-width: 280px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s var(--ease);
-  }
-  .form:hover, .form-right:hover {
-    transform: translateY(-3px);
-  }
-  .form input[type="text"], .form input[type="date"], .form input[type="time"], .form input[type="email"],  .form select, .form textarea {
-    display: block;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    padding: 10px;
-    width: 100%;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.04);
-    color: white;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form input:focus, .form textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(139, 233, 198, 0.25);
-  }
+    /* Home Section: Main Layout */
+    .main-h{
+        display: flex;
+        gap: 30px;
+        align-items: flex-start;
+    }
+    .main-h-left, .main-h-right {
+        flex: 1; /* Both columns take equal space */
+    }
+    .main-h-left h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .main-h-left p {
+        font-size: 1.1rem;
+        color: var(--muted);
+        margin-top: 20px;
+    }
+    .main-h-right {
+        background: var(--card);
+        padding: 25px;
+        border-radius: var(--radius);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
 
-   .form select option {
-      background-color: #002c2b;
-      color: white;
-   }
-  .form textarea {
-    resize: none;
-    height: 100px;
-  }
-  .submit-btn {
-    background: linear-gradient(90deg,#6fe6b1,#2ccf96);
-    color: #003;
-    font-weight: 700;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
-  }
-  .submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 26px rgba(44, 190, 141, 0.28);
-  }
-  .reset-btn {
-    background: rgba(255,255,255,0.08);
-    color: white;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 8px;
-    transition: background 0.2s;
-  }
-  .reset-btn:hover {
-    background: rgba(255,255,255,0.15);
-  }
-  .form-right h3 {
-    margin-bottom: 10px;
-    color: var(--accent);
-  }
-  .form-right .f-r-b {
-    margin-top: 15px;
-    padding: 10px;
-    background: rgba(255,255,255,0.04);
-    border-radius: 6px;
-    font-size: 13px;
-    color: var(--muted);
-  }
-  .main-h{
-    height: 60vh;
-    width: 80vw;
-    display: flex;
-  }
-  .main-h div{
-    width: 50%;
-    background-color: var(--bg1);
-    border-right: 1px solid rgba(255,255,255,0.1);
-    padding: 20px;
-    border-radius: 15px;
-  }
+    /* Home Section: Account & Login Forms */
+    #ndhome {
+        text-align: center;
+        font-size: 1.2rem;
+    }
+    .account-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .account-container .toggle-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        width: 100%;
+    }
+    .toggle-buttons button, .account-info button {
+        flex: 1;
+        padding: 10px 15px;
+        cursor: pointer;
+        border: 1px solid var(--glass);
+        background: var(--glass);
+        color: white;
+        border-radius: 8px;
+        transition: background 0.2s;
+        font-weight: 600;
+    }
+    .toggle-buttons button:hover, .account-info button:hover {
+        background: rgba(255,255,255,0.15);
+    }
 
-  /* Right box login form styling */
-.login-form {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-  max-width: 320px;   /* keeps it neat and centered */
-}
+    .login-form {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        max-width: 350px;
+    }
+    .login-form input {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.05);
+        color: white;
+        outline: none;
+        transition: border 0.2s, box-shadow 0.2s;
+    }
+    .login-form input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 5px rgba(44, 190, 141, 0.4);
+    }
+    .login-form button {
+        padding: 12px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 6px;
+        background: var(--accent);
+        color: #003;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.15s ease;
+    }
+    .login-form button:hover {
+        background: #a1f2d6;
+        transform: translateY(-2px);
+    }
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .password-wrapper input {
+        width: 100%;
+    }
+    .password-wrapper span {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        user-select: none;
+    }
 
-   /* Account section wrapper */
-#ndhome {
-  display: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;        /* center horizontally */
-  justify-content: flex-start;    /* center vertically instead of stuck at top */
-  gap: 20px;                  /* small spacing between toggle & form */
-  padding: 20px;              /* light padding around edges */
-  min-height: auto;              /* don’t force full viewport height */
-}
+    /* Campaigns Section */
+    .main-ac{
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 25px;
+    }
+    .m-a-h{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .m-a-h h4{ margin: 0; font-size: 1.5rem; }
+    .m-a-h p{ margin: 0; font-size: 1rem; color: var(--muted); }
+    .m-a-h-r{ display: flex; gap: 8px; }
+    .m-a-h-r input{
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--glass);
+        background: rgba(0,0,0,0.2);
+        color: white;
+    }
+    .campaign-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .campaign-card {
+        background: var(--glass);
+        padding: 15px;
+        border-radius: var(--radius);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .campaign-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .campaign-card h4 { text-align: center; color: var(--accent); margin-bottom: 10px; }
+    .campaign-card p { margin-bottom: 15px; font-size: 0.9rem; line-height: 1.5; }
+    .campaign-card .details { font-size: 0.9rem; margin-bottom: 15px; }
+    .campaign-card .tag {
+        display: inline-block;
+        border: 1px solid;
+        border-radius: 7px;
+        background: linear-gradient(90deg, #bff6dd, #6bf0b0);
+        text-transform:uppercase;
+        color: black;
+        font-weight: bold;
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    .campaign-card .event-id {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.7rem;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 10px;
+    }
+    .campaign-card button {
+        margin-top: 10px;
+        border: none;
+        border-radius: 7px;
+        background: #e66f6f;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 6px 10px;
+        transition: background 0.2s;
+    }
+    .campaign-card button:hover {
+        background: #d94848;
+    }
 
 
-  .login-form input {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    outline: none;
-    transition: border 0.2s, box-shadow 0.2s;
-  }
+    /* Add Campaign & Contact Section */
+    .main-cc {
+        padding: 25px;
+        border-radius: var(--radius);
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .cc-h1 { font-size: 2rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+    .cc-p { padding: 15px; background: rgba(255, 255, 255, 0.04); border-radius: 8px; color: var(--muted); font-size: 1rem; margin-bottom: 25px; }
+    .main-form { display: flex; gap: 25px; flex-wrap: wrap; }
+    .form, .form-right {
+        background: var(--glass);
+        border-radius: var(--radius);
+        padding: 20px;
+        flex: 1;
+        min-width: 280px;
+    }
+    .form input, .form select, .form textarea {
+        display: block;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        padding: 12px;
+        width: 100%;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.04);
+        color: white;
+        outline: none;
+        transition: border-color 0.2s;
+        font-size: 1rem;
+    }
+    .form input:focus, .form textarea:focus, .form select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(139, 233, 198, 0.25);
+    }
+    .form select option { background-color: #002c2b; color: white; }
+    .form textarea { resize: vertical; min-height: 120px; }
+    .submit-btn {
+        background: linear-gradient(90deg,#6fe6b1,#2ccf96);
+        color: #003;
+        font-weight: 700;
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+    }
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 26px rgba(44, 190, 141, 0.28);
+    }
+    .reset-btn {
+        background: rgba(255,255,255,0.08);
+        color: white;
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 8px;
+        transition: background 0.2s;
+        font-weight: 600;
+    }
+    .reset-btn:hover { background: rgba(255,255,255,0.15); }
+    .form-right h3 { margin-bottom: 10px; color: var(--accent); }
+    .form-right .f-r-b { margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.04); border-radius: 6px; font-size: 0.9rem; color: var(--muted); }
 
-  .login-form input:focus {
-    border-color: #2cbe8d;
-    box-shadow: 0 0 5px rgba(44, 190, 141, 0.4);
-  }
+    /* --- RESPONSIVE STYLES --- */
 
-  .login-form button {
-    padding: 12px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    background: #2cbe8d;
-    color: white;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.15s ease;
-  }
+    /* Tablets and below */
+    @media (max-width: 992px) {
+        .main-h {
+            flex-direction: column;
+            align-items: center;
+        }
+        .main-h-left {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+        .main-h-right {
+            width: 100%;
+            max-width: 450px;
+        }
+        .main-h-left h1 {
+            font-size: 2.5rem;
+        }
+    }
 
-  .login-form button:hover {
-    background: #249e73;
-  }
-
-/* Account section wrapper */
-.account-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
-  gap: 20px;
-}
-
-.account-container .toggle-buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  width: auto;       /* don’t stretch wider than needed */
-  border: none;      /* remove that black box */
-  flex-direction: column;
-}
-
-.account-container .toggle-buttons button {
-  padding: 10px 20px;
-  cursor: pointer;
-}
+    /* Mobile devices */
+    @media (max-width: 768px) {
+        .nav-inner {
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 10px;
+        }
+        nav {
+            order: 3; /* Move nav links to the next line */
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .cta {
+            margin-left: 0;
+        }
+        .navlink {
+            font-size: 0.9rem;
+            padding: 5px 8px;
+        }
+        section {
+            padding-top: 150px; /* Adjust for taller wrapped navbar */
+        }
+        .main-h-left h1 {
+            font-size: 2rem;
+        }
+        .main-h-left p {
+            font-size: 1rem;
+        }
+        .account-container .toggle-buttons {
+            flex-direction: column;
+        }
+    }
 
 </style>
 </head>
 <body>
 
 <header class="navbar">
-  <div class="nav-inner">
-    <div class="brand" title="EcoCamp">
-      <div class="logo">EC</div>
-      <div>
-        <div style="font-size:14px">EcoCamp</div>
-        <div style="font-size:11px;color:var(--muted);font-weight:600">Greener Tomorrow</div>
-      </div>
+    <div class="nav-inner">
+        <div class="brand" title="EcoCamp">
+            <div class="logo">EC</div>
+            <div>
+                <div style="font-size:14px">EcoCamp</div>
+                <div style="font-size:11px;color:var(--muted);font-weight:600">Greener Tomorrow</div>
+            </div>
+        </div>
+        <nav>
+            <a class="navlink active" data-section="home">Home</a>
+            <a class="navlink" data-section="campaigns">Campaigns</a>
+            <a class="navlink" data-section="add">Add</a>
+            <a class="navlink" data-section="contact">Contact</a>
+        </nav>
+        <button class="cta" id="quickAddBtnEco">+ New Campaign</button>
     </div>
-    <nav>
-      <a class="navlink active" data-section="home">Home</a>
-      <a class="navlink" data-section="campaigns">Campaigns</a>
-      <a class="navlink" data-section="add">Add</a>
-      <a class="navlink" data-section="contact">Contact</a>
-      <button class="cta" id="quickAddBtnEco">+ New Campaign</button>
-    </nav>
-  </div>
 </header>
 
 <section id="home" class="active">
-  <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
-  <p>Making the world greener</p>
- 
-  <div class="main-h">
-  <!-- Left Box -->
-  <div>
-    {% if isadmin %}
-      <iframe src="/pendingevents"></iframe>
-    {% endif %}
-    <h1 style="font-size:40px; text-shadow: #003;">Join hands to protect nature — start a campaign, plant hope.</h1>
-    <p style="font-size:20px; color:var(--muted);">Together, we can make a difference. Join us in our mission to create, discover and support a greener, cleaner and healthier world.</p>
-  </div>
+    <div class="container">
+        <div class="main-h">
+            <div class="main-h-left">
+                {% if isadmin %}
+                    <iframe src="/pendingevents"></iframe>
+                {% endif %}
+                <h1>Join hands to protect nature — start a campaign, plant hope.</h1>
+                <p>Together, we can make a difference. Join us in our mission to create, discover and support a greener, cleaner and healthier world.</p>
+            </div>
 
-  <!-- Right Box -->
-  <div class="toggle-buttons">
-  <button onclick="document.getElementById('ndhome').style.display='block';document.getElementById('accountpage').style.display='none';
-     document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='none';">Home</button>
+            <div class="main-h-right">
+                <div class="toggle-buttons" style="width: 100%;">
+                    <button id="homeBtn">Home</button>
+                    <button id="accountBtn">Account</button>
+                </div>
 
-{% if c_user == "None" %}
-<button onclick="document.getElementById('ndhome').style.display='none'; document.getElementById('accountpage').style.display='flex';
-  document.getElementById('loginpage').style.display='flex'; document.getElementById('signuppage').style.display='none';">Account</button>
-{% else %}
-<button onclick="document.getElementById('ndhome').style.display='none'; document.getElementById('accountpage').style.display='flex';
-  document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='none';">Account</button>
-{% endif %}
+                <h2 id="ndhome"></h2>
 
-<h1 id="ndhome"></h1>
-<script>
-fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t=>{
- q=t.split`\n`;f=()=>ndhome.innerText="Active Campaigns: {{ edetailslist|length }}\n\n— "+q[Math.random()*q.length|0];f();setInterval(f,5000)
-})
-</script>
+                <div id="accountpage" class="account-container" style="display:none;">
+                    {% if c_user == "None" %}
+                        <div class="toggle-buttons">
+                            <button id="showLoginBtn">Login</button>
+                            <button id="showSignupBtn">Sign Up</button>
+                        </div>
+                    {% else %}
+                        <div class="account-info">
+                            <h3 style="color: var(--accent); text-align: center;">Welcome, {{ fullname }}!</h3>
+                            <h4 style="text-align: center;">Username: {{ c_user }}</h4>
+                            <h4 style="text-align: center;">Email: {{ userdetails['email'] }}</h4>
+                            <button onclick="window.location.href='/logout';">Logout</button>
+                            <button onclick="window.location.href='/clearsession';">Clear Session</button>
+                        </div>
+                    {% endif %}
 
-{% if c_user == "None" %}
-<section id="accountpage" class="account-container" style="display:none;">
-  <div class="toggle-buttons">
-    <button onclick="document.getElementById('loginpage').style.display='flex'; document.getElementById('signuppage').style.display='none';">Login</button>
-    <button onclick="document.getElementById('loginpage').style.display='none'; document.getElementById('signuppage').style.display='flex';">Sign Up</button>
-  </div>
-{% else %}
-<section id="accountpage" class="account-container" style="display:none;">
-  <div class="toggle-buttons">
-    <h3 style="color: var(--accent);">Welcome, {{ fullname }}!</h3>
-    <h4>Username: {{ c_user }}</h3>
-    <h4>Email: {{ userdetails['email'] }}</h3>
+                    <form class="login-form" id="loginpage">
+                        <input type="text" name="loginusername" placeholder="Enter Username Or Email" required />
+                        <div class="password-wrapper">
+                            <input type="password" name="loginpassword" id="loginpassword" placeholder="Enter Password" required/>
+                            <span onclick="togglePasswordVisibility('loginpassword')">👁️</span>
+                        </div>
+                        <button type="submit">Login</button>
+                    </form>
 
-    <button onclick="window.location.href='/logout';">Logout</button>
-    <button onclick="window.location.href='/clearsession';">Clear Session</button>
-  </div>
-{% endif %}
-
-<form class="login-form" id="loginpage">
-  <input type="text" name="loginusername" placeholder="Enter Username Or Email" required />
-  <input type="password" name="loginpassword" id="loginpassword" placeholder="Enter Password" required/>
-  <span onclick="let p=document.getElementById('loginpassword'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer; display:flex">👁️</span>
-  <button type="submit">Login</button>
-</form>
-
-<form class="login-form" id="signuppage">
-  <input type="text" name="nameofuser" placeholder="Full Name" maxlength="24" required />
-  <input type="text" name="username" placeholder="Enter A Username" maxlength="20" required />
-  <input type="email" name="email" placeholder="Enter Email" required />
-  <input type="password" name="password" id="signup_password" placeholder="Enter Password" required />
-  <span onclick="let p=document.getElementById('signup_password'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer;">👁️</span>
-  <input type="password" name="cpassword" id="signup_cpassword" placeholder="Enter Confirm Password" required />
-  <span onclick="let p=document.getElementById('signup_cpassword'); p.type=p.type==='password'?'text':'password'" style="cursor:pointer;">👁️</span>
-  <button type="submit">Sign Up</button>
-</form>
-   
-</section>
-</div>
-
-</div>
+                    <form class="login-form" id="signuppage" style="display:none;">
+                        <input type="text" name="nameofuser" placeholder="Full Name" maxlength="24" required />
+                        <input type="text" name="username" placeholder="Enter A Username" maxlength="20" required />
+                        <input type="email" name="email" placeholder="Enter Email" required />
+                         <div class="password-wrapper">
+                            <input type="password" name="password" id="signup_password" placeholder="Enter Password" required />
+                            <span onclick="togglePasswordVisibility('signup_password')">👁️</span>
+                         </div>
+                         <div class="password-wrapper">
+                            <input type="password" name="cpassword" id="signup_cpassword" placeholder="Enter Confirm Password" required />
+                            <span onclick="togglePasswordVisibility('signup_cpassword')">👁️</span>
+                         </div>
+                        <button type="submit">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section id="campaigns">
-  <div class="main-ac">
-    <div class="m-a-h">
-      <div>
-        <h4>Campaigns</h4>
-        <p>Find campaigns to join or create your own</p>
-      </div>
-      <div class="m-a-h-r">
-        <input type="search" placeholder="Search by title or tag">
-        <input type="reset" value="Clear">
-      </div>
+    <div class="container">
+        <div class="main-ac">
+            <div class="m-a-h">
+                <div>
+                    <h4>Campaigns</h4>
+                    <p>Find campaigns to join or create your own</p>
+                </div>
+                <div class="m-a-h-r">
+                    <input type="search" placeholder="Search by title or tag">
+                    <input type="reset" value="Clear">
+                </div>
+            </div>
+
+            {% if treeplantation|length >= 1 %}
+                <h3 style="text-align: center; margin-bottom: 20px;">Tree Plantation</h3>
+                <div class="campaign-grid">
+                    {% for e in treeplantation %}
+                        <div class="campaign-card">
+                            <div>
+                                <h4>{{ e.eventname }}</h4>
+                                <p>{{ e.description }}</p>
+                                <p class="details"><b>Date:</b> {{ e.eventdate }} <br><b>Location:</b> {{ e.location }} <br><b>Time:</b> {{ e.starttime }} - {{ e.endtime }}</p>
+                                <span class="tag">{{ e.category }}</span>
+                            </div>
+                            <div>
+                                {% if e.username == c_user or isadmin %}
+                                    <button onclick="asktodelete({{ e.eventid }})">Delete Event</button>
+                                {% endif %}
+                                <p class="event-id">#{{ e.eventid }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            </div>
     </div>
-
-      {% if treeplantation|length >= 1 %}
-      <h3 style="text-align: center;">Tree Plantation</h3>
-      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-      {% for e in treeplantation %}
-          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-              <h4 style="text-align: center;">{{ e.eventname }}</h4>
-              <p>{{ e.description }}</p>
-              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
-              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
-              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
-              {% if e.username == c_user or isadmin %}
-                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-              {% endif %}
-          </div>
-      {% endfor %}
-      </div>
-      {% endif %}
-     
-     
-      {% if blooddonation|length >= 1 %}
-      <h3 style="text-align: center;">Blood Donation</h3>
-      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-      {% for e in blooddonation %}
-          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-              <h4 style="text-align: center;">{{ e.eventname }}</h4>
-              <p>{{ e.description }}</p>
-              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
-              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
-              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
-              {% if e.username == c_user or isadmin %}
-                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-              {% endif %}
-          </div>
-      {% endfor %}
-      </div>
-      {% endif %}
-     
-     
-      {% if cleanlinesdrive|length >= 1 %}
-      <h3 style="text-align: center;">Cleanlines Drive</h3>
-      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-      {% for e in cleanlinesdrive %}
-          <div style="background: var(--glass);width:30%; padding: 10px; border-radius: 8px; margin-bottom: 10px;position:relative;">
-              <h4 style="text-align: center;">{{ e.eventname }}</h4>
-              <p>{{ e.description }}</p>
-              <p><b>Date:</b> {{ e.eventdate }} <b>Location:</b> {{ e.location }} <br><b>Start Time:</b> {{ e.starttime }} <b>End Time:</b> {{ e.endtime }}</p>
-              <small style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">{{ e.category }}</small>
-              <small style="color: rgba(255, 255, 255, 0.5); font-size: 8px; font-weight: bold; position: absolute; bottom: 4px; right: 6px;">#{{ e.eventid }}</small>
-              {% if e.username == c_user or isadmin %}
-                  <button onclick="asktodelete({{ e.eventid }})" style="border: 1px solid;border-radius: 7px;background: linear-gradient(90deg, #bff6dd, #6bf0b0);text-transform:uppercase;color: black; font-weight: bold;">Delete Event</button>
-              {% endif %}
-          </div>
-      {% endfor %}
-      </div>
-      {% endif %}
-
-  </div>
 </section>
 
 <section id="add">
-  <div class="main-cc">
-    <h1 class="cc-h1">Create Campaign</h1>
-    <p class="cc-p">
-      Add details of your campaign. It will appear live in the campaign list.
-      This demo keeps data in-memory — refreshing clears it.
-    </p>
-    <div class="main-form">
-      <div class="form">
-       <form id="addEventForm">
-         <!--["eventname", "email", "starttime", "endtime", "eventdate", "enddate", "location", "category", "description"]-->
-         <input type="text" value="{{fvalues[0]}}" name="eventname" placeholder="Enter Event Name (Max 50 Letters)" maxlength="50" required />
-         <input type="text" value="{{fvalues[5]}}" name="location" placeholder="Enter Event Location (Max 30 Letters)" maxlength="30" required />
-         <input type="text" value="{{fvalues[7]}}" name="description" placeholder="Enter Event Description (Max 100 Letters)" maxlength="100" required />
-         <select name="category" required>
-             <option value="" disabled {% if not fvalues[6] %}selected{% endif %}>Select a category</option>
-             <option value="Tree Plantation" {% if fvalues[6] == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
-             <option value="Blood Donation" {% if fvalues[6] == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
-             <option value="Cleanlines Drive" {% if fvalues[6] == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
-         </select> <br>
-         Event Date: <input type="date" value="{{fvalues[4]}}" name="eventdate" placeholder="Enter Event Date" maxlength="8" required /><br>
-         Event End Date: <input type="date" value="{{fvalues[5]}}" name="enddate" placeholder="Enter Event End Date" maxlength="8" required /><br>
-         Event Start Time: <input type="time" value="{{fvalues[2]}}" name="starttime" placeholder="Enter Event Start Time" required /><br>
-         Event End Time: <input type="time" value="{{fvalues[3]}}" name="endtime" placeholder="Enter Event End Time" required />
-     
-         <button class="submit-btn">Submit</button>
-         <button class="reset-btn">Reset</button>
-      </form>
-
-      </div>
-      <div class="form-right">
-        <h3>Tips</h3>
-        Use clear titles and location in the title<br>
-        Category help others find campaigns quickly<br>
-        Short descriptions work best
-        <div class="f-r-b">
-          <h4>Recent Activity</h4>
-          No external backend — all changes are simulated and stored locally.
+    <div class="container">
+        <div class="main-cc">
+            <h1 class="cc-h1">Create Campaign</h1>
+            <p class="cc-p">
+                Add details of your campaign. It will appear live in the campaign list.
+                This demo keeps data in-memory — refreshing clears it.
+            </p>
+            <div class="main-form">
+                <div class="form">
+                    <form id="addEventForm">
+                        <input type="text" value="{{fvalues[0]}}" name="eventname" placeholder="Enter Event Name (Max 50 Letters)" maxlength="50" required />
+                        <input type="text" value="{{fvalues[5]}}" name="location" placeholder="Enter Event Location (Max 30 Letters)" maxlength="30" required />
+                        <textarea name="description" placeholder="Enter Event Description (Max 100 Letters)" maxlength="100" required>{{fvalues[7]}}</textarea>
+                        <select name="category" required>
+                            <option value="" disabled {% if not fvalues[6] %}selected{% endif %}>Select a category</option>
+                            <option value="Tree Plantation" {% if fvalues[6] == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
+                            <option value="Blood Donation" {% if fvalues[6] == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
+                            <option value="Cleanlines Drive" {% if fvalues[6] == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
+                        </select>
+                        Event Date: <input type="date" value="{{fvalues[4]}}" name="eventdate" required />
+                        Event End Date: <input type="date" value="{{fvalues[5]}}" name="enddate" required />
+                        Event Start Time: <input type="time" value="{{fvalues[2]}}" name="starttime" required />
+                        Event End Time: <input type="time" value="{{fvalues[3]}}" name="endtime" required />
+                        <button class="submit-btn">Submit</button>
+                        <button type="reset" class="reset-btn">Reset</button>
+                    </form>
+                </div>
+                <div class="form-right">
+                    <h3>Tips</h3>
+                    <ul>
+                        <li>Use clear titles and location in the title</li>
+                        <li>Category help others find campaigns quickly</li>
+                        <li>Short descriptions work best</li>
+                    </ul>
+                    <div class="f-r-b">
+                        <h4>Recent Activity</h4>
+                        No external backend — all changes are simulated and stored locally.
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <section id="contact">
-  <div class="main-cc">
-    <h1 class="cc-h1">Contact Us</h1>
-    <p class="cc-p">
-      Send us a message — we’ll get back to you soon.
-    </p>
-
-    <div class="main-form">
-      <div class="form">
-        <form id="contactForm">
-          {% if c_user == "None" %}
-            <input type="text" name="name" placeholder="Your Name" maxlength="40" required />
-            <input type="email" name="email" placeholder="Your Email" maxlength="40" required />
-          {% else %}
-            <input type="text" name="name" value="{{ fullname }}" readonly />
-            <input type="email" name="email" value="{{ userdetails['email'] }}" readonly />
-          {% endif %}
-         
-          <textarea name="message" placeholder="Write your message..." required></textarea>
-          <button class="submit-btn">Send Message</button>
-        </form>
-      </div>
+    <div class="container">
+        <div class="main-cc" style="max-width: 800px; margin: 0 auto;">
+            <h1 class="cc-h1">Contact Us</h1>
+            <p class="cc-p">Send us a message — we’ll get back to you soon.</p>
+            <div class="main-form">
+                <div class="form">
+                    <form id="contactForm">
+                        {% if c_user == "None" %}
+                            <input type="text" name="name" placeholder="Your Name" maxlength="40" required />
+                            <input type="email" name="email" placeholder="Your Email" maxlength="40" required />
+                        {% else %}
+                            <input type="text" name="name" value="{{ fullname }}" readonly />
+                            <input type="email" name="email" value="{{ userdetails['email'] }}" readonly />
+                        {% endif %}
+                        <textarea name="message" placeholder="Write your message..." required></textarea>
+                        <button class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
 
-
 <script>
+// --- Page Navigation ---
 const navLinks = document.querySelectorAll('.navlink');
 const sections = document.querySelectorAll('section');
+const quickAddBtnEco = document.getElementById('quickAddBtnEco');
 
-function show(id) {
-  navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
-  sections.forEach(s => s.classList.toggle('active', s.id === id));
+function showSection(id) {
+    navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
+    sections.forEach(s => s.classList.toggle('active', s.id === id));
 }
 
-navLinks.forEach(l => l.onclick = () => show(l.dataset.section));
-quickAddBtnEco.onclick = () => show('add');
-if (location.hash) show(location.hash.slice(1));
+navLinks.forEach(l => l.addEventListener('click', () => showSection(l.dataset.section)));
+quickAddBtnEco.addEventListener('click', () => showSection('add'));
+
+// --- Home/Account Toggling ---
+const homeBtn = document.getElementById('homeBtn');
+const accountBtn = document.getElementById('accountBtn');
+const ndhome = document.getElementById('ndhome');
+const accountpage = document.getElementById('accountpage');
+const loginpage = document.getElementById('loginpage');
+const signuppage = document.getElementById('signuppage');
+const showLoginBtn = document.getElementById('showLoginBtn');
+const showSignupBtn = document.getElementById('showSignupBtn');
+
+homeBtn.addEventListener('click', () => {
+    ndhome.style.display = 'block';
+    accountpage.style.display = 'none';
+});
+
+accountBtn.addEventListener('click', () => {
+    ndhome.style.display = 'none';
+    accountpage.style.display = 'flex';
+    // By default, show login if user is not logged in
+    {% if c_user == "None" %}
+        loginpage.style.display = 'flex';
+        signuppage.style.display = 'none';
+    {% endif %}
+});
+
+if (showLoginBtn) {
+    showLoginBtn.addEventListener('click', () => {
+        loginpage.style.display = 'flex';
+        signuppage.style.display = 'none';
+    });
+}
+if (showSignupBtn) {
+    showSignupBtn.addEventListener('click', () => {
+        loginpage.style.display = 'none';
+        signuppage.style.display = 'flex';
+    });
+}
+
+
+// --- Dynamic Quotes ---
+fetch("{{ url_for('static', filename='quotes.txt') }}")
+    .then(r => r.text())
+    .then(t => {
+        const quotes = t.split('\n').filter(Boolean);
+        const displayQuote = () => {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            ndhome.innerHTML = `Active Campaigns: {{ edetailslist|length }}<br><br>— ${randomQuote}`;
+        };
+        displayQuote();
+        setInterval(displayQuote, 5000);
+    });
+
+
+// --- Form Submissions ---
+const addEventForm = document.getElementById('addEventForm');
 
 addEventForm.onsubmit = e => {
-  e.preventDefault();
-  fetch('/addeventreq', { method: 'POST', body: new FormData(e.target) })
+    e.preventDefault();
+    fetch('/addeventreq', { method: 'POST', body: new FormData(e.target) })
     .then(r => r.ok ? r.text() : Promise.reject('Error adding event'))
-    .then(t=>
-       t==='Please Login First To Add Event.' ? (alert(t), location='/'):
-       t==='Event Registered ✅. Kindly wait for approval!' ? (alert(t), location='/'):
-       alert(t))
+    .then(t => {
+        if (t === 'Please Login First To Add Event.' || t === 'Event Registered ✅. Kindly wait for approval!') {
+            alert(t);
+            window.location.href = '/';
+        } else {
+            alert(t);
+        }
+    })
     .catch(alert);
 };
 
 loginpage.onsubmit = e => {
-  e.preventDefault();
-  fetch('/login', { method: 'POST', body: new FormData(e.target) })
-  .then(r => r.ok ? r.text() : Promise.reject('Error Logging in'))
-  .then(t => t === 'Login Success ✅' ? (alert(t), location='/'):
-  alert(t)).catch(alert);
+    e.preventDefault();
+    fetch('/login', { method: 'POST', body: new FormData(e.target) })
+    .then(r => r.ok ? r.text() : Promise.reject('Error Logging in'))
+    .then(t => {
+        alert(t);
+        if (t === 'Login Success ✅') {
+            window.location.href = '/';
+        }
+    }).catch(alert);
 };
 
 signuppage.onsubmit = e => {
-  e.preventDefault();
-  fetch('/signup', { method: 'POST', body: new FormData(e.target) })
+    e.preventDefault();
+    fetch('/signup', { method: 'POST', body: new FormData(e.target) })
     .then(r => r.ok ? r.text() : Promise.reject('Error Signing up'))
-    .then(t => t === 'Signup Success ✅' ? (alert(t), location='/'):
-    alert(t)).catch(alert);};
+    .then(t => {
+        alert(t);
+        if (t === 'Signup Success ✅') {
+            window.location.href = '/';
+        }
+    }).catch(alert);
+};
 
-document.querySelectorAll('#addEventForm input, #addEventForm select').forEach(el =>
-  el.addEventListener('change', e => {
-    let fd = new FormData();
-    fd.append('field', el.name); fd.append('value', el.value);
-    fetch('/save_draft', { method: 'POST', body: fd });
-})
+// --- Save Draft ---
+document.querySelectorAll('#addEventForm input, #addEventForm select, #addEventForm textarea').forEach(el =>
+    el.addEventListener('change', e => {
+        let fd = new FormData();
+        fd.append('field', el.name);
+        fd.append('value', el.value);
+        fetch('/save_draft', { method: 'POST', body: fd });
+    })
 );
 
+// --- Helper Functions ---
 function asktodelete(id) {
-   let askdel = confirm("Are you sure would you like to delete this event?");
-   if (askdel) {
-      window.location.href = "deleteevent/"+id;
-   }
+    if (confirm("Are you sure you would you like to delete this event?")) {
+        window.location.href = "deleteevent/" + id;
+    }
 }
+
+function togglePasswordVisibility(id) {
+    const p = document.getElementById(id);
+    p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+// Show default section on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const sectionId = location.hash ? location.hash.slice(1) : 'home';
+    showSection(sectionId);
+    // Show home content by default inside the right box
+    ndhome.style.display = 'block';
+    accountpage.style.display = 'none';
+});
+
 </script>
 
 </body>
