@@ -201,7 +201,7 @@ def addeventreq(c):
             return "Please Login First To Add Event."
         c.execute(f"INSERT INTO eventreq({efields}) VALUES ({vals})", tuple(event_values))
         for x in field:
-            if x != "username":
+            if x not in ("email", "username"):
                 session.pop(x)
         sendlog(f"#EventRequst \nNew Event Request: {event_values} by {uuname}")
         return "Event Registered ✅. Kindly wait for approval!"
