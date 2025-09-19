@@ -223,6 +223,20 @@ def pendingevents(c):
         return redirect(url_for("home"))
         
 
+@sqldb
+def del_event(c, eventid):
+    try:
+        details = c.execute("SELECT * FROM userdetails WHERE eventid=?", (eventid, )).fetchone()
+        c.execute("DELETE FROM eventdetail where eventid=?", (eventid,))
+        events = details["events"].split(" ")
+        if str(eventid) in events:
+            events.remove(str(eventid))
+            new = " ".join(events)
+            c.execute("UPDATE userdetails SET events=? WHERE username=?", (new, details["username"]))
+    except Exception as e:
+        sendlog(f"Error Deleting Event {eventid}: {e}")
+
+
 @app.route("/deleteevent/<int:eventid>")
 @sqldb
 def deleteevent(c, eventid):
@@ -236,21 +250,16 @@ def deleteevent(c, eventid):
     fe2 = c.fetchone()
     if fe["username"] == uname or fe2["role"]=="admin":
         try:
-            c.execute("DELETE FROM eventdetail WHERE eventid=(?)", (eventid,))
-            ok = c.execute("SELECT events, email FROM userdetails WHERE username=?", (fe["username"], )).fetchone()
-            ev = ok["events"].split(" ")
-            if str(eventid) in ev:
-                ev.remove(str(eventid))
-                repl = " ".join(ev)
-                c.execute("UPDATE userdetails SET events=? WHERE username=?", (repl, extra["username"]))
-                sendmail(extra["email"], "Event Deleted", f"Hey {extra['name']}! Your event {fe['eventname']} with ID {eventid} was deleted by {uname}")
-                sendlog(f"#EventDelete \nEvent Deleted: {eventid}, {fe['eventname']} by {uname}")
+            del_event(c, eventid)
+            sendmail(extra["email"], "Event Deleted", f"Hey {extra['name']}! Your event {fe['eventname']} with ID {eventid} was deleted by {uname}")
+            sendlog(f"#EventDelete \nEvent Deleted: {eventid}, {fe['eventname']} by {uname}")
             return redirect(url_for("home"))
         except Exception as e:
             sendlog(f"Error Deleting Event {eventid}: {e}")
             return f"Error: {e}"
     else:
         return redirect(url_for("home"))
+
 
 @app.route("/logout")
 def logout():
@@ -303,7 +312,7 @@ def checkevent(c):
         for x in ch:
             etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M").replace(tzinfo=ist)
             if etime <= datetime.datetime.now(ist):
-                c.execute("DELETE FROM eventdetail WHERE eventid=?", (x["eventid"],))
+                del_event(c, x["eventid"])
                 sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
         return "<h1>CHECK EVENT LOOP COMPLETED</h1>"
 
