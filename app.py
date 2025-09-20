@@ -57,10 +57,10 @@ def home(c):
             blooddonate.append(x)
         else:
             cleandrive.append(x)
-    fv = []
+    fv = {}
     fi = ["eventname", "email", "starttime", "endtime", "eventdate", "enddate", "location", "category", "description"]
     for x in fi:
-        fv.append(session.get(x, ""))
+        fv[x] = session.get(x, "")
     isadmin = False
     userdetails = {}
     if currentuname:
