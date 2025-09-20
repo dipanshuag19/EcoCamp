@@ -685,13 +685,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const nav = document.querySelector('.nav-inner nav');
 
     function showSection(id) {
+        navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
         sections.forEach(s => s.classList.toggle('active', s.id === id));
         window.scrollTo(0, 0);
         nav.classList.remove('active'); // Close mobile menu on navigation
     }
 
     navLinks.forEach(l => l.onclick = (e) => {
-        e.preventDefault();
         showSection(l.dataset.section);
     });
     
