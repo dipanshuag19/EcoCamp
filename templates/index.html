@@ -617,21 +617,21 @@
             <div class="form-layout">
                 <div class="form">
                     <form id="addEventForm">
-                        <div class="form-group"><input type="text" value="{{fvalues[0]}}" name="eventname" placeholder="Campaign Name (Max 50)" maxlength="50" required /></div>
-                        <div class="form-group"><input type="text" value="{{fvalues[5]}}" name="location" placeholder="Location (Max 30)" maxlength="30" required /></div>
-                        <div class="form-group"><textarea name="description" placeholder="Description (Max 100)" maxlength="100" rows="3" required>{{fvalues[7]}}</textarea></div>
+                        <div class="form-group"><input type="text" value="{{fvalues['eventname']}}" name="eventname" placeholder="Campaign Name (Max 50)" maxlength="50" required /></div>
+                        <div class="form-group"><input type="text" value="{{fvalues['location']}}" name="location" placeholder="Location (Max 30)" maxlength="30" required /></div>
+                        <div class="form-group"><textarea name="description" placeholder="Description (Max 100)" maxlength="100" rows="3" required>{{fvalues['description']}}</textarea></div>
                         <div class="form-group">
                             <select name="category" required>
-                                <option value="" disabled {% if not fvalues[6] %}selected{% endif %}>Select a category</option>
-                                <option value="Tree Plantation" {% if fvalues[6] == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
-                                <option value="Blood Donation" {% if fvalues[6] == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
-                                <option value="Cleanlines Drive" {% if fvalues[6] == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
+                                <option value="" disabled {% if not fvalues['category'] %}selected{% endif %}>Select a category</option>
+                                <option value="Tree Plantation" {% if fvalues['category'] == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
+                                <option value="Blood Donation" {% if fvalues['category'] == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
+                                <option value="Cleanlines Drive" {% if fvalues['category'] == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
                             </select>
                         </div>
-                        <div class="form-group"><label for="eventdate">Start Date</label><input id="eventdate" type="date" value="{{fvalues[4]}}" name="eventdate" required />
-                        <label for="enddate">End Date</label><input id="enddate" type="date" value="{{fvalues[5]}}" name="enddate" required /></div>
-                        <div class="form-group"><label for="starttime">Start Time</label><input id="starttime" type="time" value="{{fvalues[2]}}" name="starttime" required />
-                        <label for="endtime">End Time</label><input id="endtime" type="time" value="{{fvalues[3]}}" name="endtime" required /></div>
+                        <div class="form-group"><label for="eventdate">Start Date</label><input id="eventdate" type="date" value="{{fvalues['eventdate']}}" name="eventdate" required />
+                        <label for="enddate">End Date</label><input id="enddate" type="date" value="{{fvalues['enddate']}}" name="enddate" required /></div>
+                        <div class="form-group"><label for="starttime">Start Time</label><input id="starttime" type="time" value="{{fvalues['starttime']}}" name="starttime" required />
+                        <label for="endtime">End Time</label><input id="endtime" type="time" value="{{fvalues['endtime']}}" name="endtime" required /></div>
 
                         <div class="form-buttons">
                             <button type="submit" class="submit-btn">Submit Campaign</button>
@@ -691,8 +691,9 @@ document.addEventListener('DOMContentLoaded', () => {
         nav.classList.remove('active'); // Close mobile menu on navigation
     }
 
-    navLinks.forEach(l => l.onclick = (e) => {
-        showSection(l.dataset.section);
+    navLinks.forEach(l => {
+    l.onclick = (e) => {
+        e.preventDefault(); const id = l.dataset.section; showSection(id); location.hash = id; };
     });
     
     quickAddBtn.onclick = () => showSection('add');
