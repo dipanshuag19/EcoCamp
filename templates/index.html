@@ -573,7 +573,18 @@
                     <form class="auth-form" id="signuppage">
                         <div class="form-group"><input type="text" name="nameofuser" placeholder="Full Name" maxlength="24" required /></div>
                         <div class="form-group"><input type="text" name="username" placeholder="Username" maxlength="20" required /></div>
-                        <div class="form-group"><input type="email" name="email" placeholder="Email" required /></div>
+                        <div class="form-group"><input type="email" name="email" id="email" placeholder="Email" required /></div>
+                        <button class="toggle-password" onclick="sendsignupotp()">Send OTP </button>
+                        <div class="form-group"><input type="number" name="signupotp" placeholder="Enter OTP" required /></div>
+                        <script>
+                            function sendsignupotp() {
+                                let email = document.getElementById("email").value;
+                                if (!email) {
+                                    alert("Enter a email first");
+                                }
+                                fetch("/sendsignupotp", {method:"POST", body: new FormData({'email': email})}).then(alert("OTP sent! Please check your mail or spam folder");)
+                            }
+                        </script>
                         <div class="form-group">
                             <input type="password" name="password" id="signup_password" placeholder="Password" required />
                              <span class="toggle-password" onclick="togglePasswordVisibility('signup_password')">👁️</span>
