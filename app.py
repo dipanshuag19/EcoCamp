@@ -18,7 +18,7 @@ def sendmail(receiver, subject, message):
     sender = "dipanshuashokagarwal@gmail.com"
     password = os.environ.get("MAIL_APP_PASS")
     context = ssl.create_default_context()
-    msg = f"{subject}\n\n{message}"
+    msg = f"Subject: {subject}\n\n{message}"
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
         smtp.login(sender, password)
         smtp.sendmail(sender, receiver, msg)
@@ -58,6 +58,7 @@ def sendotp(c):
         session["signupotp"] = otp
         email = request.form.get("email")
         sendmail(email, "Signup OTP", f"Your signup OTP is {otp}.")
+        return f"OTP Sent to {email}! Please check spam folder if cant find."
 
 @app.route("/")
 @sqldb
@@ -122,6 +123,7 @@ def signup(c):
             session["username"] = username
             session["name"] = name
             session["email"] = email
+            session.pop("signupotp")
             sendlog(f"New Signup: {name} ({username})")
             return "Signup Success ✅"
 
