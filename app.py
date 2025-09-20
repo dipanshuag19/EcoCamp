@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, url_for, render_template, render_template_string, flash, session, jsonify
 #import sqlite3 as sq
-import os, requests, datetime, time, threading, zoneinfo
+import os, requests, datetime, time, threading, zoneinfo, random
 import sqlitecloud as sq
 from functools import wraps
 
@@ -35,6 +35,29 @@ def sqldb(function):
         db.close()
         return final
     return wrapper
+
+@sqldb
+def del_event(c, eventid):
+    try:
+        details = c.execute("SELECT * FROM userdetails WHERE eventid=?", (eventid, )).fetchone()
+        c.execute("DELETE FROM eventdetail where eventid=?", (eventid,))
+        events = details["events"].split(" ")
+        if str(eventid) in events:
+            events.remove(str(eventid))
+            new = " ".join(events)
+            c.execute("UPDATE userdetails SET events=? WHERE username=?", (new, details["username"]))
+    except Exception as e:
+        sendlog(f"Error Deleting Event {eventid}: {e}")
+
+@app.route("/sendsignupotp", methods=["POST", "GET"])
+@sqldb
+def sendotp(c):
+    if request.method == "POST":
+        otp = random.randint(1111,9999)
+        session.permanent = True
+        session["signupotp"] = otp
+        email = request.form.get("email")
+        sendmail(email, "Signup OTP", f"Your signup OTP is {otp}.")
 
 @app.route("/")
 @sqldb
@@ -83,11 +106,14 @@ def signup(c):
         cpassword = request.form.get("cpassword")
         name = request.form.get("nameofuser")
         email = request.form.get("email")
+        otp = request.form.get("signupotp")
         c.execute("SELECT * FROM userdetails where username=?", (username,))
         if c.fetchone():
             return "Username Exists"
         if c.execute("SELECT * FROM userdetails where email=?", (email,)).fetchone():
             return "Email Exists"
+        if session.get("signupotp") != otp:
+            return "Wrong Signup OTP"
         elif password != cpassword:
             return "Wrong Password"
         else:
@@ -221,21 +247,6 @@ def pendingevents(c):
         return render_template("pendingevents.html", pendingevents=allpending)
     else:
         return redirect(url_for("home"))
-        
-
-@sqldb
-def del_event(c, eventid):
-    try:
-        details = c.execute("SELECT * FROM userdetails WHERE eventid=?", (eventid, )).fetchone()
-        c.execute("DELETE FROM eventdetail where eventid=?", (eventid,))
-        events = details["events"].split(" ")
-        if str(eventid) in events:
-            events.remove(str(eventid))
-            new = " ".join(events)
-            c.execute("UPDATE userdetails SET events=? WHERE username=?", (new, details["username"]))
-    except Exception as e:
-        sendlog(f"Error Deleting Event {eventid}: {e}")
-
 
 @app.route("/deleteevent/<int:eventid>")
 @sqldb
