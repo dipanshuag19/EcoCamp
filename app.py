@@ -113,7 +113,7 @@ def signup(c):
             return "Username Exists"
         if c.execute("SELECT * FROM userdetails where email=?", (email,)).fetchone():
             return "Email Exists"
-        if session.get("signupotp") != otp:
+        if str(session.get("signupotp")) != str(otp).strip():
             return "Wrong Signup OTP"
         elif password != cpassword:
             return "Wrong Password"
