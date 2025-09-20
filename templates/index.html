@@ -253,6 +253,37 @@
         color: var(--text-muted);
     }
 
+    /* START: OTP Button Fix CSS */
+    .otp-group {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    .otp-group input {
+        flex-grow: 1; /* Make input take available space */
+    }
+    .otp-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        flex-shrink: 0; /* Prevent button from shrinking */
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s, opacity 0.2s;
+    }
+    .otp-btn:hover {
+        background-color: var(--primary-hover);
+    }
+    .otp-btn:disabled {
+        background-color: var(--text-muted);
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    /* END: OTP Button Fix CSS */
+
+
     #contact input,
     #contact textarea {
       width: 100%;
@@ -573,18 +604,11 @@
                     <form class="auth-form" id="signuppage">
                         <div class="form-group"><input type="text" name="nameofuser" placeholder="Full Name" maxlength="24" required /></div>
                         <div class="form-group"><input type="text" name="username" placeholder="Username" maxlength="20" required /></div>
-                        <div class="form-group"><input type="email" name="email" id="email" placeholder="Email" required /></div>
-                        <button class="toggle-password" onclick="sendsignupotp()">Send OTP </button>
-                        <div class="form-group"><input type="number" name="signupotp" placeholder="Enter OTP" required /></div>
-                        <script>
-                            function sendsignupotp() {
-                                let email = document.getElementById("email").value;
-                                if (!email) {
-                                    alert("Enter a email first");
-                                }
-                                fetch("/sendsignupotp", {method:"POST", body: new FormData({'email': email})}).then(alert("OTP sent! Please check your mail or spam folder");)
-                            }
-                        </script>
+                        <div class="form-group otp-group">
+                           <input type="email" name="email" id="email" placeholder="Email" required />
+                           <button type="button" id="sendOtpBtn" class="otp-btn">Send OTP</button>
+                        </div>
+                        <div class="form-group"><input type="number" name="signupotp" placeholder="Enter OTP" oninput="this.value=this.value.slice(0,6)" required /></div>
                         <div class="form-group">
                             <input type="password" name="password" id="signup_password" placeholder="Password" required />
                              <span class="toggle-password" onclick="togglePasswordVisibility('signup_password')">👁️</span>
@@ -595,7 +619,7 @@
                         </div>
                         <button type="submit" class="submit-btn">Sign Up</button>
                     </form>
-                {% else %}
+                    {% else %}
                     <h3>Welcome, {{ fullname }}!</h3>
                     <p>Username: {{ c_user }}</p>
                     <p>Email: {{ userdetails['email'] }}</p>
@@ -711,126 +735,136 @@
     </section>
 </main>
 
-
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+    // Helper function to make selecting elements shorter
+    const $ = (selector) => document.querySelector(selector);
 
-    // --- Navigation Logic ---
-    const navLinks = document.querySelectorAll('.navlink');
-    const sections = document.querySelectorAll('main > section');
-    const quickAddBtn = document.getElementById('quickAddBtnEco');
-    const menuToggle = document.getElementById('menuToggle');
-    const nav = document.querySelector('.nav-inner nav');
+    // --- Global Functions (for inline HTML on Clicks) ---
+    window.asktodelete = (id) => {
+        if (confirm("Are you sure you want to delete this event? This action cannot be undone.")) {
+            window.location.href = `deleteevent/${id}`;
+        }
+    };
 
-    function showSection(id) {
-        navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
-        sections.forEach(s => s.classList.toggle('active', s.id === id));
-        window.scrollTo(0, 0);
-        nav.classList.remove('active'); // Close mobile menu on navigation
-    }
+    window.togglePasswordVisibility = (id) => {
+        const field = $(`#${id}`);
+        if (field) field.type = field.type === 'password' ? 'text' : 'password';
+    };
 
-    navLinks.forEach(l => {
-    l.onclick = (e) => {
-        e.preventDefault(); const id = l.dataset.section; showSection(id); location.hash = id; };
-    });
-    
-    quickAddBtn.onclick = () => showSection('add');
-    if (location.hash) showSection(location.hash.slice(1));
-    
-    // Hamburger menu toggle
-    menuToggle.onclick = () => nav.classList.toggle('active');
+    // --- Main Application Logic ---
+    document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Form Submissions ---
-    const addEventForm = document.getElementById('addEventForm');
-    if(addEventForm) {
-        addEventForm.onsubmit = e => {
+        const nav = $('nav');
+        const sections = document.querySelectorAll('main > section');
+        const navLinks = document.querySelectorAll('.navlink');
+
+        // --- Section & Navigation Management ---
+        const showSection = (id) => {
+            const targetId = id || 'home';
+            navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === targetId));
+            sections.forEach(s => s.classList.toggle('active', s.id === targetId));
+            window.scrollTo(0, 0);
+            nav.classList.remove('active'); // Close mobile nav
+        };
+
+        // Event Delegation for navigation
+        nav.addEventListener('click', (e) => {
+            if (e.target.matches('.navlink')) {
+                e.preventDefault();
+                showSection(e.target.dataset.section);
+                location.hash = e.target.dataset.section;
+            }
+        });
+        
+        $('#quickAddBtnEco')?.addEventListener('click', () => showSection('add'));
+        $('#menuToggle')?.addEventListener('click', () => nav.classList.toggle('active'));
+        
+        // Show section based on URL hash or default to home
+        showSection(location.hash.slice(1));
+
+        // --- Form Submission Handler ---
+        const handleFormSubmit = async (formElement, successCallback) => {
+            try {
+                const response = await fetch(formElement.dataset.url, { method: 'POST', body: new FormData(formElement) });
+                const text = await response.text();
+                alert(text);
+                if (successCallback) successCallback(text);
+            } catch (err) {
+                alert('An error occurred. Please try again.');
+                console.error(err);
+            }
+        };
+        
+        // Attach form listeners
+        $('#loginpage')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            fetch('/addeventreq', { method: 'POST', body: new FormData(e.target) })
-            .then(r => r.ok ? r.text() : Promise.reject('Error adding event'))
-            .then(t => {
-                if (t === 'Please Login First To Add Event.') {
-                    alert(t);
-                    showSection('home'); // Redirect to home/login
-                } else if (t === 'Event Registered ✅. Kindly wait for approval!') {
-                    alert(t);
-                    location.reload(); // Reload to see changes or clear form
-                } else {
-                    alert(t);
-                }
-            })
-            .catch(alert);
-        };
-    }
-    
-    const loginpage = document.getElementById('loginpage');
-    if(loginpage) {
-        loginpage.onsubmit = e => {
+            e.target.dataset.url = '/login';
+            handleFormSubmit(e.target, (text) => {
+                if (text.includes('Success')) location.reload();
+            });
+        });
+        
+        $('#signuppage')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            fetch('/login', { method: 'POST', body: new FormData(e.target) })
-            .then(r => r.ok ? r.text() : Promise.reject('Error Logging in'))
-            .then(t => {
-                alert(t);
-                if (t === 'Login Success ✅') location.reload();
-            }).catch(alert);
-        };
-    }
-    
-    const signuppage = document.getElementById('signuppage');
-    if(signuppage) {
-        signuppage.onsubmit = e => {
+            e.target.dataset.url = '/signup';
+            handleFormSubmit(e.target, (text) => {
+                if (text.includes('Success')) location.reload();
+            });
+        });
+
+        $('#addEventForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            fetch('/signup', { method: 'POST', body: new FormData(e.target) })
-            .then(r => r.ok ? r.text() : Promise.reject('Error Signing up'))
-            .then(t => {
-                alert(t);
-                if (t === 'Signup Success ✅') location.reload();
-            }).catch(alert);
-        };
-    }
+            e.target.dataset.url = '/addeventreq';
+            handleFormSubmit(e.target, (text) => {
+                if (text.includes('Please Login')) showSection('home');
+                else if (text.includes('Registered')) location.reload();
+            });
+        });
+        
+        // --- Auth Tab Toggling (using Event Delegation) ---
+        $('.toggle-buttons')?.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON') return;
+            const showLogin = e.target.id === 'login-tab-btn';
+            $('#login-tab-btn').classList.toggle('active', showLogin);
+            $('#signup-tab-btn').classList.toggle('active', !showLogin);
+            $('#loginpage').classList.toggle('active', showLogin);
+            $('#signuppage').classList.toggle('active', !showLogin);
+        });
 
-    // --- Auth Form Toggling ---
-    const loginTabBtn = document.getElementById('login-tab-btn');
-    const signupTabBtn = document.getElementById('signup-tab-btn');
+        // --- Send OTP Logic ---
+        $('#sendOtpBtn')?.addEventListener('click', async (e) => {
+            const btn = e.target;
+            const emailField = $("#email");
+            if (!emailField.checkValidity()) return alert("Please enter a valid email address.");
 
-    if (loginTabBtn && signupTabBtn) {
-        loginTabBtn.onclick = () => {
-            loginTabBtn.classList.add('active');
-            signupTabBtn.classList.remove('active');
-            document.getElementById('loginpage').classList.add('active');
-            document.getElementById('signuppage').classList.remove('active');
-        };
-        signupTabBtn.onclick = () => {
-            signupTabBtn.classList.add('active');
-            loginTabBtn.classList.remove('active');
-            document.getElementById('signuppage').classList.add('active');
-            document.getElementById('loginpage').classList.remove('active');
-        };
-    }
-
-    // --- Save Draft Logic ---
-    document.querySelectorAll('#addEventForm input, #addEventForm select, #addEventForm textarea').forEach(el => {
-        el.addEventListener('change', () => {
-            let fd = new FormData();
-            fd.append('field', el.name);
-            fd.append('value', el.value);
+            btn.disabled = true;
+            btn.textContent = "Sending...";
+            
+            const formData = new FormData();
+            formData.append('email', emailField.value);
+            
+            try {
+                const response = await fetch("/sendsignupotp", { method: "POST", body: formData });
+                if (!response.ok) throw new Error(await response.text() || 'Failed to send OTP.');
+                alert("OTP sent! Please check your email.");
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.textContent = "Send OTP";
+                }, 5000); // 5-second cooldown
+            }
+        });
+        
+        // --- Save Draft Logic (using Event Delegation) ---
+        $('#addEventForm')?.addEventListener('change', (e) => {
+            const fd = new FormData();
+            fd.append('field', e.target.name);
+            fd.append('value', e.target.value);
             fetch('/save_draft', { method: 'POST', body: fd });
         });
     });
-});
-
-// --- Global Helper Functions ---
-function asktodelete(id) {
-    if (confirm("Are you sure you want to delete this event? This action cannot be undone.")) {
-        window.location.href = "deleteevent/" + id;
-    }
-}
-
-function togglePasswordVisibility(id) {
-    const passwordField = document.getElementById(id);
-    if (passwordField) {
-        passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
-    }
-}
 </script>
 
 </body>
