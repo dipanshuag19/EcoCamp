@@ -28,6 +28,13 @@
     .cta { background: var(--primary-color); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background .2s var(--ease),transform .2s var(--ease); margin-left: 1rem; }
     .cta:hover { background: var(--primary-hover); transform: translateY(-2px); }
     .menu-toggle { display: none; background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; }
+    
+    /* --- Language Selector --- */
+    .language-selector { margin-left: 1rem; }
+    .language-selector select { padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-light); color: var(--text-color); cursor: pointer; font-family: inherit; font-weight: 600; }
+    .language-selector select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
+    .language-selector option { background: var(--bg-dark); color: var(--text-color); }
+    
     section { max-width: var(--max-width); margin: 0 auto; padding: 100px 1rem 40px; display: none; }
     section.active { display: block; }
     h1, h2, h3, h4 { color: var(--text-color); margin-bottom: 1rem; }
@@ -49,11 +56,7 @@
     .otp-btn:hover { background: var(--primary-hover); }
     .otp-btn:disabled { background: var(--text-muted); opacity: .7; cursor: not-allowed; }
     #contact input, #contact textarea { width: 100%; padding: 10px 12px; border: 1px solid #2d3748; border-radius: 6px; background: #1e293b; color: #f1f5f9; }
-    /* Unified placeholder color for all inputs and textareas */
-    input::placeholder, textarea::placeholder, select::placeholder {
-        color: #b0b8c9 !important;
-        opacity: 1;
-    }
+    input::placeholder, textarea::placeholder, select::placeholder { color: #b0b8c9 !important; opacity: 1; }
     #contactForm { max-width: 600px; margin: 0 auto; }
     #contact input:focus, #contact textarea:focus { border-color: #3b82f6; outline: none; }
     .campaign-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
@@ -91,10 +94,13 @@
     .view-all-btn { display: inline-block; margin-top: 1rem; margin-left: 0; }
     #backToAllBtn { display: none; margin-bottom: 2rem; margin-left: 0; }
     .campaign-card.hidden { display: none; }
+    
     @media (max-width: 768px) {
         nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-light); flex-direction: column; align-items: stretch; padding: 1rem; border-bottom: 1px solid var(--border-color); }
         nav.active { display: flex; }
         .cta { margin-left: 0; width: 100%; text-align: center; }
+        .language-selector { margin-left: 0; margin-top: 0.5rem; margin-bottom: 0.5rem; width: 100%; }
+        .language-selector select { width: 100%; }
         .menu-toggle { display: block; }
         .home-layout, .form-layout { grid-template-columns: 1fr; }
         .home-hero h1 { font-size: 2rem; }
@@ -119,7 +125,25 @@
             <a class="navlink active" href="#home" data-section="home">Home</a>
             <a class="navlink" href="#campaigns" data-section="campaigns">Campaigns</a>
             <a class="navlink" href="#add" data-section="add">Add</a>
-            <a class="navlink" href="#contact" data-section="contact">Contact</a>
+            <a class="navlink" href="#contact" data-section="contact">Contact}</a>
+            
+            <div class="language-selector">
+                <select id="languageDropdown">
+                    <option value="as" {% if user_language_code == 'as' %}selected{% endif %}>অসমীয়া (Assamese)</option>
+                    <option value="bn" {% if user_language_code == 'bn' %}selected{% endif %}>বাংলা (Bengali)</option>
+                    <option value="en" {% if user_language_code == 'en' %}selected{% endif %}>English</option>
+                    <option value="gu" {% if user_language_code == 'gu' %}selected{% endif %}>ગુજરાતી (Gujarati)</option>
+                    <option value="hi" {% if user_language_code == 'hi' %}selected{% endif %}>हिन्दी (Hindi)</option>
+                    <option value="kn" {% if user_language_code == 'kn' %}selected{% endif %}>ಕನ್ನಡ (Kannada)</option>
+                    <option value="ml" {% if user_language_code == 'ml' %}selected{% endif %}>മലയാളം (Malayalam)</option>
+                    <option value="mr" {% if user_language_code == 'mr' %}selected{% endif %}>मराठी (Marathi)</option>
+                    <option value="pa" {% if user_language_code == 'pa' %}selected{% endif %}>ਪੰਜਾਬੀ (Punjabi)</option>
+                    <option value="ta" {% if user_language_code == 'ta' %}selected{% endif %}>தமிழ் (Tamil)</option>
+                    <option value="te" {% if user_language_code == 'te' %}selected{% endif %}>తెలుగు (Telugu)</option>
+                    <option value="ur" {% if user_language_code == 'ur' %}selected{% endif %}>اردو (Urdu)</option>
+                </select>
+            </div>
+
             <button class="cta" id="quickAddBtnEco">+ New Campaign</button>
         </nav>
     </div>
