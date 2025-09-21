@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-t" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>EcoCamp — A Greener Tommorow!</title>
 
@@ -28,12 +28,6 @@
     .cta { background: var(--primary-color); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background .2s var(--ease),transform .2s var(--ease); margin-left: 1rem; }
     .cta:hover { background: var(--primary-hover); transform: translateY(-2px); }
     .menu-toggle { display: none; background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; }
-    
-    /* --- Language Selector --- */
-    .language-selector { margin-left: 1rem; }
-    .language-selector select { padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-light); color: var(--text-color); cursor: pointer; font-family: inherit; font-weight: 600; }
-    .language-selector select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
-    .language-selector option { background: var(--bg-dark); color: var(--text-color); }
     
     section { max-width: var(--max-width); margin: 0 auto; padding: 100px 1rem 40px; display: none; }
     section.active { display: block; }
@@ -99,8 +93,6 @@
         nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-light); flex-direction: column; align-items: stretch; padding: 1rem; border-bottom: 1px solid var(--border-color); }
         nav.active { display: flex; }
         .cta { margin-left: 0; width: 100%; text-align: center; }
-        .language-selector { margin-left: 0; margin-top: 0.5rem; margin-bottom: 0.5rem; width: 100%; }
-        .language-selector select { width: 100%; }
         .menu-toggle { display: block; }
         .home-layout, .form-layout { grid-template-columns: 1fr; }
         .home-hero h1 { font-size: 2rem; }
@@ -125,54 +117,19 @@
             <a class="navlink active" href="#home" data-section="home">Home</a>
             <a class="navlink" href="#campaigns" data-section="campaigns">Campaigns</a>
             <a class="navlink" href="#add" data-section="add">Add</a>
-            <a class="navlink" href="#contact" data-section="contact">Contact}</a>
+            <a class="navlink" href="#contact" data-section="contact">Contact</a>
             
-            <div class="language-selector">
-                <select id="languageDropdown">
-                    <option value="as" {% if user_language_code == 'as' %}selected{% endif %}>অসমীয়া (Assamese)</option>
-                    <option value="bn" {% if user_language_code == 'bn' %}selected{% endif %}>বাংলা (Bengali)</option>
-                    <option value="en" {% if user_language_code == 'en' %}selected{% endif %}>English</option>
-                    <option value="gu" {% if user_language_code == 'gu' %}selected{% endif %}>ગુજરાતી (Gujarati)</option>
-                    <option value="hi" {% if user_language_code == 'hi' %}selected{% endif %}>हिन्दी (Hindi)</option>
-                    <option value="kn" {% if user_language_code == 'kn' %}selected{% endif %}>ಕನ್ನಡ (Kannada)</option>
-                    <option value="ml" {% if user_language_code == 'ml' %}selected{% endif %}>മലയാളം (Malayalam)</option>
-                    <option value="mr" {% if user_language_code == 'mr' %}selected{% endif %}>मराठी (Marathi)</option>
-                    <option value="pa" {% if user_language_code == 'pa' %}selected{% endif %}>ਪੰਜਾਬੀ (Punjabi)</option>
-                    <option value="ta" {% if user_language_code == 'ta' %}selected{% endif %}>தமிழ் (Tamil)</option>
-                    <option value="te" {% if user_language_code == 'te' %}selected{% endif %}>తెలుగు (Telugu)</option>
-                    <option value="ur" {% if user_language_code == 'ur' %}selected{% endif %}>اردو (Urdu)</option>
-                </select>
-            </div>
-
             <button class="cta" id="quickAddBtnEco">+ New Campaign</button>
         </nav>
     </div>
 </header>
-
-<div class="language-selector" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
-    <select id="languageDropdown" style="padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-light); color: var(--text-color);">
-    <option value="" disabled selected>{{ user_language }} </option>
-    <option value="as">অসমীয়া (Assamese)</option>
-    <option value="bn">বাংলা (Bengali)</option>
-    <option value="en">English</option>
-    <option value="gu">ગુજરાતી (Gujarati)</option>
-    <option value="hi">हिन्दी (Hindi)</option>
-    <option value="kn">ಕನ್ನಡ (Kannada)</option>
-    <option value="ml">മലയാളം (Malayalam)</option>
-    <option value="mr">मराठी (Marathi)</option>
-    <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-    <option value="ta">தமிழ் (Tamil)</option>
-    <option value="te">తెలుగు (Telugu)</option>
-    <option value="ur">اردو (Urdu)</option>
-    </select>
-</div>
 
 <main>
     <section id="home" class="active">
         <div class="home-layout">
             <div class="home-hero">
                 <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
-                <p> {{ translate("Join hands to protect our green planet. Start a campaign, plant hope for a brighter, cleaner tomorrow.") }}</p>
+                <p>Join hands to protect our green planet. Start a campaign, plant hope for a brighter, cleaner tomorrow.</p>
                 <div id="ndhome"></div>
                 <script>
                 fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t=>{
@@ -364,16 +321,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- Helpers ---
-        const $ = s => document.querySelector(s);
-        const $$ = s => document.querySelectorAll(s);
-        window.asktodelete = id => confirm("Are you sure you want to delete this event? This action cannot be undone.") && (window.location.href = `deleteevent/${id}`);
-        window.togglePasswordVisibility = id => {
-            const f = $(`#${id}`);
-            if (f) f.type = f.type === 'password' ? 'text' : 'password';
-        };
+        const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+        window.asktodelete = id => confirm("Are you sure?") && (window.location.href = `deleteevent/${id}`);
+        window.togglePasswordVisibility = id => { const f = $(`#${id}`); f && (f.type = f.type === 'password' ? 'text' : 'password'); };
 
-        // --- Navigation ---
         const nav = $('nav');
         const showSection = id => {
             const target = id || 'home';
@@ -382,56 +333,39 @@
             window.scrollTo(0, 0);
             nav.classList.remove('active');
         };
+
         document.body.addEventListener('click', e => {
-            if (e.target.matches('.navlink')) {
-                e.preventDefault();
-                showSection(e.target.dataset.section);
-                location.hash = e.target.dataset.section;
-            }
+            if (e.target.matches('.navlink')) { e.preventDefault(); showSection(e.target.dataset.section); location.hash = e.target.dataset.section; }
             if (e.target.matches('#quickAddBtnEco')) showSection('add');
             if (e.target.matches('#menuToggle')) nav.classList.toggle('active');
         });
         showSection(location.hash.slice(1));
         window.addEventListener('hashchange', () => showSection(location.hash.slice(1)));
 
-        // --- Form Submission Handler (with button disabling) ---
         const handleFormSubmit = async (form, callback) => {
-            const btn = form.querySelector('button[type="submit"]');
-            const originalBtnText = btn.textContent;
-            btn.disabled = true;
-            btn.textContent = 'Processing...';
+            const btn = form.querySelector('button[type="submit"]'), originalBtnText = btn.textContent;
+            btn.disabled = true; btn.textContent = 'Processing...';
             try {
                 const response = await fetch(form.dataset.url, { method: 'POST', body: new FormData(form) });
                 const text = await response.text();
                 alert(text);
-                if (callback) callback(text);
+                callback && callback(text);
             } catch (error) {
-                alert('An error occurred. Please try again.');
-                console.error(error);
+                alert('An error occurred.'); console.error(error);
             } finally {
-                btn.disabled = false;
-                btn.textContent = originalBtnText;
+                btn.disabled = false; btn.textContent = originalBtnText;
             }
         };
 
-        // --- Event Listeners ---
-        $('#loginpage')?.addEventListener('submit', e => {
-            e.preventDefault(); e.target.dataset.url = '/login';
-            handleFormSubmit(e.target, text => text.includes('Success') && location.reload());
-        });
-        $('#signuppage')?.addEventListener('submit', e => {
-            e.preventDefault(); e.target.dataset.url = '/signup';
-            handleFormSubmit(e.target, text => text.includes('Success') && location.reload());
-        });
-        $('#addEventForm')?.addEventListener('submit', e => {
-            e.preventDefault(); e.target.dataset.url = '/addeventreq';
-            handleFormSubmit(e.target, text => {
-                if (text.includes('Please Login')) showSection('home');
-                else if (text.includes('Registered')) location.reload();
+        const addFormSubmitListener = (selector, url, callback) => {
+            $(selector)?.addEventListener('submit', e => {
+                e.preventDefault(); e.target.dataset.url = url; handleFormSubmit(e.target, callback);
             });
-        });
+        };
+        addFormSubmitListener('#loginpage', '/login', text => text.includes('Success') && location.reload());
+        addFormSubmitListener('#signuppage', '/signup', text => text.includes('Success') && location.reload());
+        addFormSubmitListener('#addEventForm', '/addeventreq', text => text.includes('Please Login') ? showSection('home') : text.includes('Registered') && location.reload());
 
-        // --- Auth Tab Toggling ---
         $('.toggle-buttons')?.addEventListener('click', e => {
             if (e.target.tagName !== 'BUTTON') return;
             const isLogin = e.target.id === 'login-tab-btn';
@@ -441,77 +375,45 @@
             $('#signuppage').classList.toggle('active', !isLogin);
         });
 
-        // --- OTP Sender ---
         $('#sendOtpBtn')?.addEventListener('click', async e => {
             const btn = e.target, emailEl = $("#email");
             if (!emailEl.checkValidity()) return alert("Please enter a valid email address.");
             btn.disabled = true; btn.textContent = "Sending...";
-            const fd = new FormData(); fd.append('email', emailEl.value);
             try {
+                const fd = new FormData(); fd.append('email', emailEl.value);
                 const r = await fetch("/sendsignupotp", { method: "POST", body: fd });
                 if (!r.ok) throw new Error(await r.text() || 'Failed to send OTP.');
-                alert(`OTP sent to ${emailEl.value}! Please check your email or spam folder.`);
+                alert(`OTP sent to ${emailEl.value}!`);
             } catch (err) { alert(err.message);
             } finally { setTimeout(() => { btn.disabled = false; btn.textContent = "Send OTP"; }, 5000); }
         });
 
-        // --- Campaign View Toggling ---
-        const campaignsSection = $('#campaigns');
-        const backToAllBtn = $('#backToAllBtn');
-        const allCategoryWrappers = campaignsSection.querySelectorAll('.campaign-category-wrapper');
-
-        campaignsSection.addEventListener('click', (e) => {
-            if (e.target.matches('.view-all-btn')) {
-                const categoryIdToShow = e.target.dataset.categoryId;
-                
-                // Hide all category wrappers except the one we want to show
-                allCategoryWrappers.forEach(wrapper => {
-                    if (wrapper.dataset.categoryId === categoryIdToShow) {
-                        wrapper.style.display = 'block';
-                        // Show all hidden cards within this category
-                        wrapper.querySelectorAll('.campaign-card.hidden').forEach(card => card.classList.remove('hidden'));
-                    } else {
-                        wrapper.style.display = 'none';
-                    }
-                });
-                
-                // Show the 'Back' button and scroll to top of section
-                backToAllBtn.style.display = 'block';
-                campaignsSection.scrollIntoView({ behavior: 'smooth' });
-            }
+        const campaignsSection = $('#campaigns'), backToAllBtn = $('#backToAllBtn');
+        const allCategoryWrappers = $$('.campaign-category-wrapper');
+        campaignsSection.addEventListener('click', e => {
+            if (!e.target.matches('.view-all-btn')) return;
+            const categoryIdToShow = e.target.dataset.categoryId;
+            allCategoryWrappers.forEach(wrapper => {
+                const show = wrapper.dataset.categoryId === categoryIdToShow;
+                wrapper.style.display = show ? 'block' : 'none';
+                if(show) wrapper.querySelectorAll('.campaign-card.hidden').forEach(c => c.classList.remove('hidden'));
+            });
+            backToAllBtn.style.display = 'block';
+            campaignsSection.scrollIntoView({ behavior: 'smooth' });
         });
 
         backToAllBtn.addEventListener('click', () => {
-            // Show all category wrappers again
-            allCategoryWrappers.forEach((wrapper, index) => {
-                wrapper.style.display = 'block';
-                // Re-hide cards beyond the 3rd one
-                wrapper.querySelectorAll('.campaign-card').forEach((card, cardIndex) => {
-                    if (cardIndex >= 3) {
-                        card.classList.add('hidden');
-                    }
-                });
+            allCategoryWrappers.forEach(w => {
+                w.style.display = 'block';
+                w.querySelectorAll('.campaign-card').forEach((c, i) => i >= 3 && c.classList.add('hidden'));
             });
-
-            // Hide the 'Back' button
             backToAllBtn.style.display = 'none';
         });
         
-        // --- Save Draft ---
         $('#addEventForm')?.addEventListener('change', e => {
-            const fd = new FormData();
-            fd.append('field', e.target.name);
-            fd.append('value', e.target.value);
+            const fd = new FormData(); fd.append('field', e.target.name); fd.append('value', e.target.value);
             fetch('/save_draft', { method: 'POST', body: fd });
         });
-    });
-</script>
-
-<script>
-    document.getElementById('languageDropdown').addEventListener('change', function() {
-        const selectedLanguage = this.value;
-        window.location.href = `/set_language/${selectedLanguage}`;
-        alert(`Language changed to: ${selectedLanguage}`);
     });
 </script>
 
