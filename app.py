@@ -64,9 +64,8 @@ def sendotp(c):
         print(f"Generated OTP: {otp}")
         return f"OTP Sent to {email}! Please check spam folder if cant find."
 
-user_language = "en"
 def translate_text(text):
-    t = GoogleTranslator(source='auto', target=user_language)
+    t = GoogleTranslator(source='auto', target=session.get("language", "en"))
     return t.translate(text)
     
 @app.template_filter("datetimeformat")
@@ -84,14 +83,8 @@ def set_language(language):
 @app.route("/")
 @sqldb
 def home(c):
-    global user_language
-    if session.get("language"):
-        user_language = session.get("language")
     user = ""
-    if not session.get('name'):
-        currentuser = "User"
-    else:
-        currentuser = session["name"]
+    currentuser = session.get("name", "User")
     currentuname = session.get("username")
     print("Welcome", currentuser)
     # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
@@ -120,7 +113,7 @@ def home(c):
     if request.args.get("api"):
         sendlog(f"API Accessed by {currentuser} ({currentuname})")
         return jsonify({"user": currentuser, "username": currentuname, "is_admin": isadmin, "events": edetailslist, "favorites": fv})
-    return render_template("index.html", user_language=user_language ,translate=translate_text, edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
+    return render_template("index.html", user_language=session.get("language", "en"),translate=translate_text, edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
