@@ -5,44 +5,57 @@
 </head>
 <body>
 <h1>Pending Events</h1>
-
-{% for x in pendingevents %}
-<form action="/addevent" method="POST">
-    
-    Event ID:
-    <input type="number" name="eventid" value="{{x.eventid}}" disabled><br>
-    Event Name: 
-    <input type="text" name="eventname" value="{{x.eventname}}" maxlength="50" required><br>
-    Email:
-    <input type="email" name="email" value="{{x.email}}" maxlength="50" required><br>
-    Location:
-    <input type="text" name="location" value="{{x.location}}" maxlength="30" required><br>
-    Description:
-    <input type="text" name="description" value="{{x.description}}" maxlength="100" required><br>
-    Username:
-    <input type="text" name="username" value="{{x.username}}" maxlength="100" required><br>
-    Category:
-    <select name="category" required>
-        <option value="Tree Plantation" {% if x.category == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
-        <option value="Blood Donation" {% if x.category == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
-        <option value="Cleanlines Drive" {% if x.category == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
-    </select><br>
-    Event Date:
-    <input type="date" name="eventdate" value="{{x.eventdate}}" required><br>
-    End Date:
-    <input type="date" name="enddate" value="{{x.enddate}}" required><br>
-    Event Start Time:
-    <input type="time" name="starttime" value="{{x.starttime}}" required><br> 
-    Event End Time:
-    <input type="time" name="endtime" value="{{x.endtime}}" required><br>
-    <button type="submit">Submit</button>
-    <button type="button" onclick="declineevent({{x.eventid}})">Decline</button>
-</form>
-{% endfor %}
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse; width:100%; background:#1e293b; color:#f1f5f9;">
+    <thead>
+        <tr>
+            <th>Event ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Event Date</th>
+            <th>End Date</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Username</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for event in pendingevents %}
+        <tr>
+            <form action="/addevent" method="POST">
+            <td><input type="number" name="eventid" value="{{event.eventid}}" readonly style="width:70px;background:#222;color:#fff;"></td>
+            <td><input type="text" name="eventname" value="{{event.eventname}}" maxlength="50" required style="width:120px;"></td>
+            <td><input type="email" name="email" value="{{event.email}}" maxlength="40" required style="width:140px;"></td>
+            <td><input type="time" name="starttime" value="{{event.starttime}}" required style="width:90px;"></td>
+            <td><input type="time" name="endtime" value="{{event.endtime}}" required style="width:90px;"></td>
+            <td><input type="date" name="eventdate" value="{{event.eventdate}}" required style="width:120px;"></td>
+            <td><input type="date" name="enddate" value="{{event.enddate}}" required style="width:120px;"></td>
+            <td><input type="text" name="location" value="{{event.location}}" maxlength="30" required style="width:120px;"></td>
+            <td>
+                <select name="category" required style="width:120px;">
+                    <option value="Tree Plantation" {% if event.category == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
+                    <option value="Blood Donation" {% if event.category == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
+                    <option value="Cleanlines Drive" {% if event.category == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
+                </select>
+            </td>
+            <td><input type="text" name="description" value="{{event.description}}" maxlength="100" required style="width:180px;"></td>
+            <td><input type="text" name="username" value="{{event.username}}" maxlength="100" required style="width:120px;"></td>
+            <td>
+                <button type="submit">Approve</button>
+                <button type="button" onclick="declineevent({{event.eventid}})">Decline</button>
+            </td>
+            </form>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
     
 <script>
     function declineevent(eventid) {
-        let okk = prompt("Enter the reason to decline in short: ")
+        let okk = prompt("Enter the reason to decline in short:");
         if (okk) {
             window.location.href = "/decline_event/" + eventid + "/" + encodeURIComponent(okk);
         }
