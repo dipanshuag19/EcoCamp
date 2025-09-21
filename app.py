@@ -3,6 +3,7 @@ from flask import Flask, request, redirect, url_for, render_template, render_tem
 import os, requests, datetime, time, threading, zoneinfo, random
 import sqlitecloud as sq
 from functools import wraps
+from deep_translator import GoogleTranslator
 
 app = Flask(__name__)
 app.secret_key = "ecocamp.fp"
@@ -36,10 +37,10 @@ def sqldb(function):
         return final
     return wrapper
 
-@sqldb
 def del_event(c, eventid):
     try:
-        details = c.execute("SELECT * FROM userdetails WHERE eventid=?", (eventid, )).fetchone()
+        edetail = c.execute("SELECT * FROM eventdetail WHERE eventid=?", (eventid,)).fetchone()
+        details = c.execute("SELECT * FROM userdetails WHERE username=?", (edetail["username"],)).fetchone()
         c.execute("DELETE FROM eventdetail where eventid=?", (eventid,))
         events = details["events"].split(" ")
         if str(eventid) in events:
@@ -48,6 +49,7 @@ def del_event(c, eventid):
             c.execute("UPDATE userdetails SET events=? WHERE username=?", (new, details["username"]))
     except Exception as e:
         sendlog(f"Error Deleting Event {eventid}: {e}")
+        print(f"Error Deleting Event {eventid}: {e}")
 
 @app.route("/sendsignupotp", methods=["POST", "GET"])
 @sqldb
@@ -58,15 +60,33 @@ def sendotp(c):
         session["signupotp"] = otp
         email = request.form.get("email")
         sendmail(email, "Signup OTP", f"Your signup OTP is {otp}.")
+        print(f"Session OTP: {session.get('signupotp')}")
+        print(f"Generated OTP: {otp}")
         return f"OTP Sent to {email}! Please check spam folder if cant find."
 
+user_language = "en"
+def translate_text(text):
+    t = GoogleTranslator(source='auto', target=user_language)
+    return t.translate(text)
+    
 @app.template_filter("datetimeformat")
 def datetimeformat(value):
     return datetime.datetime.strptime(value, "%Y-%m-%d").strftime("%d %B %Y")
 
+@app.route("/set_language/<path:language>", methods=["GET", "POST"])
+def set_language(language):
+    global user_language
+    if language:
+        session["language"] = language
+        user_language = language
+        return redirect(url_for("home"))
+
 @app.route("/")
 @sqldb
 def home(c):
+    global user_language
+    if session.get("language"):
+        user_language = session.get("language")
     user = ""
     if not session.get('name'):
         currentuser = "User"
@@ -100,7 +120,7 @@ def home(c):
     if request.args.get("api"):
         sendlog(f"API Accessed by {currentuser} ({currentuname})")
         return jsonify({"user": currentuser, "username": currentuname, "is_admin": isadmin, "events": edetailslist, "favorites": fv})
-    return render_template("index.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
+    return render_template("index.html", user_language=user_language ,translate=translate_text, edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
@@ -339,4 +359,4 @@ def checkevent(c):
 #     return "CHECK EVENT LOOP COMPLETED"
     
 # if __name__ == "__main__":
-#     threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
+#     # threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
