@@ -60,6 +60,10 @@ def sendotp(c):
         sendmail(email, "Signup OTP", f"Your signup OTP is {otp}.")
         return f"OTP Sent to {email}! Please check spam folder if cant find."
 
+@app.template_filter("datetimeformat")
+def datetimeformat(value):
+    return datetime.datetime.strptime(value, "%Y-%m-%d").strftime("%d %B %Y")
+
 @app.route("/")
 @sqldb
 def home(c):
