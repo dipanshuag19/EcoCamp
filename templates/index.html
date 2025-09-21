@@ -3,538 +3,97 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>EcoCamp — A Blue Horizon</title>
+<title>EcoCamp — A Greener Tommorow!</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+
     :root {
-        --primary-color: #3b82f6; /* A vibrant blue */
-        --primary-hover: #2563eb;
-        --bg-dark: #0f172a; /* Deep navy background */
-        --bg-light: #1e293b; /* Lighter navy for cards/nav */
-        --text-color: #f1f5f9; /* Off-white for readability */
-        --text-muted: #94a3b8; /* Grayish blue for subtle text */
-        --border-color: rgba(148, 163, 184, 0.2);
-        --success-color: #22c55e;
-        --radius: 12px;
-        --max-width: 1200px;
-        --ease: cubic-bezier(.2, .9, .3, 1);
-    }
-
-    /* --- Base & Reset --- */
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    html {
-        scroll-behavior: smooth;
-    }
-
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: var(--bg-dark);
-        color: var(--text-color);
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-smoothing: grayscale;
-        line-height: 1.6;
-    }
-
-    /* --- Header & Navigation --- */
-    .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        background: rgba(15, 23, 42, 0.8);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--border-color);
-        padding: 0 1rem;
-    }
-
-    .nav-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        max-width: var(--max-width);
-        margin: 0 auto;
-        height: 70px;
-    }
-
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-weight: 700;
-        font-size: 20px;
-        color: var(--text-color);
-        text-decoration: none;
-    }
-
-    .logo {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, var(--primary-color), #60a5fa);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        color: white;
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    }
-
-    .brand-text div:first-child {
-        font-size: 16px;
-    }
-
-    .brand-text div:last-child {
-        font-size: 12px;
-        color: var(--text-muted);
-        font-weight: 500;
-    }
-
-    nav {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .navlink {
-        text-decoration: none;
-        color: var(--text-muted);
-        padding: 8px 12px;
-        border-radius: 8px;
-        transition: color 0.2s, background-color 0.2s;
-        font-weight: 600;
-    }
-
-    .navlink:hover {
-        color: var(--text-color);
-        background-color: rgba(255, 255, 255, 0.05);
-    }
-
-    .navlink.active {
-        color: var(--primary-color);
-        background-color: rgba(59, 130, 246, 0.1);
-    }
-
-    .cta {
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 10px 16px;
-        border-radius: 8px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: background-color .2s var(--ease), transform .2s var(--ease);
-        margin-left: 1rem;
-    }
-
-    .cta:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-2px);
-    }
-
-    .menu-toggle {
-        display: none; /* Hidden on desktop */
-        background: none;
-        border: none;
-        color: var(--text-color);
-        font-size: 24px;
-        cursor: pointer;
-    }
-
-    /* --- Sections --- */
-    section {
-        max-width: var(--max-width);
-        margin: 0 auto;
-        padding: 100px 1rem 40px; /* Add top padding to account for fixed navbar */
-        display: none;
-    }
-
-    section.active {
-        display: block;
-    }
-
-    h1, h2, h3, h4 {
-        color: var(--text-color);
-        margin-bottom: 1rem;
-    }
-
-    p {
-        color: var(--text-muted);
-        margin-bottom: 1rem;
-    }
-    
-    /* --- Home Section --- */
-    .home-layout {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-        align-items: center;
-    }
-
-    .home-hero h1 {
-        font-size: 2.5rem;
-        line-height: 1.2;
-    }
-    
-    #ndhome {
-        font-size: 1.2rem;
-        font-style: italic;
-        padding: 2rem;
-        border-left: 3px solid var(--primary-color);
-        background-color: var(--bg-light);
-        border-radius: var(--radius);
-        text-align: center;
-    }
-
-    /* --- Account & Auth Forms --- */
-    .account-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-        padding: 2rem;
-        background-color: var(--bg-light);
-        border-radius: var(--radius);
-    }
-
-    .toggle-buttons {
-        display: flex;
-        gap: 1rem;
-        background-color: var(--bg-dark);
-        padding: 8px;
-        border-radius: 8px;
-    }
-
-    .toggle-buttons button {
-        padding: 10px 20px;
-        cursor: pointer;
-        border: none;
-        border-radius: 6px;
-        background-color: transparent;
-        color: var(--text-muted);
-        font-weight: 600;
-        transition: 0.2s;
-    }
-    
-    .toggle-buttons button.active, .toggle-buttons button:hover {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .auth-form {
-        display: none;
-        flex-direction: column;
-        gap: 1rem;
-        width: 100%;
-        max-width: 350px;
-    }
-    
-    .auth-form.active {
-        display: flex;
-    }
-
-    .form-group {
-        position: relative;
-    }
-    
-    .form-group .toggle-password {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: var(--text-muted);
-    }
-
-    /* START: OTP Button Fix CSS */
-    .otp-group {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-    }
-    .otp-group input {
-        flex-grow: 1; /* Make input take available space */
-    }
-    .otp-btn {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-        flex-shrink: 0; /* Prevent button from shrinking */
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.2s, opacity 0.2s;
-    }
-    .otp-btn:hover {
-        background-color: var(--primary-hover);
-    }
-    .otp-btn:disabled {
-        background-color: var(--text-muted);
-        opacity: 0.7;
-        cursor: not-allowed;
-    }
-    /* END: OTP Button Fix CSS */
-
-
-    #contact input,
-    #contact textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #2d3748;
-      border-radius: 6px;
-      background: #1e293b;
-      color: #f1f5f9;
-    }
-    
-    #contact input::placeholder,
-    #contact textarea::placeholder {
-      color: #94a3b8;
-    }
-
-    #contactForm {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    #contact input:focus,
-    #contact textarea:focus {
-      border-color: #3b82f6;
-      outline: none;
-    }
-
-
-    /* --- Campaign Cards Section --- */
-    .campaign-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .search-controls {
-        display: flex;
-        gap: 0.5rem;
-    }
-    
-    .campaign-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .campaign-card {
-        background: var(--bg-light);
-        border-radius: var(--radius);
-        padding: 1.5rem;
-        border: 1px solid var(--border-color);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .campaign-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-    
-    .campaign-card h4 {
-        color: var(--text-color);
-        font-size: 1.25rem;
-    }
-    
-    .campaign-card p {
-        flex-grow: 1;
-        font-size: 0.9rem;
-    }
-    
-    .card-footer {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-color);
-    }
-
-    .campaign-tag {
-        display: inline-block;
-        background: rgba(59, 130, 246, 0.1);
-        color: var(--primary-color);
-        padding: 4px 10px;
-        border-radius: 16px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-    }
-
-    .campaign-id {
-        color: var(--text-muted);
-        font-size: 0.75rem;
-        font-weight: bold;
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-    }
-    
-    .delete-btn {
-        background-color: #ef4444;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        font-size: 0.8rem;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-top: 1rem;
-        transition: background-color 0.2s;
-    }
-    .delete-btn:hover {
-        background-color: #dc2626;
-    }
-
-    /* --- Form Styling (Add/Contact) --- */
-    .form-container {
-        max-width: 800px;
-        margin: 0 auto;
-        background: var(--bg-light);
-        padding: 2rem;
-        border-radius: var(--radius);
-        border: 1px solid var(--border-color);
-    }
-
-    .form-container h1 {
-        text-align: center;
-        color: var(--text-color);
-    }
-    .form-container p.intro {
-        text-align: center;
-        max-width: 600px;
-        margin: 0 auto 2rem auto;
-    }
-
-    .form-layout {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 2rem;
-    }
-    
-    .form input, .form select, .form textarea, .auth-form input {
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid var(--border-color);
-        background: var(--bg-dark);
-        color: var(--text-color);
-        outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
-        font-size: 1rem;
-    }
-
-    .form input:focus, .form select:focus, .form textarea:focus, .auth-form input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-    }
-    
-    .form select option {
-        background-color: var(--bg-dark);
-        color: var(--text-color);
-    }
-
-    .form-group {
-        margin-bottom: 1rem;
-    }
-    
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-    }
-
-    .form-buttons {
-        display: flex;
-        gap: 1rem;
-        margin-top: 1.5rem;
-    }
-
-    .submit-btn, .reset-btn {
-        flex: 1;
-        padding: 12px;
-        font-size: 1rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 700;
-        transition: 0.2s;
-    }
-    
-    .submit-btn {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    .submit-btn:hover {
-        background-color: var(--primary-hover);
-    }
-    
-    .reset-btn {
-        background-color: var(--bg-light);
-        border: 1px solid var(--border-color);
-        color: var(--text-color);
-    }
-    .reset-btn:hover {
-        background-color: var(--bg-dark);
-    }
-
-    .form-sidebar {
-        background: var(--bg-dark);
-        padding: 1.5rem;
-        border-radius: var(--radius);
-    }
-
-    /* --- Responsive Design --- */
+        --primary-color: #3b82f6; --primary-hover: #2563eb; --bg-dark: #0f172a; --bg-light: #1e293b; --text-color: #f1f5f9; --text-muted: #94a3b8; --border-color: rgba(148,163,184,0.2); --success-color: #22c55e; --radius: 12px; --max-width: 1200px; --ease: cubic-bezier(.2,.9,.3,1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter',sans-serif; background: var(--bg-dark); color: var(--text-color); -webkit-font-smoothing: antialiased; -moz-osx-smoothing: grayscale; line-height: 1.6; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(15,23,42,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); padding: 0 1rem; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; max-width: var(--max-width); margin: 0 auto; height: 70px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 20px; color: var(--text-color); text-decoration: none; }
+    .logo { width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg,var(--primary-color),#60a5fa); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
+    .brand-text div:first-child { font-size: 16px; }
+    .brand-text div:last-child { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+    nav { display: flex; align-items: center; gap: .5rem; }
+    .navlink { text-decoration: none; color: var(--text-muted); padding: 8px 12px; border-radius: 8px; transition: color .2s,background .2s; font-weight: 600; }
+    .navlink:hover { color: var(--text-color); background: rgba(255,255,255,0.05); }
+    .navlink.active { color: var(--primary-color); background: rgba(59,130,246,0.1); }
+    .cta { background: var(--primary-color); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background .2s var(--ease),transform .2s var(--ease); margin-left: 1rem; }
+    .cta:hover { background: var(--primary-hover); transform: translateY(-2px); }
+    .menu-toggle { display: none; background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; }
+    section { max-width: var(--max-width); margin: 0 auto; padding: 100px 1rem 40px; display: none; }
+    section.active { display: block; }
+    h1, h2, h3, h4 { color: var(--text-color); margin-bottom: 1rem; }
+    p { color: var(--text-muted); margin-bottom: 1rem; }
+    .home-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+    .home-hero h1 { font-size: 2.5rem; line-height: 1.2; }
+    #ndhome { font-size: 1.2rem; font-style: italic; padding: 2rem; border-left: 3px solid var(--primary-color); background: var(--bg-light); border-radius: var(--radius); text-align: center; }
+    .account-container { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 2rem; background: var(--bg-light); border-radius: var(--radius); }
+    .toggle-buttons { display: flex; gap: 1rem; background: var(--bg-dark); padding: 8px; border-radius: 8px; }
+    .toggle-buttons button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 6px; background: none; color: var(--text-muted); font-weight: 600; transition: .2s; }
+    .toggle-buttons button.active, .toggle-buttons button:hover { background: var(--primary-color); color: #fff; }
+    .auth-form { display: none; flex-direction: column; gap: 1rem; width: 100%; max-width: 350px; }
+    .auth-form.active { display: flex; }
+    .form-group { position: relative; margin-bottom: 1rem; }
+    .form-group .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-muted); }
+    .otp-group { display: flex; gap: .5rem; align-items: center; }
+    .otp-group input { flex-grow: 1; }
+    .otp-btn { padding: 10px 15px; font-size: .9rem; flex-shrink: 0; background: var(--primary-color); color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: background .2s,opacity .2s; }
+    .otp-btn:hover { background: var(--primary-hover); }
+    .otp-btn:disabled { background: var(--text-muted); opacity: .7; cursor: not-allowed; }
+    #contact input, #contact textarea { width: 100%; padding: 10px 12px; border: 1px solid #2d3748; border-radius: 6px; background: #1e293b; color: #f1f5f9; }
+    /* Unified placeholder color for all inputs and textareas */
+    input::placeholder, textarea::placeholder, select::placeholder {
+        color: #b0b8c9 !important;
+        opacity: 1;
+    }
+    #contactForm { max-width: 600px; margin: 0 auto; }
+    #contact input:focus, #contact textarea:focus { border-color: #3b82f6; outline: none; }
+    .campaign-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+    .search-controls { display: flex; gap: .5rem; }
+    .campaign-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 1.5rem; }
+    .campaign-card { background: var(--bg-light); border-radius: var(--radius); padding: 1.5rem; border: 1px solid var(--border-color); transition: transform .2s,box-shadow .2s; position: relative; display: flex; flex-direction: column; }
+    .campaign-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    .campaign-card h4 { color: var(--text-color); font-size: 1.25rem; }
+    .campaign-card p { flex-grow: 1; font-size: .9rem; }
+    .card-footer { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); }
+    .campaign-tag { display: inline-block; background: rgba(59,130,246,0.1); color: var(--primary-color); padding: 4px 10px; border-radius: 16px; font-size: .8rem; font-weight: 600; text-transform: uppercase; }
+    .campaign-id { color: var(--text-muted); font-size: .75rem; font-weight: bold; position: absolute; top: 1rem; right: 1rem; }
+    .delete-btn { background: #ef4444; color: #fff; border: none; padding: 6px 12px; font-size: .8rem; border-radius: 6px; cursor: pointer; margin-top: 1rem; transition: background .2s; }
+    .delete-btn:hover { background: #dc2626; }
+    .form-container { max-width: 800px; margin: 0 auto; background: var(--bg-light); padding: 2rem; border-radius: var(--radius); border: 1px solid var(--border-color); }
+    .form-container h1 { text-align: center; color: var(--text-color); }
+    .form-container p.intro { text-align: center; max-width: 600px; margin: 0 auto 2rem; }
+    .form-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+    .form input, .form select, .form textarea, .auth-form input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); outline: none; transition: border-color .2s,box-shadow .2s; font-size: 1rem; }
+    .form input:focus, .form select:focus, .form textarea:focus, .auth-form input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
+    .form select option { background: var(--bg-dark); color: var(--text-color); }
+    .form-group label { display: block; margin-bottom: .5rem; font-weight: 600; font-size: .9rem; color: var(--text-muted); }
+    .form-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .submit-btn, .reset-btn { flex: 1; padding: 12px; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; transition: .2s; }
+    .submit-btn { background: var(--primary-color); color: #fff; }
+    .submit-btn:hover { background: var(--primary-hover); }
+    .reset-btn { background: var(--bg-light); border: 1px solid var(--border-color); color: var(--text-color); }
+    .reset-btn:hover { background: var(--bg-dark); }
+    .form-row label { margin-bottom: 0.3rem; }
+    .form-row-horizontal { display: flex; gap: 1rem; }
+    .form-row-horizontal .form-half { flex: 1 1 0; display: flex; flex-direction: column; }
+    .form-row input[type="date"], .form-row input[type="time"] {min-width: 120px; margin-bottom: 0.5rem; }
+    .form-sidebar { background: var(--bg-dark); padding: 1.5rem; border-radius: var(--radius); }
     @media (max-width: 768px) {
-        nav {
-            display: none; /* Hide nav by default on mobile */
-            position: absolute;
-            top: 70px;
-            left: 0;
-            right: 0;
-            background: var(--bg-light);
-            flex-direction: column;
-            align-items: stretch;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        nav.active {
-            display: flex; /* Show when hamburger is clicked */
-        }
-
-        .cta {
-            margin-left: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        .menu-toggle {
-            display: block; /* Show hamburger */
-        }
-
-        .home-layout, .form-layout {
-            grid-template-columns: 1fr; /* Stack columns */
-        }
-        
-        .home-hero h1 {
-            font-size: 2rem;
-        }
+        nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-light); flex-direction: column; align-items: stretch; padding: 1rem; border-bottom: 1px solid var(--border-color); }
+        nav.active { display: flex; }
+        .cta { margin-left: 0; width: 100%; text-align: center; }
+        .menu-toggle { display: block; }
+        .home-layout, .form-layout { grid-template-columns: 1fr; }
+        .home-hero h1 { font-size: 2rem; }
     }
 
 </style>
@@ -547,16 +106,16 @@
             <div class="logo">EC</div>
             <div class="brand-text">
                 <div>EcoCamp</div>
-                <div>A Blue Horizon</div>
+                <div>A Greener Tomorrow!</div>
             </div>
         </a>
         <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
             &#9776; </button>
         <nav>
-            <a class="navlink active" data-section="home">Home</a>
-            <a class="navlink" data-section="campaigns">Campaigns</a>
-            <a class="navlink" data-section="add">Add</a>
-            <a class="navlink" data-section="contact">Contact</a>
+            <a class="navlink active" href="#home" data-section="home">Home</a>
+            <a class="navlink" href="#campaigns" data-section="campaigns">Campaigns</a>
+            <a class="navlink" href="#add" data-section="add">Add</a>
+            <a class="navlink" href="#contact" data-section="contact">Contact</a>
             <button class="cta" id="quickAddBtnEco">+ New Campaign</button>
         </nav>
     </div>
@@ -567,7 +126,7 @@
         <div class="home-layout">
             <div class="home-hero">
                 <h1>Hey {{ fullname.split()[0] }}, Welcome to EcoCamp!</h1>
-                <p>Join hands to protect our blue planet. Start a campaign, plant hope for a brighter, cleaner tomorrow.</p>
+                <p>Join hands to protect our green planet. Start a campaign, plant hope for a brighter, cleaner tomorrow.</p>
                 <div id="ndhome"></div>
                 <script>
                 fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t=>{
@@ -690,11 +249,26 @@
                                 <option value="Cleanlines Drive" {% if fvalues['category'] == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
                             </select>
                         </div>
-                        <div class="form-group"><label for="eventdate">Start Date</label><input id="eventdate" type="date" value="{{fvalues['eventdate']}}" name="eventdate" required />
-                        <label for="enddate">End Date</label><input id="enddate" type="date" value="{{fvalues['enddate']}}" name="enddate" required /></div>
-                        <div class="form-group"><label for="starttime">Start Time</label><input id="starttime" type="time" value="{{fvalues['starttime']}}" name="starttime" required />
-                        <label for="endtime">End Time</label><input id="endtime" type="time" value="{{fvalues['endtime']}}" name="endtime" required /></div>
-
+                        <div class="form-group form-row-horizontal">
+                            <div class="form-half">
+                                <label for="eventdate">Start Date</label>
+                                <input id="eventdate" type="date" value="{{fvalues['eventdate']}}" name="eventdate" required />
+                            </div>
+                            <div class="form-half">
+                                <label for="enddate">End Date</label>
+                                <input id="enddate" type="date" value="{{fvalues['enddate']}}" name="enddate" required />
+                            </div>
+                        </div>
+                        <div class="form-group form-row-horizontal">
+                            <div class="form-half">
+                                <label for="starttime">Start Time</label>
+                                <input id="starttime" type="time" value="{{fvalues['starttime']}}" name="starttime" required />
+                            </div>
+                            <div class="form-half">
+                                <label for="endtime">End Time</label>
+                                <input id="endtime" type="time" value="{{fvalues['endtime']}}" name="endtime" required />
+                            </div>
+                        </div>
                         <div class="form-buttons">
                             <button type="submit" class="submit-btn">Submit Campaign</button>
                             <button type="reset" class="reset-btn">Reset</button>
@@ -736,134 +310,31 @@
 </main>
 
 <script>
-    // Helper function to make selecting elements shorter
-    const $ = (selector) => document.querySelector(selector);
-
-    // --- Global Functions (for inline HTML on Clicks) ---
-    window.asktodelete = (id) => {
-        if (confirm("Are you sure you want to delete this event? This action cannot be undone.")) {
-            window.location.href = `deleteevent/${id}`;
-        }
-    };
-
-    window.togglePasswordVisibility = (id) => {
-        const field = $(`#${id}`);
-        if (field) field.type = field.type === 'password' ? 'text' : 'password';
-    };
-
-    // --- Main Application Logic ---
+    // Helper
+    const $ = s => document.querySelector(s);
+    window.asktodelete = id => confirm("Are you sure you want to delete this event? This action cannot be undone.") && (window.location.href = `deleteevent/${id}`);
+    window.togglePasswordVisibility = id => { const f = $(`#${id}`); f && (f.type = f.type === 'password' ? 'text' : 'password'); };
     document.addEventListener('DOMContentLoaded', () => {
-
-        const nav = $('nav');
-        const sections = document.querySelectorAll('main > section');
-        const navLinks = document.querySelectorAll('.navlink');
-
-        // --- Section & Navigation Management ---
-        const showSection = (id) => {
-            const targetId = id || 'home';
-            navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === targetId));
-            sections.forEach(s => s.classList.toggle('active', s.id === targetId));
-            window.scrollTo(0, 0);
-            nav.classList.remove('active'); // Close mobile nav
-        };
-
-        // Event Delegation for navigation
-        nav.addEventListener('click', (e) => {
-            if (e.target.matches('.navlink')) {
-                e.preventDefault();
-                showSection(e.target.dataset.section);
-                location.hash = e.target.dataset.section;
-            }
-        });
-        
+        const nav = $('nav'), sections = document.querySelectorAll('main > section'), navLinks = document.querySelectorAll('.navlink');
+        const showSection = id => { const t = id || 'home'; navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === t)); sections.forEach(s => s.classList.toggle('active', s.id === t)); window.scrollTo(0, 0); nav.classList.remove('active'); };
+        nav.addEventListener('click', e => { if (e.target.matches('.navlink')) { e.preventDefault(); showSection(e.target.dataset.section); location.hash = e.target.dataset.section; } });
         $('#quickAddBtnEco')?.addEventListener('click', () => showSection('add'));
         $('#menuToggle')?.addEventListener('click', () => nav.classList.toggle('active'));
-        
-        // Show section based on URL hash or default to home
         showSection(location.hash.slice(1));
-
-        // --- Form Submission Handler ---
-        const handleFormSubmit = async (formElement, successCallback) => {
-            try {
-                const response = await fetch(formElement.dataset.url, { method: 'POST', body: new FormData(formElement) });
-                const text = await response.text();
-                alert(text);
-                if (successCallback) successCallback(text);
-            } catch (err) {
-                alert('An error occurred. Please try again.');
-                console.error(err);
-            }
-        };
-        
-        // Attach form listeners
-        $('#loginpage')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            e.target.dataset.url = '/login';
-            handleFormSubmit(e.target, (text) => {
-                if (text.includes('Success')) location.reload();
-            });
+        window.addEventListener('hashchange', () => showSection(location.hash.slice(1)));
+        const handleFormSubmit = async (form, cb) => { try { const r = await fetch(form.dataset.url, { method: 'POST', body: new FormData(form) }); const t = await r.text(); alert(t); cb && cb(t); } catch (e) { alert('An error occurred. Please try again.'); console.error(e); } };
+        $('#loginpage')?.addEventListener('submit', e => { e.preventDefault(); e.target.dataset.url = '/login'; handleFormSubmit(e.target, t => t.includes('Success') && location.reload()); });
+        $('#signuppage')?.addEventListener('submit', e => { e.preventDefault(); e.target.dataset.url = '/signup'; handleFormSubmit(e.target, t => t.includes('Success') && location.reload()); });
+        $('#addEventForm')?.addEventListener('submit', e => { e.preventDefault(); e.target.dataset.url = '/addeventreq'; handleFormSubmit(e.target, t => t.includes('Please Login') ? showSection('home') : t.includes('Registered') && location.reload()); });
+        $('.toggle-buttons')?.addEventListener('click', e => { if (e.target.tagName !== 'BUTTON') return; const l = e.target.id === 'login-tab-btn'; $('#login-tab-btn').classList.toggle('active', l); $('#signup-tab-btn').classList.toggle('active', !l); $('#loginpage').classList.toggle('active', l); $('#signuppage').classList.toggle('active', !l); });
+        $('#sendOtpBtn')?.addEventListener('click', async e => {
+            const btn = e.target, email = $("#email");
+            if (!email.checkValidity()) return alert("Please enter a valid email address.");
+            btn.disabled = true; btn.textContent = "Sending...";
+            const fd = new FormData(); fd.append('email', email.value);
+            try { const r = await fetch("/sendsignupotp", { method: "POST", body: fd }); if (!r.ok) throw new Error(await r.text() || 'Failed to send OTP.'); alert("OTP sent to " + email.value + "! Please check your email or spam folder."); } catch (err) { alert(err.message); } finally { setTimeout(() => { btn.disabled = false; btn.textContent = "Send OTP"; }, 5000); }
         });
-        
-        $('#signuppage')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            e.target.dataset.url = '/signup';
-            handleFormSubmit(e.target, (text) => {
-                if (text.includes('Success')) location.reload();
-            });
-        });
-
-        $('#addEventForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            e.target.dataset.url = '/addeventreq';
-            handleFormSubmit(e.target, (text) => {
-                if (text.includes('Please Login')) showSection('home');
-                else if (text.includes('Registered')) location.reload();
-            });
-        });
-        
-        // --- Auth Tab Toggling (using Event Delegation) ---
-        $('.toggle-buttons')?.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'BUTTON') return;
-            const showLogin = e.target.id === 'login-tab-btn';
-            $('#login-tab-btn').classList.toggle('active', showLogin);
-            $('#signup-tab-btn').classList.toggle('active', !showLogin);
-            $('#loginpage').classList.toggle('active', showLogin);
-            $('#signuppage').classList.toggle('active', !showLogin);
-        });
-
-        // --- Send OTP Logic ---
-        $('#sendOtpBtn')?.addEventListener('click', async (e) => {
-            const btn = e.target;
-            const emailField = $("#email");
-            if (!emailField.checkValidity()) return alert("Please enter a valid email address.");
-
-            btn.disabled = true;
-            btn.textContent = "Sending...";
-            
-            const formData = new FormData();
-            formData.append('email', emailField.value);
-            
-            try {
-                const response = await fetch("/sendsignupotp", { method: "POST", body: formData });
-                if (!response.ok) throw new Error(await response.text() || 'Failed to send OTP.');
-                alert("OTP sent! Please check your email.");
-            } catch (error) {
-                alert(error.message);
-            } finally {
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.textContent = "Send OTP";
-                }, 5000); // 5-second cooldown
-            }
-        });
-        
-        // --- Save Draft Logic (using Event Delegation) ---
-        $('#addEventForm')?.addEventListener('change', (e) => {
-            const fd = new FormData();
-            fd.append('field', e.target.name);
-            fd.append('value', e.target.value);
-            fetch('/save_draft', { method: 'POST', body: fd });
-        });
+        $('#addEventForm')?.addEventListener('change', e => { const fd = new FormData(); fd.append('field', e.target.name); fd.append('value', e.target.value); fetch('/save_draft', { method: 'POST', body: fd }); });
     });
 </script>
 
