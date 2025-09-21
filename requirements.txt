@@ -3,3 +3,4 @@ gunicorn
 flask-cors
 sqlitecloud
 requests
+deep-translator
