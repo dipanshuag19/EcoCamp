@@ -214,8 +214,8 @@
                             <span class="campaign-id">#{{ e.eventid }}</span>
                             <h4>{{ e.eventname }}</h4>
                             <p>{{ e.description }}</p>
-                            <p><b>Date:</b> {{ e.eventdate }}<br><b>Location:</b> {{ e.location }}</p>
-                            <p><b>Time:</b> {{ e.starttime }} - {{ e.endtime }}</p>
+                            <p><b>From:</b> {{ e.eventdate }} | {{ e.starttime }}<br><b>Till:</b> {{ e.enddate }} | {{ e.endtime }}</p>
+                            <p><b>Location:</b> {{ e.location }}</p>
                             <div class="card-footer">
                                 <span class="campaign-tag">{{ e.category }}</span>
                                 {% if e.username == c_user or isadmin %}
