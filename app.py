@@ -3,7 +3,6 @@ from flask import Flask, request, redirect, url_for, render_template, render_tem
 import os, requests, datetime, time, threading, zoneinfo, random
 import sqlitecloud as sq
 from functools import wraps
-from deep_translator import GoogleTranslator
 
 app = Flask(__name__)
 app.secret_key = "ecocamp.fp"
@@ -63,22 +62,10 @@ def sendotp(c):
         print(f"Session OTP: {session.get('signupotp')}")
         print(f"Generated OTP: {otp}")
         return f"OTP Sent to {email}! Please check spam folder if cant find."
-
-def translate_text(text):
-    t = GoogleTranslator(source='auto', target=session.get("language", "en"))
-    return t.translate(text)
     
 @app.template_filter("datetimeformat")
 def datetimeformat(value):
     return datetime.datetime.strptime(value, "%Y-%m-%d").strftime("%d %B %Y")
-
-@app.route("/set_language/<path:language>", methods=["GET", "POST"])
-def set_language(language):
-    global user_language
-    if language:
-        session["language"] = language
-        user_language = language
-        return redirect(url_for("home"))
 
 @app.route("/")
 @sqldb
@@ -113,7 +100,7 @@ def home(c):
     if request.args.get("api"):
         sendlog(f"API Accessed by {currentuser} ({currentuname})")
         return jsonify({"user": currentuser, "username": currentuname, "is_admin": isadmin, "events": edetailslist, "favorites": fv})
-    return render_template("index.html", user_language=session.get("language", "en"),translate=translate_text, edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
+    return render_template("index.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
