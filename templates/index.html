@@ -86,7 +86,7 @@
     .form-sidebar { background: var(--bg-dark); padding: 1.5rem; border-radius: var(--radius); }
     .campaign-category-wrapper { margin-bottom: 3rem; }
     .view-all-btn { display: inline-block; margin-top: 1rem; margin-left: 0; }
-    #backToAllBtn { display: none; margin-bottom: 2rem; margin-left: 0; }
+     #backToAllBtn { display: none; margin-bottom: 2rem; margin-left: 0; }
     .campaign-card.hidden { display: none; }
     
     @media (max-width: 768px) {
@@ -303,17 +303,6 @@
             <p class="intro">
                 Have a question or feedback? Send us a message,at <a href="mailto:hu1243009@sjchs.edu.in">hu1243009@sjchs.edu.in</a>
             </p>
-<!--             <form id="contactForm">
-                {% if c_user == "None" %}
-                    <div class="form-group"><input type="text" name="name" placeholder="Your Name" maxlength="40" required /></div>
-                    <div class="form-group"><input type="email" name="email" placeholder="Your Email" maxlength="40" required /></div>
-                {% else %}
-                    <div class="form-group"><input type="text" name="name" value="{{ fullname }}" readonly /></div>
-                    <div class="form-group"><input type="email" name="email" value="{{ userdetails['email'] }}" readonly /></div>
-                {% endif %}
-                <div class="form-group"><textarea name="message" placeholder="Write your message..." rows="5" required></textarea></div>
-                <button type="submit" class="submit-btn" style="width:100%;">Send Message</button>
-            </form> -->
         </div>
     </section>
 </main>
@@ -350,18 +339,14 @@
                 const text = await response.text();
                 alert(text);
                 callback && callback(text);
-            } catch (error) {
-                alert('An error occurred.'); console.error(error);
-            } finally {
-                btn.disabled = false; btn.textContent = originalBtnText;
+            } catch (error) { alert('An error occurred.'); console.error(error);
+            } finally { btn.disabled = false; btn.textContent = originalBtnText;
             }
         };
 
         const addFormSubmitListener = (selector, url, callback) => {
             $(selector)?.addEventListener('submit', e => {
-                e.preventDefault(); e.target.dataset.url = url; handleFormSubmit(e.target, callback);
-            });
-        };
+                e.preventDefault(); e.target.dataset.url = url; handleFormSubmit(e.target, callback); }); };
         addFormSubmitListener('#loginpage', '/login', text => text.includes('Success') && location.reload());
         addFormSubmitListener('#signuppage', '/signup', text => text.includes('Success') && location.reload());
         addFormSubmitListener('#addEventForm', '/addeventreq', text => text.includes('Please Login') ? showSection('home') : text.includes('Registered') && location.reload());
@@ -383,7 +368,7 @@
                 const fd = new FormData(); fd.append('email', emailEl.value);
                 const r = await fetch("/sendsignupotp", { method: "POST", body: fd });
                 if (!r.ok) throw new Error(await r.text() || 'Failed to send OTP.');
-                alert(`OTP sent to ${emailEl.value}!`);
+                alert(`OTP sent to ${emailEl.value}! Check your spam folder or mail.`);
             } catch (err) { alert(err.message);
             } finally { setTimeout(() => { btn.disabled = false; btn.textContent = "Send OTP"; }, 5000); }
         });
@@ -394,21 +379,15 @@
             if (!e.target.matches('.view-all-btn')) return;
             const categoryIdToShow = e.target.dataset.categoryId;
             allCategoryWrappers.forEach(wrapper => {
-                const show = wrapper.dataset.categoryId === categoryIdToShow;
-                wrapper.style.display = show ? 'block' : 'none';
+                const show = wrapper.dataset.categoryId === categoryIdToShow; wrapper.style.display = show ? 'block' : 'none';
                 if(show) wrapper.querySelectorAll('.campaign-card.hidden').forEach(c => c.classList.remove('hidden'));
-            });
-            backToAllBtn.style.display = 'block';
-            campaignsSection.scrollIntoView({ behavior: 'smooth' });
-        });
+            }); backToAllBtn.style.display = 'block'; campaignsSection.scrollIntoView({ behavior: 'smooth' }); });
 
         backToAllBtn.addEventListener('click', () => {
             allCategoryWrappers.forEach(w => {
                 w.style.display = 'block';
                 w.querySelectorAll('.campaign-card').forEach((c, i) => i >= 3 && c.classList.add('hidden'));
-            });
-            backToAllBtn.style.display = 'none';
-        });
+            }); backToAllBtn.style.display = 'none'; });
         
         $('#addEventForm')?.addEventListener('change', e => {
             const fd = new FormData(); fd.append('field', e.target.name); fd.append('value', e.target.value);
