@@ -151,30 +151,6 @@ def login(c):
             sendlog(f"User Login: {fetched['name']} ({fetched['username']})")
             return "Login Success ✅"
         
-@app.route("/index2")
-@sqldb
-def home2(c):
-    mylist = []
-    for row in c.execute("SELECT * FROM eventdetail"):
-        mylist.append(f"ID: {row[0]} Name: {row[1]}")
-    return render_template("index2.html", mylist=mylist)
-
-@app.route("/index3")
-@sqldb
-def home3(c):
-    # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
-    c.execute("SELECT * FROM eventdetail")
-    edetailslist = c.fetchall()
-    treeplant, blooddonate, cleandrive = [], [], []
-    for x in edetailslist:
-        if x['category'] == 'Tree Plantation':
-            treeplant.append(x)
-        elif x['category'] == 'Blood Donation':
-            blooddonate.append(x)
-        else:
-            cleandrive.append(x)
-    return render_template("index3.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive)
-
 @app.route("/addevent", methods=["GET", "POST"])
 @sqldb
 def addevent(c):
@@ -276,7 +252,6 @@ def deleteevent(c, eventid):
             return f"Error: {e}"
     else:
         return redirect(url_for("home"))
-
 
 @app.route("/logout")
 def logout():
