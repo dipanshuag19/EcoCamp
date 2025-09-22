@@ -133,15 +133,11 @@
                 <div id="ndhome"></div>
                 <script>
                 fetch("{{ url_for('static', filename='quotes.txt') }}").then(r=>r.text()).then(t=>{
-                    const quotes = t.split('\n').filter(Boolean);
-                    const quoteEl = document.getElementById('ndhome');
+                    const quotes = t.split('\n').filter(Boolean); const quoteEl = document.getElementById('ndhome');
                     const setQuote = () => {
                         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
                         quoteEl.innerText = `Active Campaigns: {{ edetailslist|length }}\n\n“${randomQuote}”`;
-                    };
-                    setQuote();
-                    setInterval(setQuote, 6000);
-                });
+                    }; setQuote(); setInterval(setQuote, 6000); });
                 </script>
             </div>
             
@@ -185,7 +181,11 @@
                     <h3>Welcome, {{ fullname }}!</h3>
                     <p>Username: {{ c_user }}</p>
                     <p>Email: {{ userdetails['email'] }}</p>
-                    <p>Events by you: {{ userdetails['events'] }}</p>
+                    {% if userdetails['events'] != None %}
+                    <p>Events: Total {{ userdetails['events'].split(" ") | length }} events added by you. </p> <button class="otp-btn" onclick="viewyourevents()">Click Here To View Your Events</button>
+                    {% else %}
+                    <p>Events by you: No event added by you yet.</p>
+                    {% endif %}
                     <div class="form-buttons">
                         <button onclick="window.location.href='/logout';" class="reset-btn">Logout</button>
                         <button onclick="window.location.href='/clearsession';" class="delete-btn">Clear Session</button>
@@ -210,12 +210,24 @@
 
         {% set categories = {'Tree Plantation': treeplantation, 'Blood Donation': blooddonation, 'Cleanlines Drive': cleanlinesdrive} %}
         {% for category_name, events in categories.items() %}
-            {% if events|length >= 1 %}
+
+            {% set viewevents = [] %}
+            {% if viewyourevents %}
+                {% for event in events %}
+                    {% if event.username == c_user %}
+                        {% set _ = viewevents.append(event) %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% set viewevents = events %}
+            {% endif %}
+
+            {% if viewevents %}
                 <div class="campaign-category-wrapper" data-category-id="{{ category_name|replace(' ', '-')|lower }}">
-                    <h3>{{ category_name }} ({{ events|length }})</h3>
+                    <h3>{{ category_name }} ({{ viewevents|length }})</h3>
                     <div class="campaign-grid">
-                        {% for e in events %}
-                            <div class="campaign-card {% if loop.index > 3 %}hidden{% endif %}">
+                        {% for e in viewevents %}
+                            <div class="campaign-card {% if not viewyourevents and loop.index > 3 %}hidden{% endif %}">
                                 <span class="campaign-id">#{{ e.eventid }}</span>
                                 <h4>{{ e.eventname }}</h4>
                                 <p>{{ e.description }}</p>
@@ -230,11 +242,12 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {% if events|length > 3 %}
+                    {% if not viewyourevents and viewevents|length > 3 %}
                         <button class="cta view-all-btn" data-category-id="{{ category_name|replace(' ', '-')|lower }}">View All</button>
                     {% endif %}
                 </div>
             {% endif %}
+
         {% endfor %}
     </section>
     
@@ -394,6 +407,10 @@
             fetch('/save_draft', { method: 'POST', body: fd });
         });
     });
+
+    function viewyourevents() {
+        fetch('/viewyourevents', { method: 'POST' }).then(() => {window.location.href = '#campaigns'; location.reload(); });
+    }
 </script>
 
 </body>
