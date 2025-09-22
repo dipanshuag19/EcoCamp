@@ -96,11 +96,15 @@ def home(c):
         if ud and ud["role"] == "admin":
             isadmin = True
         userdetails = ud if ud else {}
+    ve = session.pop("viewyourevents", False)
+    return render_template("index.html", viewyourevents=ve ,edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
 
-    if request.args.get("api"):
-        sendlog(f"API Accessed by {currentuser} ({currentuname})")
-        return jsonify({"user": currentuser, "username": currentuname, "is_admin": isadmin, "events": edetailslist, "favorites": fv})
-    return render_template("index.html", edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
+@app.route("/viewyourevents", methods=["GET", "POST"])
+def viewyourevents():
+    if request.method == "POST":
+        if session.get("username"):
+            session["viewyourevents"] = True
+            return "View your events"
 
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
