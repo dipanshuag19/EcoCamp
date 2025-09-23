@@ -26,7 +26,7 @@
     .navlink:hover { color: var(--text-color); background: rgba(255,255,255,0.05); }
     .navlink.active { color: var(--primary-color); background: rgba(59,130,246,0.1); }
     .cta { background: var(--primary-color); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background .2s var(--ease),transform .2s var(--ease); margin-left: 1rem;font-size:14px }
-    .cta:hover { background: var(--primary-hover); /* transform: translateY(-2px); */ }
+    .cta:hover { background: var(--primary-hover); }
     .menu-toggle { display: none; background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; }
     
     section { max-width: var(--max-width); margin: 0 auto; padding: 100px 1rem 40px; display: none; }
@@ -54,7 +54,6 @@
     #contactForm { max-width: 600px; margin: 0 auto; }
     #contact input:focus, #contact textarea:focus { border-color: #3b82f6; outline: none; }
     .campaign-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
-    .search-controls { display: flex; gap: .5rem; }
     .campaign-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 1.5rem; }
     .campaign-card { background: var(--bg-light); border-radius: var(--radius); padding: 1.5rem; border: 1px solid var(--border-color); transition: transform .2s,box-shadow .2s; position: relative; display: flex; flex-direction: column; }
     .campaign-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
@@ -86,8 +85,18 @@
     .form-sidebar { background: var(--bg-dark); padding: 1.5rem; border-radius: var(--radius); }
     .campaign-category-wrapper { margin-bottom: 3rem; }
     .view-all-btn { display: inline-block; margin-top: 1rem; margin-left: 0; }
-     #backToAllBtn { display: none; margin-bottom: 2rem; margin-left: 0; }
+    #backToAllBtn { display: none; margin-bottom: 2rem; margin-left: 0; }
     .campaign-card.hidden { display: none; }
+    .controls-container { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background-color: var(--bg-light); padding: 1rem; border-radius: var(--radius); margin-bottom: 2rem; border: 1px solid var(--border-color); flex-wrap: wrap; }
+    .search-wrapper { position: relative; flex: 1 1 420px; min-width: 240px; }
+    .search-wrapper input[type="search"] { width: 100%; padding: 12px 44px 12px 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); outline: none; transition: border-color .2s, box-shadow .2s, transform .12s; font-size: 1rem; }
+    .search-wrapper input[type="search"]:focus { border-color: var(--primary-color); box-shadow: 0 6px 18px rgba(59,130,246,0.12); transform: translateY(-1px); }
+    .controls-container #searchInput, .controls-container #sortSelect { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); outline: none; transition: border-color .2s, box-shadow .2s; font-size: 1rem; }
+    .controls-container #searchInput { padding-left: 40px; }
+    .controls-container #searchInput:focus, .controls-container #sortSelect:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
+    .sort-wrapper { min-width: 200px; }
+    .controls-container #sortSelect { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em; }
+    .controls-container form { margin: 0; }
     
     @media (max-width: 768px) {
         nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-light); flex-direction: column; align-items: stretch; padding: 1rem; border-bottom: 1px solid var(--border-color); }
@@ -226,22 +235,23 @@
             {% if viewevents %}
                 <div class="campaign-category-wrapper" data-category-id="{{ category_name|replace(' ', '-')|lower }}">
                     <h3>{{ category_name }} ({{ viewevents|length }})</h3>
-                    <form>
-                        <div class="search-controls">
-                            <input type="text" id="searchInput" placeholder="Search campaigns..." onkeyup="
-                                const filter = this.value.toLowerCase(); const cards = this.closest('.campaign-category-wrapper').querySelectorAll('.campaign-card');
-                                cards.forEach(card => { const text = card.innerText.toLowerCase(); card.style.display = text.includes(filter) ? '' : 'none';
-                                }); " />
+                    
+                    <div class="controls-container">
+                        <div class="search-wrapper">
+                            <input type="text" id="searchInput-{{ category_name|replace(' ', '-') }}" placeholder="Search in this category..." onkeyup="filterCampaigns(this)" />
                         </div>
-                    </form>
-                    <form>
-                        <select name="sort" id="sortSelect" onchange="sendsortreq(this.value)">
-                            <option value="enddate" {% if sortby=="enddate" %} selected {% endif %}>Sort by End Date</option>
-                            <option value="eventdate" {% if sortby=="eventdate" %} selected {% endif %}>Sort by Start Date</option>
-                            <option value="eventname" {% if sortby=="eventname" %} selected {% endif %}>Sort by Name</option>
-                            <option value="eventid" {% if sortby=="eventid" %} selected {% endif %}>Sort by Event ID</option>
-                        </select>
-                    </form>
+                        <div class="sort-wrapper">
+                            <form>
+                                <select name="sort" id="sortSelect" onchange="sendsortreq(this.value)">
+                                    <option value="enddate" {% if sortby=="enddate" %} selected {% endif %}>Sort by End Date</option>
+                                    <option value="eventdate" {% if sortby=="eventdate" %} selected {% endif %}>Sort by Start Date</option>
+                                    <option value="eventname" {% if sortby=="eventname" %} selected {% endif %}>Sort by Name</option>
+                                    <option value="eventid" {% if sortby=="eventid" %} selected {% endif %}>Sort by Event ID</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                    
                     <div class="campaign-grid">
                         {% for e in viewevents|sort(attribute=sortby) %}
                             <div class="campaign-card {% if not viewyourevents and loop.index > 3 %}hidden{% endif %}">
@@ -340,6 +350,14 @@
 </main>
     
 <script>
+    function filterCampaigns(searchInput) {
+        const filter = searchInput.value.toLowerCase(); const categoryWrapper = searchInput.closest('.campaign-category-wrapper');
+        if (categoryWrapper) { const cards = categoryWrapper.querySelectorAll('.campaign-card');
+            cards.forEach(card => { const textContent = card.innerText.toLowerCase();
+                if (textContent.includes(filter)) { card.style.display = 'flex';
+                } else { card.style.display = 'none'; }}); }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
         window.asktodelete = id => confirm("Are you sure?") && (window.location.href = `deleteevent/${id}`);
