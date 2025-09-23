@@ -8,10 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
-    :root {
-        --primary-color: #3b82f6; --primary-hover: #2563eb; --bg-dark: #0f172a; --bg-light: #1e293b; --text-color: #f1f5f9; --text-muted: #94a3b8; --border-color: rgba(148,163,184,0.2); --success-color: #22c55e; --radius: 12px; --max-width: 1200px; --ease: cubic-bezier(.2,.9,.3,1);
-    }
+    :root { --primary-color: #3b82f6; --primary-hover: #2563eb; --bg-dark: #0f172a; --bg-light: #1e293b; --text-color: #f1f5f9; --text-muted: #94a3b8; --border-color: rgba(148,163,184,0.2); --success-color: #22c55e; --radius: 12px; --max-width: 1200px; --ease: cubic-bezier(.2,.9,.3,1); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter',sans-serif; background: var(--bg-dark); color: var(--text-color); -webkit-font-smoothing: antialiased; -moz-osx-smoothing: grayscale; line-height: 1.6; }
@@ -28,7 +25,6 @@
     .cta { background: var(--primary-color); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background .2s var(--ease),transform .2s var(--ease); margin-left: 1rem;font-size:14px }
     .cta:hover { background: var(--primary-hover); }
     .menu-toggle { display: none; background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; }
-    
     section { max-width: var(--max-width); margin: 0 auto; padding: 100px 1rem 40px; display: none; }
     section.active { display: block; }
     h1, h2, h3, h4 { color: var(--text-color); margin-bottom: 1rem; }
@@ -87,17 +83,18 @@
     .view-all-btn { display: inline-block; margin-top: 1rem; margin-left: 0; }
     #backToAllBtn { display: none; margin-bottom: 2rem; margin-left: 0; }
     .campaign-card.hidden { display: none; }
-    .controls-container { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background-color: var(--bg-light); padding: 1rem; border-radius: var(--radius); margin-bottom: 2rem; border: 1px solid var(--border-color); flex-wrap: wrap; }
-    .search-wrapper { position: relative; flex: 1 1 420px; min-width: 240px; }
-    .search-wrapper input[type="search"] { width: 100%; padding: 12px 44px 12px 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); outline: none; transition: border-color .2s, box-shadow .2s, transform .12s; font-size: 1rem; }
-    .search-wrapper input[type="search"]:focus { border-color: var(--primary-color); box-shadow: 0 6px 18px rgba(59,130,246,0.12); transform: translateY(-1px); }
-    .controls-container #searchInput, .controls-container #sortSelect { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); outline: none; transition: border-color .2s, box-shadow .2s; font-size: 1rem; }
-    .controls-container #searchInput { padding-left: 40px; }
-    .controls-container #searchInput:focus, .controls-container #sortSelect:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
-    .sort-wrapper { min-width: 200px; }
-    .controls-container #sortSelect { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em; }
-    .controls-container form { margin: 0; }
-    
+    .campaign-card.search-hidden { display: none; }
+    .controls-container { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .search-wrapper, .sort-wrapper { display: flex; align-items: center; position: relative; flex-grow: 1; }
+    .search-wrapper { min-width: 250px; }
+    .sort-wrapper { min-width: 200px; flex-basis: 200px; flex-grow: 0.5; }
+    .search-wrapper input, .sort-wrapper select { width: 100%; padding: 10px 16px; background-color: var(--bg-light); border: 1px solid var(--border-color); border-radius: 20px; color: var(--text-color); font-size: 0.95rem; transition: all 0.2s ease; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+    .search-wrapper input:focus, .sort-wrapper select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
+    .search-wrapper::before, .sort-wrapper::after { position: absolute; color: var(--text-muted); pointer-events: none; }
+    .search-wrapper::before { content: '🔍'; left: 14px; font-size: 1rem; }
+    .search-wrapper input { padding-left: 42px; }
+    .sort-wrapper::after { content: '▾'; right: 14px; font-size: 1.2rem; }
+    .controls-container form { margin: 0; width: 100%; }
     @media (max-width: 768px) {
         nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-light); flex-direction: column; align-items: stretch; padding: 1rem; border-bottom: 1px solid var(--border-color); }
         nav.active { display: flex; }
@@ -106,7 +103,6 @@
         .home-layout, .form-layout { grid-template-columns: 1fr; }
         .home-hero h1 { font-size: 2rem; }
     }
-
 </style>
 </head>
 <body>
@@ -238,15 +234,18 @@
                     
                     <div class="controls-container">
                         <div class="search-wrapper">
-                            <input type="text" id="searchInput-{{ category_name|replace(' ', '-') }}" placeholder="Search in this category..." onkeyup="filterCampaigns(this)" />
+                            <input type="search" id="searchInput-{{ category_name|replace(' ', '-') }}" placeholder="Search campaigns in this category..." onkeyup="filterCampaigns(this)" />
                         </div>
                         <div class="sort-wrapper">
                             <form>
-                                <select name="sort" id="sortSelect" onchange="sendsortreq(this.value)">
+                                <select name="sort" id="sortSelect-{{ category_name|replace(' ', '-') }}" onchange="sendsortreq(this.value)">
                                     <option value="enddate" {% if sortby=="enddate" %} selected {% endif %}>Sort by End Date</option>
                                     <option value="eventdate" {% if sortby=="eventdate" %} selected {% endif %}>Sort by Start Date</option>
                                     <option value="eventname" {% if sortby=="eventname" %} selected {% endif %}>Sort by Name</option>
                                     <option value="eventid" {% if sortby=="eventid" %} selected {% endif %}>Sort by Event ID</option>
+                                    <option value="location" {% if sortby=="location" %} selected {% endif %}>Sort by Location</option>
+                                    <option value="starttime" {% if sortby=="starttime" %} selected {% endif %}>Sort by Start Time</option>
+                                    <option value="endtime" {% if sortby=="endtime" %} selected {% endif %}>Sort by End Time</option>
                                 </select>
                             </form>
                         </div>
@@ -351,11 +350,12 @@
     
 <script>
     function filterCampaigns(searchInput) {
-        const filter = searchInput.value.toLowerCase(); const categoryWrapper = searchInput.closest('.campaign-category-wrapper');
-        if (categoryWrapper) { const cards = categoryWrapper.querySelectorAll('.campaign-card');
-            cards.forEach(card => { const textContent = card.innerText.toLowerCase();
-                if (textContent.includes(filter)) { card.style.display = 'flex';
-                } else { card.style.display = 'none'; }}); }
+        const filter = searchInput.value.toLowerCase();
+        const categoryWrapper = searchInput.closest('.campaign-category-wrapper');
+        if (!categoryWrapper) return;
+        const cards = categoryWrapper.querySelectorAll('.campaign-card');
+        cards.forEach(card => { const isMatch = card.innerText.toLowerCase().includes(filter);
+            card.classList.toggle('search-hidden', !isMatch); });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -424,8 +424,7 @@
         
         $('#addEventForm')?.addEventListener('change', e => {
             const fd = new FormData(); fd.append('field', e.target.name); fd.append('value', e.target.value);
-            fetch('/save_draft', { method: 'POST', body: fd });
-        });
+            fetch('/save_draft', { method: 'POST', body: fd }); });
     });
     function viewyourevents() { fetch('/viewyourevents', { method: 'POST' }).then(() => {window.location.href = '#campaigns'; location.reload(); });}
     function sendsortreq(sortby) { fetch("/setsortby/"+sortby, { method: 'POST'}).then(() => {window.location.href = '#campaigns'; location.reload(); });}
