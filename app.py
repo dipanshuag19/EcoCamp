@@ -97,7 +97,8 @@ def home(c):
             isadmin = True
         userdetails = ud if ud else {}
     ve = session.pop("viewyourevents", False)
-    return render_template("index.html", viewyourevents=ve ,edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
+    sortby = session.get("sortby", "eventdate")
+    return render_template("index.html", sortby=sortby, viewyourevents=ve ,edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
 
 @app.route("/viewyourevents", methods=["GET", "POST"])
 def viewyourevents():
@@ -106,6 +107,11 @@ def viewyourevents():
             session["viewyourevents"] = True
             return "View your events"
 
+@app.route("/setsortby/<path:sortby>", methods=["GET", "POST"])
+def setsortby(sortby):
+    if request.method == "POST":
+        session["sortby"] = sortby
+        return "Sort by set"
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
 def signup(c):
