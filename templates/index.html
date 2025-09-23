@@ -119,7 +119,7 @@
             <a class="navlink" href="#add" data-section="add">Add</a>
             <a class="navlink" href="#contact" data-section="contact">Contact</a>
             
-            <button class="cta" id="quickAddBtnEco">+ New Campaign</button>
+            <button class="cta">+ Ignite Change 🔥</button>
         </nav>
     </div>
 </header>
@@ -338,7 +338,6 @@
 
         document.body.addEventListener('click', e => {
             if (e.target.matches('.navlink')) { e.preventDefault(); showSection(e.target.dataset.section); location.hash = e.target.dataset.section; }
-            if (e.target.matches('#quickAddBtnEco')) showSection('add');
             if (e.target.matches('#menuToggle')) nav.classList.toggle('active');
         });
         showSection(location.hash.slice(1));
