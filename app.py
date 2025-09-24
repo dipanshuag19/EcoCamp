@@ -41,10 +41,10 @@ def del_event(c, eventid):
         edetail = c.execute("SELECT * FROM eventdetail WHERE eventid=?", (eventid,)).fetchone()
         details = c.execute("SELECT * FROM userdetails WHERE username=?", (edetail["username"],)).fetchone()
         c.execute("DELETE FROM eventdetail where eventid=?", (eventid,))
-        events = details["events"].split(" ")
+        events = details["events"].split(",")
         if str(eventid) in events:
             events.remove(str(eventid))
-            new = " ".join(events)
+            new = ",".join(events)
             c.execute("UPDATE userdetails SET events=? WHERE username=?", (new, details["username"]))
     except Exception as e:
         sendlog(f"Error Deleting Event {eventid}: {e}")
@@ -112,6 +112,7 @@ def setsortby(sortby):
     if request.method == "POST":
         session["sortby"] = sortby
         return "Sort by set"
+        
 @app.route("/signup", methods=["GET", "POST"])
 @sqldb
 def signup(c):
@@ -182,9 +183,9 @@ def addevent(c):
         if not uud or not uud["events"]:
             fe = []
         else:
-            fe = uud["events"].split()
+            fe = uud["events"].split(",")
         fe.append(str(lastid["eventid"]))
-        joint = " ".join(fe)
+        joint = ",".join(fe)
         c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, event_values[-1]))
         sendmail(event_values[1], "Event Approved", f'Congragulations\n\nYour Event "{event_values[0]}" is approved and now visible on Campaigns Page with Event ID: {lastid}')
         sendlog(f"#EventAdd \nNew Event Added: #{lastid} {event_values} by {event_values[-1]}")
