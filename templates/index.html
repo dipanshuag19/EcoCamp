@@ -119,12 +119,12 @@
         <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
             &#9776; </button>
         <nav>
-            <a class="navlink active" href="#home" data-section="home">Home</a>
-            <a class="navlink" href="#campaigns" data-section="campaigns">Campaigns</a>
-            <a class="navlink" href="#add" data-section="add">Add</a>
-            <a class="navlink" href="#contact" data-section="contact">Contact</a>
+            <a class="navlink active" href="#home" data-section="home" logo-src="{{ url-for('static', filename='home.png') }}">Home</a>
+            <a class="navlink" href="#campaigns" data-section="campaigns" logo-src="{{ url-for('static', filename='campaigns.png') }}">Campaigns</a>
+            <a class="navlink" href="#add" data-section="add" logo-src="{{ url-for('static', filename='add.png') }}">Add</a>
+            <a class="navlink" href="#contact" data-section="contact" logo-src="{{ url-for('static', filename='contact.png') }}">Contact</a>
             
-            <button class="cta">Ignite Change 🔥</button>
+            <button class="cta">Tab Logo</button>
         </nav>
     </div>
 </header>
