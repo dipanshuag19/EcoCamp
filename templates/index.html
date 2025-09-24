@@ -189,7 +189,7 @@
                     <p>Username: {{ c_user }}</p>
                     <p>Email: {{ userdetails['email'] }}</p>
                     {% if userdetails['events'] != None %}
-                    <p>Events: Total {{ userdetails['events'].split(" ") | length }} events added by you. </p> <button class="otp-btn" onclick="viewyourevents()">Click Here To View Your Events</button>
+                    <p>Events: Total {{ userdetails['events'].split(",") | length }} events added by you. </p> <button class="otp-btn" onclick="viewyourevents()">Click Here To View Your Events</button>
                     {% else %}
                     <p>Events by you: No event added by you yet.</p>
                     {% endif %}
