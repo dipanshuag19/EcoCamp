@@ -141,7 +141,7 @@ def signup(c):
             session["username"] = username
             session["name"] = name
             session["email"] = email
-            session.pop("signupotp")
+            session.pop("signupotp", None)
             sendlog(f"New Signup: {name} ({username})")
             return "Signup Success ✅"
 
@@ -224,7 +224,7 @@ def addeventreq(c):
         c.execute(f"INSERT INTO eventreq({efields}) VALUES ({vals})", tuple(event_values))
         for x in field:
             if x not in ("email", "username"):
-                session.pop(x)
+                session.pop(x, None)
         sendlog(f"#EventRequst \nNew Event Request: {event_values} by {uuname}")
         return "Event Registered ✅. Kindly wait for approval!"
 
