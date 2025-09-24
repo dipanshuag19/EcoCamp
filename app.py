@@ -45,7 +45,10 @@ def del_event(c, eventid):
         if str(eventid) in events:
             events.remove(str(eventid))
             new = ",".join(events)
-            c.execute("UPDATE userdetails SET events=? WHERE username=?", (new, details["username"]))
+            if events == []:
+                c.execute("UPDATE userdetails SET events=NULL WHERE username=?", (details["username"], ))
+            else:
+                c.execute("UPDATE userdetails SET events=? WHERE username=?", (new, details["username"]))
     except Exception as e:
         sendlog(f"Error Deleting Event {eventid}: {e}")
         print(f"Error Deleting Event {eventid}: {e}")
