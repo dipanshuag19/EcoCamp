@@ -6,9 +6,8 @@
 <title>EcoCamp — A Greener Tommorow!</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-    :root { --primary-color: #3b82f6; --primary-hover: #2563eb; --bg-dark: #0f172a; --bg-light: #1e293b; --text-color: #f1f5f9; --text-muted: #94a3b8; --border-color: rgba(148,163,184,0.2); --success-color: #22c55e; --radius: 12px; --max-width: 1200px; --ease: cubic-bezier(.2,.9,.3,1); }
+    :root { --primary-color: #3b82f6; --primary-hover: #2563eb; --bg-dark: #0f172a; --bg-light: #1e293b; --text-color: #f1f5f9; --text-muted: #94a3b8; --border-color: rgba(148,163,184,0.2); --success-color: #22c55e; --danger-color: #ef4444; --danger-hover: #dc2626; --radius: 12px; --max-width: 1200px; --ease: cubic-bezier(.2,.9,.3,1); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter',sans-serif; background: var(--bg-dark); color: var(--text-color); -webkit-font-smoothing: antialiased; -moz-osx-smoothing: grayscale; line-height: 1.6; }
@@ -95,14 +94,25 @@
     .search-wrapper input { padding-left: 42px; }
     .sort-wrapper::after { content: '▾'; right: 14px; font-size: 1.2rem; }
     .controls-container form { margin: 0; width: 100%; }
-    @media (max-width: 768px) {
-        nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-light); flex-direction: column; align-items: stretch; padding: 1rem; border-bottom: 1px solid var(--border-color); }
-        nav.active { display: flex; }
-        .cta { margin-left: 0; width: 100%; text-align: center; }
-        .menu-toggle { display: block; }
-        .home-layout, .form-layout { grid-template-columns: 1fr; }
-        .home-hero h1 { font-size: 2rem; }
-    }
+    .table-responsive { width: 100%; overflow-x: auto; background: var(--bg-light); border-radius: var(--radius); padding: 1rem; border: 1px solid var(--border-color); }
+    .pending-events-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .pending-events-table th, .pending-events-table td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+    .pending-events-table th { background-color: var(--bg-dark); font-weight: 700; text-transform: uppercase; font-size: .85rem; color: var(--text-muted); }
+    .pending-events-table tr:last-child td { border-bottom: none; }
+    .pending-events-table tr:hover { background-color: rgba(255, 255, 255, 0.03); }
+    .pending-events-table input, .pending-events-table select { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); font-size: 0.9rem; min-width: 130px; }
+    .actions-cell { display: flex; gap: 0.5rem; align-items: center; }
+    .action-btn { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: background .2s; color: #fff; }
+    .approve-btn { background-color: var(--primary-color); }
+    .approve-btn:hover { background-color: var(--primary-hover); }
+    .decline-btn { background-color: var(--danger-color); }
+    .decline-btn:hover { background-color: var(--danger-hover); }
+    @media (max-width: 768px) { 
+        nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-light); flex-direction: column; align-items: stretch; padding: 1rem; border-bottom: 1px solid var(--border-color); } 
+        nav.active { display: flex; } 
+        .cta { margin-left: 0; width: 100%; text-align: center; } 
+        .menu-toggle { display: block; } .home-layout, .form-layout { grid-template-columns: 1fr; } 
+        .home-hero h1 { font-size: 2rem; } }
 </style>
 </head>
 <body>
@@ -122,6 +132,10 @@
             <a class="navlink active" href="#home" data-section="home" logo-src="{{ url_for('static', filename='home.png') }}">Home</a>
             <a class="navlink" href="#campaigns" data-section="campaigns" logo-src="{{ url_for('static', filename='campaigns.png') }}">Campaigns</a>
             <a class="navlink" href="#add" data-section="add" logo-src="{{ url_for('static', filename='add.png') }}">Add</a>
+            
+            {% if isadmin %}
+            <a class="navlink" href="#pending" data-section="pending" logo-src="{{ url_for('static', filename='home.png') }}">Pending ({{ pendingevents|length }})</a>
+            {% endif %}
             <a class="navlink" href="#contact" data-section="contact" logo-src="{{ url_for('static', filename='contact.png') }}">Contact</a>
             
             <button class="cta" id="tabLogoBtn" title="Set Tab Icon" style="padding: 5px; width: 44px; height: 44px; flex-shrink: 0;">
@@ -184,15 +198,13 @@
                         </div>
                         <button type="submit" class="submit-btn">Sign Up</button>
                     </form>
-                    {% else %}
+                {% else %}
                     <h3>Welcome, {{ fullname }}!</h3>
                     <p>Username: {{ c_user }}</p>
                     <p>Email: {{ userdetails['email'] }}</p>
                     {% if userdetails['events'] != None %}
                     <p>Events: Total {{ userdetails['events'].split(",") | length }} events added by you. </p> <button class="otp-btn" onclick="viewyourevents()">Click Here To View Your Events</button>
-                    {% else %}
-                    <p>Events by you: No event added by you yet.</p>
-                    {% endif %}
+                    {% else %} <p>Events by you: No event added by you yet.</p> {% endif %}
                     <div class="form-buttons">
                         <button onclick="window.location.href='/logout';" class="reset-btn">Logout</button>
                         <button onclick="window.location.href='/clearsession';" class="delete-btn">Clear Session</button>
@@ -200,11 +212,7 @@
                 {% endif %}
             </div>
         </div>
-        {% if isadmin %}
-            <h2>Pending Events</h2>
-            <iframe src="/pendingevents" style="width: 100%; height: 300px; border: 1px solid var(--border-color); border-radius: var(--radius);"></iframe>
-        {% endif %}
-    </section>
+        </section>
 
     <section id="campaigns">
         <div class="campaign-header">
@@ -252,7 +260,6 @@
                             </form>
                         </div>
                     </div>
-                    
                     <div class="campaign-grid">
                         {% for e in viewevents|sort(attribute=sortby) %}
                             <div class="campaign-card {% if not viewyourevents and loop.index > 3 %}hidden{% endif %}">
@@ -274,13 +281,60 @@
                         <button class="cta view-all-btn" data-category-id="{{ category_name|replace(' ', '-')|lower }}">View All</button>
                     {% endif %}
                 </div>
-            {% endif %}
-        {% endfor %}
+            {% endif %} {% endfor %}
         {% if viewyourevents %}
             <button class="cta" onclick="location.reload();" style="width:100%">View All Events</button>
         {% endif %}
     </section>
-    
+
+    <section id="pending">
+        {% if isadmin %}
+        <h2>Pending Event Approvals</h2>
+        <p>Review and approve or decline new campaign submissions. All fields are editable before approval.</p>
+        <div class="table-responsive">
+            <table class="pending-events-table">
+                <thead>
+                    <tr>
+                        <th>Event ID</th> <th>Event Name</th><th>Dates & Times</th> <th>Location</th> <th>Category</th> <th>Description</th> <th>Submitted By</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in pendingevents %}
+                    <tr>
+                        <form action="{{ url_for('addevent') }}" method="POST">
+                            <td><input type="number" name="eventid" readonly value="{{ event.eventid }}"></td>
+                            <td><input type="text" name="eventname" value="{{ event.eventname }}" maxlength="50" required></td>
+                            <td>
+                                Start:<br> <input type="date" name="eventdate" value="{{ event.eventdate }}" required><br>
+                                <input type="time" name="starttime" value="{{ event.starttime }}" required><hr style="border-color: var(--border-color); margin: 4px 0;">
+                                End:<br> <input type="date" name="enddate" value="{{ event.enddate }}" required><br>
+                                <input type="time" name="endtime" value="{{ event.endtime }}" required>
+                            </td>
+                            <td><input type="text" name="location" value="{{ event.location }}" maxlength="30" required></td>
+                            <td>
+                                <select name="category" required>
+                                    <option value="Tree Plantation" {% if event.category == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
+                                    <option value="Blood Donation" {% if event.category == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
+                                    <option value="Cleanlines Drive" {% if event.category == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
+                                </select>
+                            </td>
+                            <td><input type="text" name="description" value="{{ event.description }}" maxlength="100" required></td>
+                            <td><input type="text" name="username" value="{{ event.username }}" required readonly style="background:#2d3748; cursor: not-allowed;"><br>
+                                <input type="text" name="email" readonly value="{{ event.email }}">
+                            </td>
+                            <td class="actions-cell">
+                                <button type="submit" class="action-btn approve-btn">Approve</button>
+                                <button type="button" class="action-btn decline-btn" onclick="declineEvent('{{ event.eventid }}')">Decline</button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% else %} <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-muted);">There are currently no pending events to approve.</td>
+                    </tr> {% endfor %}
+                </tbody> </table>
+        </div> {% endif %}
+    </section>
+
     <section id="add">
         <div class="form-container">
             <h1>Create a New Campaign</h1>
@@ -292,7 +346,7 @@
                     <form id="addEventForm">
                         <div class="form-group"><input type="text" value="{{fvalues['eventname']}}" name="eventname" placeholder="Campaign Name (Max 50)" maxlength="50" required /></div>
                         <div class="form-group"><input type="text" value="{{fvalues['location']}}" name="location" placeholder="Location (Max 30)" maxlength="30" required /></div>
-                        <div class="form-group"><textarea name="description" placeholder="Description (Max 100)" maxlength="100" rows="3" required>{{fvalues['description']}}</textarea></div>
+                        <div class="form-group"><textarea name="description" placeholder="Description (Max 500)" maxlength="500" rows="3" required>{{fvalues['description']}}</textarea></div>
                         <div class="form-group">
                             <select name="category" required>
                                 <option value="" disabled {% if not fvalues['category'] %}selected{% endif %}>Select a category</option>
@@ -360,30 +414,30 @@
             card.classList.toggle('search-hidden', !isMatch); });
     }
 
+    function declineEvent(eventId) {
+        let reason = null;
+        while (!reason || reason.trim() === "") {
+            reason = prompt("A reason is required to decline this event:");
+            if (reason === null) {
+                alert("Decline action cancelled."); return; } }
+        window.location.href = `/decline_event/${eventId}/${encodeURIComponent(reason)}`;
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
         
         const updateTabLogoImg = () => {
             const activeLink = $('.navlink.active');
             const tabLogoImg = $('#tabLogoImg');
-            if (activeLink && tabLogoImg) {
-                tabLogoImg.src = activeLink.getAttribute('logo-src') || '';
-            }
+            if (activeLink && tabLogoImg) { tabLogoImg.src = activeLink.getAttribute('logo-src') || ''; }
         };
 
         $('#tabLogoBtn')?.addEventListener('click', () => {
             const logoSrc = $('#tabLogoImg')?.src;
             if (!logoSrc || logoSrc.endsWith('/')) return;
             let favicon = $("link[rel*='icon']");
-            if (favicon) {
-                favicon.href = logoSrc;
-            } else {
-                favicon = document.createElement('link');
-                favicon.rel = 'icon';
-                favicon.href = logoSrc;
-                favicon.type = 'image/png';
-                document.head.appendChild(favicon);
-            }
+            if (favicon) { favicon.href = logoSrc;
+            } else {favicon = document.createElement('link'); favicon.rel = 'icon'; favicon.href = logoSrc; favicon.type = 'image/png';document.head.appendChild(favicon);}
         });
 
         window.asktodelete = id => confirm("Are you sure?") && (window.location.href = `deleteevent/${id}`);
