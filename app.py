@@ -313,12 +313,13 @@ def clearsession():
 @app.route("/checkeventloop")
 @sqldb
 def checkevent(c):
-        ch = c.execute("SELECT eventid, endtime, enddate FROM eventdetail").fetchall()
+        ch = c.execute("SELECT eventid, endtime, enddate, username FROM eventdetail").fetchall()
         ist = zoneinfo.ZoneInfo("Asia/Kolkata")
         for x in ch:
             etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M").replace(tzinfo=ist)
             if etime <= datetime.datetime.now(ist):
                 del_event(c, x["eventid"])
+                sendmail(x["username"], "Event Ended", f"Hey there your event with ID {x['eventid']} was ended, so it has been deleted!")
                 sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
         return "<h1>CHECK EVENT LOOP COMPLETED</h1>"
 
