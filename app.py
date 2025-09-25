@@ -77,7 +77,6 @@ def home(c):
     currentuser = session.get("name", "User")
     currentuname = session.get("username")
     print("Welcome", currentuser)
-    # eid,ename,email,desc,stime,etime,edate,location,category in edetailslist
     query = c.execute("SELECT * FROM eventdetail")
     edetailslist = c.fetchall()
     treeplant, blooddonate, cleandrive = [], [], []
@@ -101,7 +100,10 @@ def home(c):
         userdetails = ud if ud else {}
     ve = session.pop("viewyourevents", False)
     sortby = session.get("sortby", "eventdate")
-    return render_template("index.html", sortby=sortby, viewyourevents=ve ,edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
+    pendingevents = c.execute("SELECT * FROM eventreq").fetchall()
+    if not pendingevents:
+        pendingevents = []
+    return render_template("index.html", pendingevents=pendingevents, sortby=sortby, viewyourevents=ve ,edetailslist=edetailslist, treeplantation=treeplant, blooddonation=blooddonate, cleanlinesdrive=cleandrive, fullname=currentuser, fvalues=fv, c_user=str(currentuname).strip(), isadmin=bool(isadmin), userdetails=userdetails)
 
 @app.route("/viewyourevents", methods=["GET", "POST"])
 def viewyourevents():
@@ -192,11 +194,7 @@ def addevent(c):
         c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, event_values[-1]))
         sendmail(event_values[1], "Event Approved", f'Congragulations\n\nYour Event "{event_values[0]}" is approved and now visible on Campaigns Page with Event ID: {lastid}')
         sendlog(f"#EventAdd \nNew Event Added: #{lastid} {event_values} by {event_values[-1]}")
-        checkleft = c.execute("SELECT * FROM eventreq")
-        if checkleft.fetchone():
-            return redirect(url_for("pendingevents"))
-        else:
-            return redirect(url_for("home"))
+        return redirect(url_for("home"))
 
 @app.route("/addeventreq", methods=["GET", "POST"])
 @sqldb
@@ -228,21 +226,19 @@ def addeventreq(c):
         sendlog(f"#EventRequst \nNew Event Request: {event_values} by {uuname}")
         return "Event Registered ✅. Kindly wait for approval!"
 
-@app.route("/pendingevents", methods=["GET", "POST"])
-@sqldb
-def pendingevents(c):
-    uname = session.get("username")
-    if not uname:
-        return "Login First"
-    f = c.execute("SELECT * FROM userdetails WHERE username=?", (uname, )).fetchone()
-    if f["role"] == "admin":
-        c.execute("SELECT * FROM eventreq")
-        allpending = c.fetchall()
-        if not allpending:
-            return "No Events Pending For Approval"
-        return render_template("pendingevents.html", pendingevents=allpending)
-    else:
-        return redirect(url_for("home"))
+# @app.route("/pendingevents", methods=["GET", "POST"])
+# @sqldb
+# def pendingevents(c):
+#     uname = session.get("username")
+#     if not uname:
+#         return "Login First"
+#     f = c.execute("SELECT * FROM userdetails WHERE username=?", (uname, )).fetchone()
+#     if f["role"] == "admin":
+#         c.execute("SELECT * FROM eventreq")
+#         allpending = c.fetchall()
+#         return render_template("pendingevents.html", pendingevents=allpending)
+#     else:
+#         return redirect(url_for("home"))
 
 @app.route("/deleteevent/<int:eventid>")
 @sqldb
