@@ -425,6 +425,8 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+        $$('.pending-events-table form').forEach(f => f.addEventListener('submit', e => { 
+            const b = f.querySelector('.approve-btn'); if(b){ b.disabled = true; b.textContent = 'Processing...'; } }));
         
         const updateTabLogoImg = () => {
             const activeLink = $('.navlink.active');
@@ -434,8 +436,7 @@
 
         $('#tabLogoBtn')?.addEventListener('click', () => {
             const logoSrc = $('#tabLogoImg')?.src;
-            if (!logoSrc || logoSrc.endsWith('/')) return;
-            let favicon = $("link[rel*='icon']");
+            if (!logoSrc || logoSrc.endsWith('/')) return; let favicon = $("link[rel*='icon']");
             if (favicon) { favicon.href = logoSrc;
             } else {favicon = document.createElement('link'); favicon.rel = 'icon'; favicon.href = logoSrc; favicon.type = 'image/png';document.head.appendChild(favicon);}
         });
@@ -446,9 +447,7 @@
         const nav = $('nav'); const showSection = id => { const target = id || 'home';
             $$('.navlink').forEach(l => l.classList.toggle('active', l.dataset.section === target));
             $$('main > section').forEach(s => s.classList.toggle('active', s.id === target)); 
-            window.scrollTo(0, 0); 
-            nav.classList.remove('active');
-            updateTabLogoImg();
+            window.scrollTo(0, 0);  nav.classList.remove('active'); updateTabLogoImg();
         };
 
         document.body.addEventListener('click', e => {
