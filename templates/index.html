@@ -100,8 +100,8 @@
     .pending-events-table th { background-color: var(--bg-dark); font-weight: 700; text-transform: uppercase; font-size: .85rem; color: var(--text-muted); }
     .pending-events-table tr:last-child td { border-bottom: none; }
     .pending-events-table tr:hover { background-color: rgba(255, 255, 255, 0.03); }
-    .pending-events-table input, .pending-events-table select { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); font-size: 0.9rem; min-width: 130px; }
-    .actions-cell { display: flex; gap: 0.5rem; align-items: center; }
+    .pending-events-table input, .pending-events-table textarea, .pending-events-table select { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); font-size: 0.9rem; min-width: 130px; }
+    .actions-cell { display: flex; gap: 0.5rem; align-items: center; flex-direction: column; }
     .action-btn { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: background .2s; color: #fff; }
     .approve-btn { background-color: var(--primary-color); }
     .approve-btn:hover { background-color: var(--primary-hover); }
@@ -295,36 +295,34 @@
             <table class="pending-events-table">
                 <thead>
                     <tr>
-                        <th>Event ID</th> <th>Event Name</th><th>Dates & Times</th> <th>Location</th> <th>Category</th> <th>Description</th> <th>Submitted By</th><th>Actions</th>
+                        <th>Event ID</th> <th>Name, Location, Category</th><th>Dates & Times</th> <th>Description</th> <th>Submitted By</th><th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for event in pendingevents %}
                     <tr>
                         <form action="{{ url_for('addevent') }}" method="POST">
-                            <td><input type="number" name="eventid" readonly value="{{ event.eventid }}"></td>
-                            <td><input type="text" name="eventname" value="{{ event.eventname }}" maxlength="50" required></td>
-                            <td>
-                                Start:<br> <input type="date" name="eventdate" value="{{ event.eventdate }}" required><br>
-                                <input type="time" name="starttime" value="{{ event.starttime }}" required><hr style="border-color: var(--border-color); margin: 4px 0;">
-                                End:<br> <input type="date" name="enddate" value="{{ event.enddate }}" required><br>
-                                <input type="time" name="endtime" value="{{ event.endtime }}" required>
-                            </td>
-                            <td><input type="text" name="location" value="{{ event.location }}" maxlength="30" required></td>
-                            <td>
-                                <select name="category" required>
+                            <td><input type="number" name="eventid" readonly value="{{ event.eventid }}"><br><br>
+                            <button type="submit" class="action-btn approve-btn">Approve</button>
+                            <button type="button" class="action-btn decline-btn" onclick="declineEvent('{{ event.eventid }}')">Decline</button></td>
+                            <td><p style="text-align: center; font-weight: bolder;">EVENT NAME</p><input type="text" name="eventname" value="{{ event.eventname }}" maxlength="50" required><br><br>
+                                <p style="text-align: center; font-weight: bolder;">LOCATION</p><input type="text" name="location" value="{{ event.location }}" maxlength="30" required><br><br>
+                                <p style="text-align: center; font-weight: bolder;">CATEGORY</p><select name="category" required>
                                     <option value="Tree Plantation" {% if event.category == 'Tree Plantation' %}selected{% endif %}>Tree Plantation</option>
                                     <option value="Blood Donation" {% if event.category == 'Blood Donation' %}selected{% endif %}>Blood Donation</option>
                                     <option value="Cleanlines Drive" {% if event.category == 'Cleanlines Drive' %}selected{% endif %}>Cleanlines Drive</option>
                                 </select>
                             </td>
-                            <td><input type="text" name="description" value="{{ event.description }}" maxlength="100" required></td>
-                            <td><input type="text" name="username" value="{{ event.username }}" required readonly style="background:#2d3748; cursor: not-allowed;"><br>
-                                <input type="text" name="email" readonly value="{{ event.email }}">
+                            <td>
+                                <br> <p style="text-align: center; font-weight: bolder;">START</p> <input type="date" name="eventdate" value="{{ event.eventdate }}" required><br>
+                                <input type="time" name="starttime" value="{{ event.starttime }}" required>
+                                <br><br><p style="text-align: center; font-weight: bolder;">END</p><input type="date" name="enddate" value="{{ event.enddate }}" required><br>
+                                <input type="time" name="endtime" value="{{ event.endtime }}" required>
                             </td>
-                            <td class="actions-cell">
-                                <button type="submit" class="action-btn approve-btn">Approve</button>
-                                <button type="button" class="action-btn decline-btn" onclick="declineEvent('{{ event.eventid }}')">Decline</button>
+                            <td><textarea rows="15" cols="30" name="description" placeholder="Description (Max 500)" maxlength="500" required>{{event.description}}</textarea>
+                            <td>
+                                <p style="text-align: center; font-weight: bolder;">USERNAME</p><input type="text" name="username" value="{{ event.username }}" required readonly><br><br>
+                                <p style="text-align: center; font-weight: bolder;">EMAIL</p><input type="text" name="email" requied readonly value="{{ event.email }}">
                             </td>
                         </form>
                     </tr>
