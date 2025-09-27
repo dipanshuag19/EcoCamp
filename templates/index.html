@@ -484,8 +484,8 @@
             btn.disabled = true; btn.textContent = "Sending...";
             try { const fd = new FormData(); fd.append('email', emailEl.value);
                 const r = await fetch("/sendsignupotp", { method: "POST", body: fd });
-                if (!r.ok) throw new Error(await r.text() || 'Failed to send OTP.');
-                alert(`OTP sent to ${emailEl.value}! Check your spam folder or mail.`);
+                const text = await r.text();
+                if (!r.ok) throw new Error(text || 'Failed to send OTP.'); alert(text);
             } catch (err) { alert(err.message);
             } finally { setTimeout(() => { btn.disabled = false; btn.textContent = "Send OTP"; }, 5000); }
         });
