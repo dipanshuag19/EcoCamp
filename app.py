@@ -61,14 +61,32 @@ def sendotp(c):
         session.permanent = True
         session["signupotp"] = otp
         email = request.form.get("email")
+        checkexists = c.execute("SELECT * FROM userdetails where email=?", (email,)).fetchone()
+        if checkexists:
+            return "Email already exists! Please try different email."
         sendmail(email, "Signup OTP", f"Your signup OTP is {otp}.")
         print(f"Session OTP: {session.get('signupotp')}")
         print(f"Generated OTP: {otp}")
-        return f"OTP Sent to {email}! Please check spam folder if cant find."
+        return f"OTP Sent to {email}! Please check spam folder if cant find it."
     
 @app.template_filter("datetimeformat")
 def datetimeformat(value):
     return datetime.datetime.strptime(value, "%Y-%m-%d").strftime("%d %B %Y")
+
+def detailsformat(details):
+    id = details["eventid"]
+    name = details["eventname"]
+    email = details["email"]
+    stime = details["starttime"]
+    etime = details["endtime"]
+    edate = details["eventdate"]
+    enddate = details["enddate"]
+    location = details["location"]
+    category = details["category"]
+    description = details["description"]
+    username = details["username"]
+    text = f"Event ID: {id}\nEvent Name: {name}\nEmail: {email}\nStart Time: {stime}\nEnd Time: {etime}\nEvent Date: {edate}\nEnd Date: {enddate}\nLocation: {location}\nCategory: {category}\nDescription: {description}\nUsername: {username}"
+    return text
 
 @app.route("/")
 @sqldb
@@ -130,13 +148,15 @@ def signup(c):
         otp = request.form.get("signupotp")
         c.execute("SELECT * FROM userdetails where username=?", (username,))
         if c.fetchone():
-            return "Username Exists"
+            return "Username Already Exists"
         if c.execute("SELECT * FROM userdetails where email=?", (email,)).fetchone():
-            return "Email Exists"
+            return "Email Already Exists"
         if str(session.get("signupotp")) != str(otp).strip():
             return "Wrong Signup OTP"
         elif password != cpassword:
-            return "Wrong Password"
+            return "Wrong Confirm Password"
+        elif len(password) < 8:
+            return "Password must be at least 8 characters long"
         else:
             c.execute("INSERT INTO userdetails(username, password, name, email) VALUES(?, ?, ?, ?)", (username, password, name, email))
             session.permanent = True
@@ -192,8 +212,10 @@ def addevent(c):
         fe.append(str(lastid["eventid"]))
         joint = ",".join(fe)
         c.execute("UPDATE userdetails SET events=? WHERE username=?", (joint, event_values[-1]))
-        sendmail(event_values[1], "Event Approved", f'Congragulations\n\nYour Event "{event_values[0]}" is approved and now visible on Campaigns Page with Event ID: {lastid}')
-        sendlog(f"#EventAdd \nNew Event Added: #{lastid} {event_values} by {event_values[-1]}")
+        eventdetails = c.execute("SELECT * FROM eventdetail WHERE eventid=?", (lastid["eventid"], )).fetchone()
+        details = detailsformat(eventdetails)
+        sendmail(event_values[1], "Event Approved", f'Congragulations\n\nYour Event is approved and now visible on Campaigns Page.\n\nEvent Details:\n\n{details}\n\nThank You!')
+        sendlog(f"#EventAdd \nNew Event Added:\n{details}")
         return redirect(url_for("home"))
 
 @app.route("/addeventreq", methods=["GET", "POST"])
@@ -254,8 +276,9 @@ def deleteevent(c, eventid):
     if fe["username"] == uname or fe2["role"]=="admin":
         try:
             del_event(c, eventid)
-            sendmail(extra["email"], "Event Deleted", f"Hey {extra['name']}! Your event {fe['eventname']} with ID {eventid} was deleted by {uname}")
-            sendlog(f"#EventDelete \nEvent Deleted: {eventid}, {fe['eventname']} by {uname}")
+            details = detailsformat(fe)
+            sendmail(extra["email"], "Event Deleted", f"Hey {extra['name']}! Your event was deleted by {uname}.\n\nEvent Details:\n\n{details}\n\nThank You!")
+            sendlog(f"#EventDelete \nEvent Deleted by {uname}.\nEvent Details:\n\n{details}")
             return redirect(url_for("home"))
         except Exception as e:
             sendlog(f"Error Deleting Event {eventid}: {e}")
@@ -288,12 +311,13 @@ def decline_event(c, eventid, reason):
         c.execute("SELECT * FROM userdetails WHERE username=?", (u, ))
         f = c.fetchone()
         if f["role"] == "admin":
-            email = c.execute("SELECT email from eventreq WHERE eventid=?", (eventid, )).fetchone()
+            email = c.execute("SELECT * from eventreq WHERE eventid=?", (eventid, )).fetchone()
             c.execute("DELETE FROM eventreq WHERE eventid=?", (eventid, ))
             seq = c.execute("SELECT * FROM sqlite_sequence WHERE name=?", ("eventreq",)).fetchone()
             c.execute("UPDATE sqlite_sequence SET seq=? WHERE name=?", (seq["seq"], "eventdetail"))
-            sendmail(email['email'], "Event Declined", f"We sorry to inform to you that your event was declined for following reason:\n{reason}")
-            sendlog(f"#EventDecline \nEvent Declined: {eventid} by {u}\nReason: {reason}")
+            details = detailsformat(email)
+            sendmail(email['email'], "Event Declined", f"We sorry to inform to you that your event was declined for following reason:\n{reason}.\n\nEvent Details:\n\n{details}\n\nThank You!")
+            sendlog(f"#EventDecline \nEvent Declined by {u}\nReason: {reason}.\nEvent Details:\n\n{details}")
             
     if c.execute("SELECT eventid FROM eventreq").fetchone():
         return redirect(url_for("pendingevents"))
@@ -309,14 +333,15 @@ def clearsession():
 @app.route("/checkeventloop")
 @sqldb
 def checkevent(c):
-        ch = c.execute("SELECT eventid, endtime, enddate, username FROM eventdetail").fetchall()
+        ch = c.execute("SELECT * FROM eventdetail").fetchall()
         ist = zoneinfo.ZoneInfo("Asia/Kolkata")
         for x in ch:
             etime = datetime.datetime.strptime(f"{x['enddate']} {x['endtime']}", "%Y-%m-%d %H:%M").replace(tzinfo=ist)
             if etime <= datetime.datetime.now(ist):
                 del_event(c, x["eventid"])
-                sendmail(x["username"], "Event Ended", f"Hey there your event with ID {x['eventid']} was ended, so it has been deleted!")
-                sendlog(f"#EventEnd \nEvent Ended: {x['eventid']} at {etime.strftime('%Y-%m-%d %H:%M:%S')}")
+                details = detailsformat(x)
+                sendmail(x["username"], "Event Ended", f"Hey there your event was ended, so it has been deleted!\n\nEvent Details:\n\n{details}\n\nThank You!")
+                sendlog(f"#EventEnd \nEvent Ended at {etime.strftime('%Y-%m-%d %H:%M:%S')}.\nEvent Details:\n\n{details}")
         return "<h1>CHECK EVENT LOOP COMPLETED</h1>"
 
 # @app.route("/checkeventloop")
