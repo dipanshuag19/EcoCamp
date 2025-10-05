@@ -330,6 +330,18 @@ def clearsession():
     sendlog(f"Session Cleared {c}")
     return redirect(url_for("home"))
 
+@app.route("/api")
+@sqldb
+def api(c):
+    events = [dict(row) for row in c.execute("SELECT * FROM eventdetail").fetchall()]
+    user = dict(session)
+    user_details = "No user logged in"
+    if user.get("username"):
+        user_details = c.execute("SELECT * FROM userdetails WHERE username=?", (user["username"],)).fetchone()
+        user_details = dict(user_details)
+    toreturn = {"active events": events, "current session including draft add event values": user, "current user": user_details}
+    return jsonify(toreturn)
+
 @app.route("/checkeventloop")
 @sqldb
 def checkevent(c):
