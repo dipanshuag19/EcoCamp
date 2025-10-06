@@ -19,7 +19,8 @@ def sendmail(receiver, subject, message):
     password = os.environ.get("MAIL_APP_PASS")
     context = ssl.create_default_context()
     msg = f"Subject: {subject}\n\n{message}"
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+        smtp.starttls(context=ssl.create_default_context())
         smtp.login(sender, password)
         smtp.sendmail(sender, receiver, msg)
         sendlog(f"Email sent to {receiver}")
