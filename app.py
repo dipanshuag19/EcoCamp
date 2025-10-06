@@ -19,8 +19,7 @@ def sendmail(receiver, subject, message):
     password = os.environ.get("MAIL_APP_PASS")
     context = ssl.create_default_context()
     msg = f"Subject: {subject}\n\n{message}"
-    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
-        smtp.starttls(context=ssl.create_default_context())
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
         smtp.login(sender, password)
         smtp.sendmail(sender, receiver, msg)
         sendlog(f"Email sent to {receiver}")
@@ -363,4 +362,5 @@ def checkevent(c):
 #     return "CHECK EVENT LOOP COMPLETED"
     
 # if __name__ == "__main__":
-#     # threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
+# #     # threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
+#     app.run(debug=True, port=8000)
