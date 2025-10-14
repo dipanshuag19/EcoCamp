@@ -361,6 +361,6 @@ def checkevent(c):
 #     checkevent()
 #     return "CHECK EVENT LOOP COMPLETED"
     
-# if __name__ == "__main__":
+if __name__ == "__main__":
 # #     # threading.Thread(target=checkeventloop, name="CheckEventExist", daemon=True).start()
-#     app.run(debug=True, port=8000)
+    app.run(debug=True, port=8000)
