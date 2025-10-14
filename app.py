@@ -344,7 +344,8 @@ def api(c):
 
 @app.route("/checkeventloop")
 @sqldb
-def checkevent(c):
+def checkeventloop(c):
+    try:
         ch = c.execute("SELECT * FROM eventdetail").fetchall()
         ist = zoneinfo.ZoneInfo("Asia/Kolkata")
         for x in ch:
@@ -352,9 +353,28 @@ def checkevent(c):
             if etime <= datetime.datetime.now(ist):
                 del_event(c, x["eventid"])
                 details = detailsformat(x)
-                sendmail(x["username"], "Event Ended", f"Hey there your event was ended, so it has been deleted!\n\nEvent Details:\n\n{details}\n\nThank You!")
+                sendmail(x["email"], "Event Ended", f"Hey there your event was ended, so it has been deleted!\n\nEvent Details:\n\n{details}\n\nThank You!")
                 sendlog(f"#EventEnd \nEvent Ended at {etime.strftime('%Y-%m-%d %H:%M:%S')}.\nEvent Details:\n\n{details}")
         return "<h1>CHECK EVENT LOOP COMPLETED</h1>"
+    except Exception as e:
+        text = f"Checkk event loop error: {e}"
+        sendlog(text)
+        print(text)
+        return text
+
+# def checkevent():
+#     while True:
+        # time.sleep(30 + random.randint(0,10))
+#         try:
+#             try:
+#                 requests.get("https://ecocamp-3bz3.onrender.com/checkeventloop", timeout=10)
+#             except requests.exceptions.RequestException:
+#                 requests.get("http://127.0.0.1:8000/checkeventloop", timeout=10)
+#         except Exception as e:
+#             print(f"Check event loop error: {e}")
+#             sendlog(f"Check event loop error: {e}")
+#             time.sleep(60)
+        
 
 # @app.route("/checkeventloop")
 # def checkeventloop():
